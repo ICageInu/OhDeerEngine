@@ -31,7 +31,7 @@ protected:
 
 	void BaseInitialize();
 	void BaseUpdate(float deltaTime);
-	void BaseRender(sf::RenderWindow* pWindow) const;
+	void BaseRender(sf::RenderWindow& window) const;
 
 	std::string m_Name;
 	std::vector <GameObject*> m_pObjects{};

@@ -6,10 +6,9 @@
 #include "TextureComponent.h"
 #include "TestScene/TestScene.h"
 #include "BaseComponent.h"
-MainGame::MainGame()
-{
-	Initialize();
-}
+MainGame::MainGame():
+	OhDeerEngine()
+{}
 
 void MainGame::Initialize()
 {

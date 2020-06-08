@@ -16,7 +16,7 @@ public:
 
 
 	virtual void Initialize()override;
-	virtual void Render(sf::RenderWindow* pWindow)const override;
+	virtual void Render(sf::RenderWindow& window)const override;
 	//SETTERS
 	void SetTexture(const std::string& assetFile);
 
@@ -24,6 +24,7 @@ public:
 	sf::Vector2<float> GetTexturePos()const;
 	sf::Sprite* GetTexture()const;
 private:
-	sf::Sprite* m_pTexture;
+	sf::Sprite* m_pSprite;
+	sf::Texture* m_pTexture;
 };
 

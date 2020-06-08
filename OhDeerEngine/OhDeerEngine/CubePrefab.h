@@ -17,7 +17,7 @@ public:
 
 	virtual void Initialize()override;
 	virtual void CleanUpSpecific()override;
-	virtual void Render(sf::RenderWindow* pWindow) const override;
+	//virtual void Render(sf::RenderWindow* pWindow) const override;
 	virtual void Update(float deltaT)override;
 
 	virtual void SetSize(const sf::Vector2<float>& pos);

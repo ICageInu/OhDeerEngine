@@ -9,7 +9,7 @@ public:
 	GameObject() = default;
 	virtual ~GameObject() = default;
 
-	virtual void Render(sf::RenderWindow* pWindow)const;
+	virtual void Render(sf::RenderWindow& window)const;
 	virtual void Update(float deltaT) = 0;
 	virtual void CleanUp();
 

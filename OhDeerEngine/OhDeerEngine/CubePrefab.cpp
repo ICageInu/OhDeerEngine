@@ -27,8 +27,8 @@ void CubePrefab::CleanUpSpecific()
 	SafeDelete(m_pShape);
 }
 
-void CubePrefab::Render(sf::RenderWindow*)const
-{
+//void CubePrefab::Render(sf::RenderWindow*)const
+//{
 	//auto test = GetComponent<TextureComponent>();
 
 	//if (m_HasTexture) {
@@ -39,7 +39,7 @@ void CubePrefab::Render(sf::RenderWindow*)const
 	//	window->draw(*m_pShape);
 
 
-}
+//}
 
 void CubePrefab::Update([[maybe_unused]] float deltaT)
 {

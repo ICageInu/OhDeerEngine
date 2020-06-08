@@ -10,8 +10,9 @@ void SceneManager::Update(float deltaTime)
 	}
 }
 
-void SceneManager::Render(sf::RenderWindow* window)
+void SceneManager::Render(sf::RenderWindow& window)
 {
+
 	for (const auto& scene : m_pScenes)
 	{
 		scene->BaseRender(window);
@@ -33,10 +34,10 @@ Scene* SceneManager::GetActiveScene() const
 
 void SceneManager::CreateScene(Scene* pScene)
 {
-	
+
 	const auto it = std::find(m_pScenes.begin(), m_pScenes.end(), pScene);
 
-	if (it == m_pScenes.end()) 
+	if (it == m_pScenes.end())
 	{
 		m_pScenes.push_back(pScene);
 	}
@@ -48,6 +49,8 @@ void SceneManager::CreateScene(Scene* pScene)
 
 void SceneManager::Initialize()
 {
+	//auto shape = new sf::CircleShape(100.f);
+	//shape->setFillColor(sf::Color::Green);
 	for (const auto& scene : m_pScenes)
 	{
 		scene->BaseInitialize();

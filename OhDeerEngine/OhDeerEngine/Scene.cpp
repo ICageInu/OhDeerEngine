@@ -36,11 +36,11 @@ void Scene::BaseUpdate(float deltaTime)
 	}
 }
 
-void Scene::BaseRender(sf::RenderWindow* pWindow) const
+void Scene::BaseRender(sf::RenderWindow& window) const
 {
 	for (const GameObject* object : m_pObjects)
 	{
-		object->Render(pWindow);
+		object->Render(window);
 	}
 }
 

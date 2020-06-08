@@ -1,9 +1,12 @@
 #pragma once
-class MainGame
+#include "OhDeerEngine.h"
+class MainGame : public OhDeerEngine
 {
 public:
 	MainGame();
 	~MainGame() = default;
-	void Initialize();
+protected:
+	virtual void Initialize() override;
+
 };
 

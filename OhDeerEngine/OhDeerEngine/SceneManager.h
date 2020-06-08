@@ -9,7 +9,7 @@ public:
 	void CreateScene(Scene* pScene);
 	void Initialize();
 	void Update(float deltaTime);
-	void Render(sf::RenderWindow* window);
+	void Render(sf::RenderWindow& window);
 	void CleanUp();
 	Scene* GetActiveScene()const;
 private:

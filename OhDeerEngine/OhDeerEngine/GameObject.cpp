@@ -18,10 +18,10 @@ sf::Transform* GameObject::GetTransform() const
 	return nullptr;
 }
 
-void GameObject::Render(sf::RenderWindow* pWindow) const
+void GameObject::Render(sf::RenderWindow& window) const
 {
 	for (auto comp : m_pComponents)
-		comp->Render(pWindow);
+		comp->Render(window);
 }
 
 void GameObject::CleanUp() {

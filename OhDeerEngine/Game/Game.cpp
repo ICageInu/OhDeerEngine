@@ -7,12 +7,13 @@
 #include "MainGame.h"
 
 int main(int, char* []) {
-	//call maingame before engine, maingame is init
-	OhDeerEngine engine;
-	engine.Initialize();
+	////call maingame before engine, maingame is init
+	//MainGame engine;
+	//engine.StartUp();
 
 	MainGame* pNewGame = new MainGame();
-	engine.Run();
+	pNewGame->StartUp();
+	pNewGame->Run();
 
 	//SafeDelete(pNewGame);
 	delete pNewGame;

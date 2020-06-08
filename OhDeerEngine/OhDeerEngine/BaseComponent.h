@@ -10,7 +10,7 @@ public:
 
 	//virtual void justaTest() = 0;
 	virtual void Initialize() = 0;
-	virtual void Render(sf::RenderWindow* pWindow)const = 0;
+	virtual void Render(sf::RenderWindow& window)const = 0;
 
 	BaseComponent(const BaseComponent& other) = delete;
 	BaseComponent(BaseComponent&& other) noexcept = delete;
