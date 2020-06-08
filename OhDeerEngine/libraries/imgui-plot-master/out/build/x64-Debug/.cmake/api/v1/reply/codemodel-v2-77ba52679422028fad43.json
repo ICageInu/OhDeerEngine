@@ -1,0 +1,55 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "Project",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "imgui_plot::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-imgui_plot-Debug-f581bd307fdac05dff04.json",
+					"name" : "imgui_plot",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "D:/OneDrive - Hogeschool West-Vlaanderen/school/year-2-19-20/Prog4/engineobpgpoubega/OhDeerEngine/libraries/imgui-plot-master/out/build/x64-Debug",
+		"source" : "D:/OneDrive - Hogeschool West-Vlaanderen/school/year-2-19-20/Prog4/engineobpgpoubega/OhDeerEngine/libraries/imgui-plot-master"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 0
+	}
+}
