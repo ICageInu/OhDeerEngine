@@ -1,9 +1,13 @@
 #pragma once
 #include "BaseComponent.h"
+namespace OhDeer
+{
+
 class TextureComponent : public BaseComponent
 {
 public:
 	TextureComponent();
+	TextureComponent(sf::Texture* pTex);
 	TextureComponent(const std::string& assetFile);
 	virtual ~TextureComponent();
 
@@ -16,7 +20,7 @@ public:
 
 
 	virtual void Initialize()override;
-	virtual void Render(sf::RenderWindow& window)const override;
+	virtual void Render(sf::RenderWindow* pWindow)const override;
 	//SETTERS
 	void SetTexture(const std::string& assetFile);
 
@@ -28,3 +32,5 @@ private:
 	sf::Texture* m_pTexture;
 };
 
+
+}

@@ -1,75 +1,69 @@
 #include "TextureComponent.h"
+#include "ResourceManager.h"
 
+using namespace OhDeer;
 TextureComponent::TextureComponent()
 	:BaseComponent()
 	, m_pSprite(nullptr)
+	//m_pTexture{nullptr}
 {}
 
 TextureComponent::TextureComponent(const std::string& assetFile) :
 	BaseComponent()
 {
-	m_IsInitialized = true;
+	//m_IsInitialized = true;
 
-	//if (!m_IsInitialized)
-	//{
-	//	Initialize();
-	//}
-	m_pTexture = new sf::Texture();
-	if (!m_pTexture->loadFromFile(assetFile))
+	if (!m_IsInitialized)
 	{
-		std::string errorLog{ "file not found" };
-		ImGui::LogText(&(errorLog[0]));
+		Initialize();
 	}
-	else
+	m_pTexture = ResourceManager::GetInstance().LoadTexture(assetFile);
+
+	m_pSprite->setTexture(*m_pTexture);
+}
+
+TextureComponent::TextureComponent(sf::Texture* pTex) :
+	BaseComponent()
+{
+	if (!m_IsInitialized)
 	{
-		std::string errorLog{ "texture has been found" };
-		ImGui::LogText(&(errorLog[0]));
+		Initialize();
 	}
-	m_pSprite = new sf::Sprite(*m_pTexture);
+	m_pTexture = pTex;
+
+	m_pSprite->setTexture(*pTex);
 }
 
 
 TextureComponent::~TextureComponent()
 {
-	SafeDelete(m_pTexture);
 	delete m_pSprite;
 	m_pSprite = nullptr;
 }
 
 void TextureComponent::Initialize()
 {
-	//if (!m_IsInitialized) {
-	//}
-
+	m_IsInitialized = true;
+	//m_pTexture = new sf::Texture();
+	m_pSprite = new sf::Sprite();
 }
 
-void TextureComponent::Render(sf::RenderWindow& window) const
+void TextureComponent::Render(sf::RenderWindow* pWindow) const
 {
-	window.draw(*m_pSprite);
+	pWindow->draw(*m_pSprite);
 	//ServiceLocator::GetWindow()->draw(*m_pTexture);
 }
 
 void TextureComponent::SetTexture(const std::string& assetFile)
 {
-	m_IsInitialized = true;
+	if (!m_IsInitialized)
+	{
+		Initialize();
+	}
 
-	//if (!m_IsInitialized)
-	//{
-	//	Initialize();
-	//}
-	sf::Texture tempTex;
-	if (!tempTex.loadFromFile(assetFile))
-	{
-		std::string errorLog{ "file not found" };
-		ImGui::LogText(&(errorLog[0]));
-	}
-	else
-	{
-		std::string errorLog{ "texture has been found" };
-		ImGui::LogText(&(errorLog[0]));
-	}
-	m_pSprite = new sf::Sprite(tempTex);
-	//m_pSprite->setTexture(tempTex);
+	m_pTexture = ResourceManager::GetInstance().LoadTexture(assetFile);
+
+	m_pSprite->setTexture(*m_pTexture);
 }
 
 sf::Vector2<float> TextureComponent::GetTexturePos() const

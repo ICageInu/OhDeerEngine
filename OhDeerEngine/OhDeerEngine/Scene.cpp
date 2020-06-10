@@ -4,7 +4,7 @@
 #include "pch.h"
 #include "TextureComponent.h"
 
-
+using namespace OhDeer;
 //unsigned int Scene::m_IdCounter = 0;
 
 Scene::Scene(const std::string& name) : m_Name(name) {}
@@ -36,11 +36,11 @@ void Scene::BaseUpdate(float deltaTime)
 	}
 }
 
-void Scene::BaseRender(sf::RenderWindow& window) const
+void Scene::BaseRender(sf::RenderWindow* pWindow) const
 {
 	for (const GameObject* object : m_pObjects)
 	{
-		object->Render(window);
+		object->Render(pWindow);
 	}
 }
 

@@ -10,6 +10,9 @@
 #include "SFML/Graphics.hpp"
 #include "BaseComponent.h"
 //#include "../Components/TextureComponent.h"
+#include "ServiceLocator.h"
+#include "InputManager.h"
+
 
 
 #pragma region
@@ -26,4 +29,3 @@ inline void SafeDelete(T* pObjectToDelete)
 
 #pragma endregion Templates
 
-#include "ServiceLocator.h"

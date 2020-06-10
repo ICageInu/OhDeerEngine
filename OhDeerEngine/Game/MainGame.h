@@ -1,6 +1,6 @@
 #pragma once
 #include "OhDeerEngine.h"
-class MainGame : public OhDeerEngine
+class MainGame : public OhDeer::OhDeerEngine
 {
 public:
 	MainGame();

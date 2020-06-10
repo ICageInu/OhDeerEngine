@@ -173,14 +173,16 @@
     <ClCompile Include="..\libraries\imgui-master\imgui_widgets.cpp" />
     <ClCompile Include="..\libraries\imgui-sfml-2.1\imgui-SFML.cpp" />
     <ClCompile Include="BaseComponent.cpp" />
-    <ClCompile Include="CubePrefab.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="MemoryPool.cpp" />
     <ClCompile Include="OhDeerEngine.cpp" />
+    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="TextureComponent.cpp" />
+    <ClCompile Include="TransformComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\libraries\imgui-master\imconfig.h" />
@@ -192,17 +194,19 @@
     <ClInclude Include="..\libraries\imgui-sfml-2.1\imgui-SFML.h" />
     <ClInclude Include="..\libraries\imgui-sfml-2.1\imgui-SFML_export.h" />
     <ClInclude Include="BaseComponent.h" />
-    <ClInclude Include="CubePrefab.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="MemoryPool.h" />
     <ClInclude Include="OhDeerEngine.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="TextureComponent.h" />
+    <ClInclude Include="TransformComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

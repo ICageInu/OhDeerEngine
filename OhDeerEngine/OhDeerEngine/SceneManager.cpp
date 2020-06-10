@@ -1,6 +1,7 @@
 #include "SceneManager.h"
 #include "Scene.h"
 
+using namespace OhDeer;
 
 void SceneManager::Update(float deltaTime)
 {
@@ -10,12 +11,12 @@ void SceneManager::Update(float deltaTime)
 	}
 }
 
-void SceneManager::Render(sf::RenderWindow& window)
+void SceneManager::Render(sf::RenderWindow* pWindow)
 {
 
 	for (const auto& scene : m_pScenes)
 	{
-		scene->BaseRender(window);
+		scene->BaseRender(pWindow);
 	}
 
 }

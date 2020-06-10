@@ -1,6 +1,9 @@
 #pragma once
 #include "SceneManager.h"
 #include "SFML/Graphics.hpp"
+
+namespace OhDeer{
+
 class GameObject;
 class Scene
 {
@@ -31,7 +34,7 @@ protected:
 
 	void BaseInitialize();
 	void BaseUpdate(float deltaTime);
-	void BaseRender(sf::RenderWindow& window) const;
+	void BaseRender(sf::RenderWindow* pWindow) const;
 
 	std::string m_Name;
 	std::vector <GameObject*> m_pObjects{};
@@ -39,3 +42,5 @@ protected:
 	//static unsigned int m_IdCounter;
 };
 
+
+}

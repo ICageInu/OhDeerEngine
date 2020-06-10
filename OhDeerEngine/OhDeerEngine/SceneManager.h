@@ -1,6 +1,9 @@
 #pragma once
 #include "pch.h"
 #include "Singleton.h"
+
+namespace OhDeer {
+
 class Scene;
 
 class SceneManager :public Singleton<SceneManager>
@@ -9,7 +12,7 @@ public:
 	void CreateScene(Scene* pScene);
 	void Initialize();
 	void Update(float deltaTime);
-	void Render(sf::RenderWindow& window);
+	void Render(sf::RenderWindow* pWindow);
 	void CleanUp();
 	Scene* GetActiveScene()const;
 private:
@@ -19,3 +22,5 @@ private:
 	int m_ActiveScene{};
 };
 
+
+}

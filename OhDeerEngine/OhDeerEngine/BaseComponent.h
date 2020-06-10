@@ -1,24 +1,25 @@
 #pragma once
 #include "pch.h"
-
-
-class BaseComponent
+namespace OhDeer
 {
-public:
-	BaseComponent();
-	virtual ~BaseComponent() = default;
+	class GameObject;
+	class BaseComponent
+	{
+	public:
+		BaseComponent();
+		virtual ~BaseComponent() {};
 
-	//virtual void justaTest() = 0;
-	virtual void Initialize() = 0;
-	virtual void Render(sf::RenderWindow& window)const = 0;
+		//virtual void justaTest() = 0;
+		virtual void Initialize() = 0;
+		virtual void Render(sf::RenderWindow*)const {};
+		virtual void SetGameObject(GameObject* parent);
+		BaseComponent(const BaseComponent& other) = delete;
+		BaseComponent(BaseComponent&& other) noexcept = delete;
+		BaseComponent& operator=(const BaseComponent& other) = delete;
+		BaseComponent& operator=(BaseComponent&& other)noexcept = delete;
 
-	BaseComponent(const BaseComponent& other) = delete;
-	BaseComponent(BaseComponent&& other) noexcept = delete;
-	BaseComponent& operator=(const BaseComponent& other) = delete;
-	BaseComponent& operator=(BaseComponent&& other)noexcept = delete;
-
-protected:
-
-	bool m_IsInitialized;
-};
-
+	protected:
+		GameObject* m_pParent;
+		bool m_IsInitialized;
+	};
+}
