@@ -1,0 +1,53 @@
+so here is my devlog for programming 4 the engine
+
+
+TODO list:
+
+	- gameloop
+		right now I'm in this weird state of using both the one we saw in the slides for getting correct deltaTimes
+		and the one from sfml, the reason I'm in the weird state is because sfml being weird and the deltaTimes weren't correct
+		further reading required
+
+
+	- sprites -> texturecomponent, this should actually be working but lemme take a look what else needs to be added here
+	
+	- controller component
+		this is not gonna be a thing, make a character component that functions together with the input
+		but make sure that this actually functions properly
+	- a spritemanager
+	
+	- animations
+	
+	- basic physix
+		use box2d
+	- collision
+		see above
+	- collision tags
+		see above
+	- inputmanager
+		this shenanigans is scuffed, try to use it somewhere but oh well
+		so for the inputmanager, how do I wanna look for it, do I want to be able to overwrite the inputs?
+		wouldn't it be better to 
+		ruben is bae and helped me
+		doesn't work yest, also haven't tried to implement it so I can't be sure but it shouldn't work
+	- memory pool
+		only use this for particles if you want to use that
+		
+	- renderer
+		so basically
+		we want to render the gameobject at position x,y
+		the transformcomponents should hold this, but because I'm dumb I'm unable to find out how to work with the sf::transform
+		the sprite itself has a position as well, thing is as far as I'm getting it, I should be able to change the 
+		position of the sprite depending on that of the gameobject
+		
+	- logger
+		I mean ImGui has a logger amirite? what I can do is make easy acces to what you want to log
+		
+	- gameobjects
+		DO NOT BOTHER WITH FACTORY FUNCTIONS FOR NOW
+		first get engine working after that go to game directory and make .h with factory functions
+	- resource manager
+		- right now it works with multiple ways of setting the texture that you load in before with the resource manager, or by literally just
+		giving a link to the assetfile that will load in the texture
+		think that is it for the textures, should be focusing on font for now?
+	
