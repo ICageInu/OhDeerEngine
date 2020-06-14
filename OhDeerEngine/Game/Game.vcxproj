@@ -98,7 +98,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)libraries\vld\lib\x64;$(SolutionDir)libraries\SFML-2.5.1\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>OpenGL32.lib;sfml-main-d.lib;sfml-system-s-d.lib;sfml-window-s-d.lib;sfml-graphics-s-d.lib;winmm.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OpenGL32.lib;sfml-main-d.lib;sfml-system-s-d.lib;sfml-window-s-d.lib;sfml-graphics-s-d.lib;winmm.lib;freetype.lib;vld.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
