@@ -1,8 +1,12 @@
 #include "TransformComponent.h"
+#include "GameObject.h"
 using namespace OhDeer;
 
 
-OhDeer::TransformComponent::TransformComponent() {
+OhDeer::TransformComponent::TransformComponent() :
+	m_Scale{ 1,1 },
+	m_OldScale{ 1,1 }
+{
 	Initialize();
 }
 
@@ -18,39 +22,86 @@ void OhDeer::TransformComponent::Initialize()
 	m_pTransform = new sf::Transform();
 }
 
+void OhDeer::TransformComponent::Update([[maybe_unused]] float deltaT)
+{
+	if (!m_TransformIsChanged) return;
+
+	//so first inverse everything TRS - SRT
+
+	m_pTransform->scale(1.f / m_OldScale.x, 1.f / m_OldScale.y);
+
+
+
+	//TRS
+	//FIRST TRANSFORM
+	m_pTransform->translate(m_TransformPoint);
+
+
+
+	//SCALE
+	m_pTransform->scale(m_Scale);
+
+
+	m_OldScale = m_Scale;
+
+	m_TransformIsChanged = false;
+}
+
 void OhDeer::TransformComponent::Translate(float x, float y)
 {
 	Translate(sf::Vector2f(x, y));
 }
 
+//eyo this makes sense smart ass, sfml first translates then it scales, but if you first scale and then translate ofcourse it's gonna mess up
+//yeah I cheated this, don't shoot me
 void OhDeer::TransformComponent::Translate(const sf::Vector2f& dir)
 {
-	m_pTransform->translate(dir);
+	m_TransformIsChanged = true;
+	m_TransformPoint = dir;
 }
 
-void OhDeer::TransformComponent::SetPosition(float x, float y)
+//these two don't work
+//void OhDeer::TransformComponent::SetPosition(float x, float y)
+//{
+//	SetPosition(sf::Vector2(x, y));
+//}
+//
+//void OhDeer::TransformComponent::SetPosition(const sf::Vector2<float>& newPos)
+//{
+//	m_Width = newPos.x;
+//	m_Height = newPos.y;
+//}
+
+void OhDeer::TransformComponent::SetScale(float x, float y)
 {
-	SetPosition(sf::Vector2(x, y));
+	SetScale(sf::Vector2(x, y));
 }
 
-void OhDeer::TransformComponent::SetPosition(const sf::Vector2<float>& newPos)
+void OhDeer::TransformComponent::SetScale(const sf::Vector2<float>& newSize)
 {
-	m_pTransform->transformPoint(newPos);
+	m_TransformIsChanged = true;
+	m_Scale = newSize;
 }
 
-void OhDeer::TransformComponent::SetSize(float x, float y)
+
+const sf::Vector2f OhDeer::TransformComponent::GetDimensions() const
 {
-	SetSize(sf::Vector2(x, y));
+	return sf::Vector2f(m_Width, m_Height);
 }
 
-void OhDeer::TransformComponent::SetSize(const sf::Vector2<float>& newSize)
+const sf::Vector2f OhDeer::TransformComponent::GetPosition() const
 {
-	m_pTransform->scale(newSize);
+	auto temp = m_pTransform->getMatrix();
+	sf::Vector3f pos = sf::Vector3f(temp[12], temp[13], temp[14]);
+	return sf::Vector2f(pos.x, pos.y);
 }
 
-sf::Vector2f OhDeer::TransformComponent::GetPosition() const
+const sf::Vector2f& OhDeer::TransformComponent::GetScale() const
 {
-	 auto test = m_pTransform->getMatrix();
+	return m_Scale;
+}
 
-	 return sf::Vector2f();
+const sf::Transform& OhDeer::TransformComponent::GetTransform() const
+{
+	return *m_pTransform;
 }

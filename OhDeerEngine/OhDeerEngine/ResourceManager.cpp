@@ -5,7 +5,7 @@ void OhDeer::ResourceManager::Initialize()
 {
 }
 
-void OhDeer::ResourceManager::Update(float deltaTime)
+void OhDeer::ResourceManager::Update([[maybe_unused]] float deltaTime)
 {
 }
 

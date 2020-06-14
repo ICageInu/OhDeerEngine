@@ -6,6 +6,7 @@
 #include <vld.h>
 #include "SceneManager.h"
 #include "ResourceManager.h"
+#include "Box2D.h"
 
 using namespace OhDeer;
 OhDeerEngine::OhDeerEngine():
@@ -24,14 +25,16 @@ void OhDeerEngine::StartUp()
 	m_pDebugWindow->setPosition(sf::Vector2i(0, 30));
 	//m_pDebugWindow->create(sf::WindowHandle)
 
-	m_pWindow->setFramerateLimit(60);
+	//I mean I can use this to cheat the update speed
+	//m_pWindow->setFramerateLimit(60);
 	ImGui::SFML::Init(*m_pWindow);
 	m_pInputManager = new InputManager();
+	m_pClock = new sf::Clock();
 	//ServiceLocator Inits
 	ServiceLocator::InitGameHandler();
 	ServiceLocator::RegisterInputManager(m_pInputManager);
 	ServiceLocator::RegisterRenderWindow(m_pWindow);
-
+	ServiceLocator::RegisterClock(m_pClock);
 	Initialize();
 
 	SceneManager::GetInstance().Initialize();
@@ -48,7 +51,7 @@ void OhDeerEngine::CleanUp()
 	//clearing of singletons
 	SceneManager::GetInstance().CleanUp();
 	ResourceManager::GetInstance().CleanUp();
-
+	SafeDelete(m_pClock);
 	SafeDelete(m_pDebugWindow);
 	SafeDelete(m_pWindow);
 	SafeDelete(m_pInputManager);
@@ -59,33 +62,31 @@ void OhDeerEngine::CleanUp()
 
 void OhDeerEngine::Run()
 {
-	//std::string test{"Log window works"};
-	//ImGui::LogText(test.data());
-
-
-	//sf::CircleShape shape(100.f);
-	//shape.setFillColor(sf::Color::Green);
-
 	auto& scenemanager = SceneManager::GetInstance();
 
-	sf::Clock deltaClock;
+	//gameloop
+	m_pClock->restart();
 	while (m_pWindow->isOpen()) {
 		sf::Event event;
 		while (m_pWindow->pollEvent(event)) {
+			//this is basically the worked in processing of inputs of smfl
 			ImGui::SFML::ProcessEvent(event);
 
 			if (event.type == sf::Event::Closed) {
 				m_pWindow->close();
 			}
 		}
+		//we continiously restart the clock, so we base it on real time passing since last update
+		ImGui::SFML::Update(*m_pWindow, m_pClock->restart());
 
-		ImGui::SFML::Update(*m_pWindow, deltaClock.restart());
+		//here is where we should handle the inputs
 
 
 		//updates
-		scenemanager.Update(deltaClock.getElapsedTime().asSeconds());
+		scenemanager.Update(m_pClock->getElapsedTime().asSeconds());
 
 
+		//change this to an actual renderer and not just a drawcall through scenemanager
 		//render draw call
 		m_pWindow->clear();
 		scenemanager.Render(m_pWindow);

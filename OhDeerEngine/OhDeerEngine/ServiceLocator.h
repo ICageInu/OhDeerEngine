@@ -8,7 +8,8 @@ namespace OhDeer {
 	struct GameHandlers {
 		GameHandlers() :
 			window{ nullptr },
-			inputManager{ nullptr }
+			inputManager{ nullptr },
+			clock{nullptr}
 		{}
 		//GameHandlers(sf::RenderWindow* pWindow,InputManager* pInput):
 		//	window{ pWindow },
@@ -18,7 +19,7 @@ namespace OhDeer {
 
 		sf::RenderWindow* window = nullptr;
 		InputManager* inputManager = nullptr;
-
+		sf::Clock* clock = nullptr;
 	};
 
 	class ServiceLocator
@@ -29,6 +30,7 @@ namespace OhDeer {
 		inline static void CleanUpGameHandler() { delete gameHandlers; gameHandlers = nullptr; };
 		inline static void RegisterRenderWindow(sf::RenderWindow* pWindow) { gameHandlers->window = pWindow; }
 		inline static void RegisterInputManager(InputManager* pInput) { gameHandlers->inputManager = pInput; }
+		inline static void RegisterClock(sf::Clock* pClock) { gameHandlers->clock = pClock; }
 
 	private:
 		inline static GameHandlers* gameHandlers = nullptr;

@@ -14,10 +14,10 @@ public:
 protected:
 	void Initialize() override;
 	void Update() override;
-	void Draw() override;
+	void Draw(sf::RenderWindow* pWindow)const override;
 
 private:
-
-
+	OhDeer::GameObject* m_pBackground;
+	OhDeer::GameObject* m_Fps;
 };
 

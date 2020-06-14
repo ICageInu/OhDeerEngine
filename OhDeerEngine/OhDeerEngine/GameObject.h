@@ -18,12 +18,13 @@ namespace OhDeer
 		void CleanUp();
 
 		//SETTERS
-		void AddComponent(BaseComponent* pComp);
+		void AddComponent(BaseComponent* pComp, bool isTexture = false);
 		void SetHasTexture(bool hasTexture);
 		void SetTag(const std::string& tag);
 
 		//GETTERS
 		std::string GetTag()const;
+
 		TransformComponent* GetTransform()const;
 		template<class T>
 		T* GetComponent()const;
@@ -34,7 +35,7 @@ namespace OhDeer
 		GameObject& operator=(GameObject&& other)noexcept = delete;
 
 	private:
-		float m_Width, m_Height;
+
 		//RenderComponent* m_pRenderComponent;
 		bool m_HasTexture;
 		std::string m_Tag;

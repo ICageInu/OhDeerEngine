@@ -18,6 +18,7 @@ namespace OhDeer {
 		InputManager* m_pInputManager;
 		sf::RenderWindow* m_pWindow;
 		sf::Window* m_pDebugWindow;
+		sf::Clock* m_pClock;
 	};
 
 }

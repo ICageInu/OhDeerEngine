@@ -9,7 +9,7 @@ namespace OhDeer
 		BaseComponent();
 		virtual ~BaseComponent() {};
 
-		//virtual void justaTest() = 0;
+		virtual void Update(float) {};
 		virtual void Initialize() = 0;
 		virtual void Render(sf::RenderWindow*)const {};
 		virtual void SetGameObject(GameObject* parent);

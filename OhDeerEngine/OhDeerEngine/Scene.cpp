@@ -19,7 +19,6 @@ Scene::~Scene() {
 
 void Scene::AddChild(GameObject* pObject)
 {
-	if (pObject->GetComponent<TextureComponent>() != NULL) pObject->SetHasTexture(true);
 	m_pObjects.push_back(pObject);
 }
 
@@ -34,6 +33,7 @@ void Scene::BaseUpdate(float deltaTime)
 	{
 		object->Update(deltaTime);
 	}
+	Update();
 }
 
 void Scene::BaseRender(sf::RenderWindow* pWindow) const
@@ -42,5 +42,6 @@ void Scene::BaseRender(sf::RenderWindow* pWindow) const
 	{
 		object->Render(pWindow);
 	}
+	Draw(pWindow);
 }
 

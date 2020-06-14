@@ -3,9 +3,10 @@
 #include "TextureComponent.h"
 #include "GameObject.h"
 #include "TransformComponent.h"
+#include "TextComponent.h"
 
 
-TestScene::TestScene():
+TestScene::TestScene() :
 	Scene("TestScene")
 {
 }
@@ -19,18 +20,35 @@ void TestScene::Initialize()
 	//auto test = new sf::CircleShape();
 	//test->setFillColor(sf::Color::Green);
 
-	OhDeer::GameObject* pBackground = new OhDeer::GameObject();
-	AddChild(pBackground);
+	m_pBackground = new OhDeer::GameObject();
+	AddChild(m_pBackground);
 	OhDeer::TransformComponent* pTransform = new OhDeer::TransformComponent();
-	pBackground->AddComponent(pTransform);
-	pTransform->SetPosition(0, 0);
+	m_pBackground->AddComponent(pTransform, true);
+	pTransform->Translate(0, 0);
 	//pBackground->SetSize((float)ServiceLocator::GetWindow()->getSize().x, (float)ServiceLocator::GetWindow()->getSize().y);
-	pTransform->SetSize(640,180);
+	pTransform->SetScale(1.5, 1.5);
+	//pTransform->SetSize(640, 180);
 	auto test = new OhDeer::TextureComponent("Resources/Images/background.jpg");
-	pBackground->AddComponent(test);
-
+	m_pBackground->AddComponent(test);
 	pTransform->GetPosition();
-	
+	pTransform->Translate(150, -400);
+
+	m_Fps = new OhDeer::GameObject();
+	OhDeer::TextComponent* pText = new OhDeer::TextComponent();
+	m_Fps->AddComponent(pText);
+	OhDeer::TransformComponent* pTransform2 = new OhDeer::TransformComponent();
+	m_Fps->AddComponent(pTransform2);
+	pText->SetFont("./Resources/Font/Lingua.otf");
+	pText->SetText("this be text");
+	AddChild(m_Fps);
+	pTransform2->Translate(20, 40);
+
+
+
+
+
+
+
 	////pBackground->GetComponent<TextureComponent>()->SetTexture("../Resources/Images/background.jpg");
 	//auto test = new TextureComponent();
 	//test->GetTexturePos();
@@ -38,8 +56,13 @@ void TestScene::Initialize()
 
 void TestScene::Update()
 {
+	//sf::Vector2f newpos = m_pBackground->GetTransform()->GetPosition();
+	//m_pBackground->GetTransform()->Translate(0.001f+newpos.x, 0.001f-newpos.y);
+	//assert(m_pBackground->GetComponent<OhDeer::TransformComponent>()->GetPosition() == sf::Vector2f(15, 4));
 }
 
-void TestScene::Draw()
+void TestScene::Draw([[maybe_unused]] sf::RenderWindow* pWindow)const
 {
+	m_Fps->GetComponent<OhDeer::TextComponent>()->SetText(std::to_string(OhDeer::ServiceLocator::GetGameHandlers()->clock->getElapsedTime().asMicroseconds()));
+	//assert(pTransform->GetPosition() == sf::Vector2f(15, 4));
 }

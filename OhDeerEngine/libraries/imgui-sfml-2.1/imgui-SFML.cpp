@@ -19,6 +19,12 @@
 #include <cstddef>  // offsetof, NULL
 #include <cstring>  // memcpy
 
+
+
+
+
+
+
 #ifdef ANDROID
 #ifdef USE_JNI
 
@@ -388,7 +394,7 @@ void Update(const sf::Vector2i& mousePos, const sf::Vector2f& displaySize,
     ImGuiIO& io = ImGui::GetIO();
     io.DisplaySize = displaySize;
     io.DeltaTime = dt.asSeconds();
-
+#pragma warning (disable:4457)
     if (s_windowHasFocus) {
         if (io.WantSetMousePos) {
             sf::Vector2i mousePos(static_cast<int>(io.MousePos.x),
@@ -405,7 +411,7 @@ void Update(const sf::Vector2i& mousePos, const sf::Vector2f& displaySize,
             s_touchDown[i] = false;
         }
     }
-
+#pragma warning (default:4457)
     // Update Ctrl, Shift, Alt, Super state
     io.KeyCtrl = io.KeysDown[sf::Keyboard::LControl] ||
                  io.KeysDown[sf::Keyboard::RControl];

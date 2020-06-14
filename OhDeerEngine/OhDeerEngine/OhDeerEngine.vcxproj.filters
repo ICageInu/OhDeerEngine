@@ -62,6 +62,7 @@
     <ClCompile Include="TransformComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="TextComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\libraries\imgui-sfml-2.1\imgui-SFML.h">
@@ -123,6 +124,10 @@
     </ClInclude>
     <ClInclude Include="TransformComponent.h">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="TextComponent.h" />
+    <ClInclude Include="Commands.h">
+      <Filter>Managers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
