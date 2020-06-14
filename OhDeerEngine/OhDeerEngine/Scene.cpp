@@ -33,7 +33,7 @@ void Scene::BaseUpdate(float deltaTime)
 	{
 		object->Update(deltaTime);
 	}
-	Update();
+	Update(deltaTime);
 }
 
 void Scene::BaseRender(sf::RenderWindow* pWindow) const

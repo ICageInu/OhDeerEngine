@@ -13,11 +13,13 @@ public:
 
 protected:
 	void Initialize() override;
-	void Update() override;
+	void Update(float deltaT) override;
 	void Draw(sf::RenderWindow* pWindow)const override;
 
 private:
 	OhDeer::GameObject* m_pBackground;
 	OhDeer::GameObject* m_Fps;
+	float m_FpsInterval;
+	int m_FrameCounter;
 };
 

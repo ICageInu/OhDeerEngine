@@ -7,6 +7,7 @@
 #include "SceneManager.h"
 #include "ResourceManager.h"
 #include "Box2D.h"
+#include <chrono>
 
 using namespace OhDeer;
 OhDeerEngine::OhDeerEngine():
@@ -26,7 +27,7 @@ void OhDeerEngine::StartUp()
 	//m_pDebugWindow->create(sf::WindowHandle)
 
 	//I mean I can use this to cheat the update speed
-	//m_pWindow->setFramerateLimit(60);
+	//m_pWindow->setFramerateLimit(144);
 	ImGui::SFML::Init(*m_pWindow);
 	m_pInputManager = new InputManager();
 	m_pClock = new sf::Clock();
@@ -65,8 +66,11 @@ void OhDeerEngine::Run()
 	auto& scenemanager = SceneManager::GetInstance();
 
 	//gameloop
+	auto lastTime = std::chrono::high_resolution_clock::now();
 	m_pClock->restart();
 	while (m_pWindow->isOpen()) {
+		const auto currentTime = std::chrono::high_resolution_clock::now();
+		float deltaT = std::chrono::duration<float>(currentTime - lastTime).count();
 		sf::Event event;
 		while (m_pWindow->pollEvent(event)) {
 			//this is basically the worked in processing of inputs of smfl
@@ -77,13 +81,15 @@ void OhDeerEngine::Run()
 			}
 		}
 		//we continiously restart the clock, so we base it on real time passing since last update
-		ImGui::SFML::Update(*m_pWindow, m_pClock->restart());
+		ImGui::SFML::Update(*m_pWindow,m_pClock->restart() );
 
 		//here is where we should handle the inputs
 
 
 		//updates
-		scenemanager.Update(m_pClock->getElapsedTime().asSeconds());
+
+		//float deltaT = m_pClock->getElapsedTime().asSeconds();
+		scenemanager.Update(deltaT);
 
 
 		//change this to an actual renderer and not just a drawcall through scenemanager
@@ -93,6 +99,7 @@ void OhDeerEngine::Run()
 		//m_pWindow->draw(shape);
 		ImGui::SFML::Render(*m_pWindow);
 		m_pWindow->display();
+		lastTime = currentTime;
 	}
 
 	CleanUp();

@@ -18,7 +18,7 @@ namespace OhDeer {
 
 	protected:
 		virtual void Initialize() = 0;
-		virtual void Update() = 0;
+		virtual void Update(float deltaT) = 0;
 		virtual void Draw(sf::RenderWindow* pWindow)const = 0 ;
 
 		virtual void SceneActivated() {}

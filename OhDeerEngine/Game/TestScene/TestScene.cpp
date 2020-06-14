@@ -54,8 +54,18 @@ void TestScene::Initialize()
 	//test->GetTexturePos();
 }
 
-void TestScene::Update()
+void TestScene::Update(float deltaT)
 {
+	m_FrameCounter++;
+	m_FpsInterval += deltaT;
+
+	if (m_FpsInterval >= 1.f)
+	{
+		//std::cout << "FPS: " << m_FrameCounter << std::endl;
+ 		m_Fps->GetComponent<OhDeer::TextComponent>()->SetText("FPS: " + std::to_string(m_FrameCounter));
+		m_FpsInterval -= 1.f;
+		m_FrameCounter = 0;
+	}
 	//sf::Vector2f newpos = m_pBackground->GetTransform()->GetPosition();
 	//m_pBackground->GetTransform()->Translate(0.001f+newpos.x, 0.001f-newpos.y);
 	//assert(m_pBackground->GetComponent<OhDeer::TransformComponent>()->GetPosition() == sf::Vector2f(15, 4));
@@ -63,6 +73,6 @@ void TestScene::Update()
 
 void TestScene::Draw([[maybe_unused]] sf::RenderWindow* pWindow)const
 {
-	m_Fps->GetComponent<OhDeer::TextComponent>()->SetText(std::to_string(OhDeer::ServiceLocator::GetGameHandlers()->clock->getElapsedTime().asMicroseconds()));
+
 	//assert(pTransform->GetPosition() == sf::Vector2f(15, 4));
 }
