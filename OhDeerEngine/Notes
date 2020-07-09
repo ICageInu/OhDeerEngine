@@ -1,0 +1,14 @@
+first make some components to make all of this work
+cause right now it's gameobject based
+
+rendercomponent - this is same - texture component
+textcomponent
+
+lets remake the resourcemanager, cause right now it's a resourceloader
+
+
+sooooo ruben is a beast and helped me do sprite animations, letsagoo
+msperupdate = value we want each update to update by
+
+
+textcomponent: what am I actually trying to do, make it so that once you load a texture, it is in memory and you can find it again

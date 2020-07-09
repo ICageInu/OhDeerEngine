@@ -2,15 +2,23 @@
 #include "SceneManager.h"
 #include "Scene.h"
 
-void dae::SceneManager::Update()
+void OhDeerEngine::SceneManager::Update(float deltaT)
 {
 	for(auto& scene : m_Scenes)
 	{
-		scene->Update();
+		scene->Update(deltaT);
 	}
 }
 
-void dae::SceneManager::Render()
+void OhDeerEngine::SceneManager::FixedUpdate(float deltaT)
+{
+	for (auto& scene : m_Scenes)
+	{
+		scene->FixedUpdate(deltaT);
+	}
+}
+
+void OhDeerEngine::SceneManager::Render()
 {
 	for (const auto& scene : m_Scenes)
 	{
@@ -18,9 +26,17 @@ void dae::SceneManager::Render()
 	}
 }
 
-dae::Scene& dae::SceneManager::CreateScene(const std::string& name)
+OhDeerEngine::Scene& OhDeerEngine::SceneManager::CreateScene(const std::string& name)
 {
-	const auto scene = std::shared_ptr<Scene>(new Scene(name));
+	const auto scene = new Scene(name);
 	m_Scenes.push_back(scene);
 	return *scene;
+}
+
+OhDeerEngine::SceneManager::~SceneManager()
+{
+	for (auto pScene : m_Scenes) 
+	{
+		SafeDelete(pScene);
+	}
 }

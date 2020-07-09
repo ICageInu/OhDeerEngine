@@ -1,5 +1,5 @@
 #pragma once
-namespace dae
+namespace OhDeerEngine
 {
 	template <typename T>
 	class Singleton
@@ -12,6 +12,11 @@ namespace dae
 		}
 
 		virtual ~Singleton() = default;
+
+		static T& Release() {
+			delete T;
+			T = nullptr;
+		}
 		Singleton(const Singleton& other) = delete;
 		Singleton(Singleton&& other) = delete;
 		Singleton& operator=(const Singleton& other) = delete;

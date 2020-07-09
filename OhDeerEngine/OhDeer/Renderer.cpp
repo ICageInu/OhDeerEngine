@@ -4,7 +4,7 @@
 #include "SceneManager.h"
 #include "Texture2D.h"
 
-void dae::Renderer::Init(SDL_Window * window)
+void OhDeerEngine::Renderer::Init(SDL_Window * window)
 {
 	m_Renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (m_Renderer == nullptr) 
@@ -13,7 +13,7 @@ void dae::Renderer::Init(SDL_Window * window)
 	}
 }
 
-void dae::Renderer::Render() const
+void OhDeerEngine::Renderer::Render() const
 {
 	SDL_RenderClear(m_Renderer);
 
@@ -22,7 +22,7 @@ void dae::Renderer::Render() const
 	SDL_RenderPresent(m_Renderer);
 }
 
-void dae::Renderer::Destroy()
+void OhDeerEngine::Renderer::Destroy()
 {
 	if (m_Renderer != nullptr)
 	{
@@ -31,7 +31,7 @@ void dae::Renderer::Destroy()
 	}
 }
 
-void dae::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y) const
+void OhDeerEngine::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y) const
 {
 	SDL_Rect dst;
 	dst.x = static_cast<int>(x);
@@ -40,12 +40,12 @@ void dae::Renderer::RenderTexture(const Texture2D& texture, const float x, const
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
 
-void dae::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float width, const float height) const
+void OhDeerEngine::Renderer::RenderTexture(const Texture2D& texture, const SDL_Rect* destRect, const SDL_Rect* srcRect, const SDL_Point& pivot, const float angle, bool isMirrororororor) const
 {
-	SDL_Rect dst;
-	dst.x = static_cast<int>(x);
-	dst.y = static_cast<int>(y);
-	dst.w = static_cast<int>(width);
-	dst.h = static_cast<int>(height);
-	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
+	int w, h;
+	SDL_GetRendererOutputSize(m_Renderer, &w, &h);
+	SDL_Rect dst{destRect->x,h-destRect->y,destRect->w,destRect->h};
+	
+	SDL_RenderCopyEx(m_Renderer, texture.GetSDLTexture(), srcRect, &dst,angle,&pivot,(SDL_RendererFlip)isMirrororororor);
 }
+

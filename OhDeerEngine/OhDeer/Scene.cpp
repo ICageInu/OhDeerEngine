@@ -2,28 +2,42 @@
 #include "Scene.h"
 #include "GameObject.h"
 
-using namespace dae;
 
-unsigned int Scene::m_IdCounter = 0;
 
-Scene::Scene(const std::string& name) : m_Name(name) {}
+unsigned int OhDeerEngine::Scene::m_IdCounter = 0;
 
-Scene::~Scene() = default;
+OhDeerEngine::Scene::Scene(const std::string& name) : m_Name(name) {}
 
-void Scene::Add(const std::shared_ptr<SceneObject>& object)
+OhDeerEngine::Scene::~Scene()
+{
+	for (auto pObj : m_Objects)
+	{
+		SafeDelete(pObj);
+	}
+}
+
+void OhDeerEngine::Scene::Add(GameObject* object)
 {
 	m_Objects.push_back(object);
 }
 
-void Scene::Update()
+void OhDeerEngine::Scene::Update(float deltaT)
 {
 	for(auto& object : m_Objects)
 	{
-		object->Update();
+		object->Update(deltaT);
 	}
 }
 
-void Scene::Render() const
+void OhDeerEngine::Scene::FixedUpdate(float deltaT)
+{
+	for (auto& object : m_Objects)
+	{
+		object->FixedUpdate(deltaT);
+	}
+}
+
+void OhDeerEngine::Scene::Render() const
 {
 	for (const auto& object : m_Objects)
 	{

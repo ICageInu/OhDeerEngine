@@ -1,16 +1,16 @@
 #pragma once
 struct SDL_Window;
-namespace dae
+namespace OhDeerEngine
 {
-	class Minigin
+	class OhDeerEngine
 	{
 	public:
 		void Initialize();
 		void LoadGame() const;
 		void Cleanup();
 		void Run();
+		static const float SPerFrame; //16 for 60 fps, 33 for 30 fps
 	private:
-		static const int MsPerFrame = 16; //16 for 60 fps, 33 for 30 fps
 		SDL_Window* m_Window{};
 	};
 }
