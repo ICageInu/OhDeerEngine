@@ -1,5 +1,7 @@
 #pragma once
 #include "SceneManager.h"
+#include <vector>
+#include <string>
 
 namespace OhDeerEngine
 {
@@ -25,8 +27,6 @@ namespace OhDeerEngine
 
 		std::string m_Name;
 		std::vector <GameObject*> m_Objects{};
-
-		static unsigned int m_IdCounter; 
 	};
 
 }

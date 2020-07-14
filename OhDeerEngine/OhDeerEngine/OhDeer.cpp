@@ -6,8 +6,7 @@
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
-#include <SDL.h>
-#include "TextObject.h"
+#include "SDL.h"
 #include "GameObject.h"
 #include "Scene.h"
 #include "RenderComponent.h"
@@ -16,9 +15,9 @@
 using namespace std;
 using namespace std::chrono;
 //16 for 60 fps, 33 for 30 fps
-const float OhDeerEngine::OhDeerEngine::SPerFrame = 0.016f;
+const float OhDeerEngine::OhDeer::SPerFrame = 0.016f;
 
-void OhDeerEngine::OhDeerEngine::Initialize()
+void OhDeerEngine::OhDeer::Initialize()
 {
 	if (SDL_Init(SDL_INIT_VIDEO) != 0)
 	{
@@ -44,37 +43,10 @@ void OhDeerEngine::OhDeerEngine::Initialize()
 /**
  * Code constructing the scene world starts here
  */
-void OhDeerEngine::OhDeerEngine::LoadGame() const
-{
-	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
+void OhDeerEngine::OhDeer::LoadGame() const
+{}
 
-	auto go = new GameObject();
-	//go->SetTexture("background.jpg");
-	auto tex1 = new RenderComponent();
-	tex1->AddTexture(ResourceManager::GetInstance().LoadTexture("background.jpg"));
-	go->AddComponent(tex1);
-	go->SetTag("background");
-	scene.Add(go);
-
-	go = new GameObject({ 216, 180 }, 0);
-	////go->SetTexture("logo.png");
-	auto tex2 = new RenderComponent();
-	tex2->AddTexture(ResourceManager::GetInstance().LoadTexture("logo.png"));
-	go->AddComponent(tex2);
-	scene.Add(go);
-
-	go = new GameObject({ 20,20 });
-	auto tex3 = new RenderComponent();
-	tex3->AddTexture(ResourceManager::GetInstance().LoadTexture("logo.png"));
-	auto font = new TextComponent("Programming 4 Assignment");
-	font->AddFont(ResourceManager::GetInstance().LoadFont("Lingua.otf", 36));
-
-	go->AddComponent(font);
-	go->AddComponent(tex3);
-	scene.Add(go);
-}
-
-void OhDeerEngine::OhDeerEngine::Cleanup()
+void OhDeerEngine::OhDeer::Cleanup()
 {
 
 	Renderer::GetInstance().Destroy();
@@ -83,12 +55,11 @@ void OhDeerEngine::OhDeerEngine::Cleanup()
 	SDL_Quit();
 }
 
-void OhDeerEngine::OhDeerEngine::Run()
+void OhDeerEngine::OhDeer::Run()
 {
 	Initialize();
 
-	// tell the resource manager where he can find the game data
-	ResourceManager::GetInstance().Init("../Resources/");
+
 
 	LoadGame();
 

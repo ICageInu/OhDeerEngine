@@ -9,6 +9,7 @@
 #include "Font.h"
 #include <string>
 
+
 void OhDeerEngine::ResourceManager::Init(const std::string& dataPath)
 {
 	m_DataPath = dataPath;

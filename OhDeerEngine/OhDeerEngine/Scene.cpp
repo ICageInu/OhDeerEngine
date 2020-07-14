@@ -3,9 +3,6 @@
 #include "GameObject.h"
 
 
-
-unsigned int OhDeerEngine::Scene::m_IdCounter = 0;
-
 OhDeerEngine::Scene::Scene(const std::string& name) : m_Name(name) {}
 
 OhDeerEngine::Scene::~Scene()

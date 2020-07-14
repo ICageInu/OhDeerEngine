@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{77ac9a27-2502-4575-9db3-f8f75a93e88e}</ProjectGuid>
+    <RootNamespace>DiggerGame</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)OhDeerEngine;$(SolutionDir)Libraries/vld/include;$(SolutionDir)Libraries/SDL2/include;$(SolutionDir)Libraries/SDL2_image/include;$(SolutionDir)Libraries/SDL2_ttf/include;$(SolutionDir)Libraries/glm</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+      <AdditionalDependencies>SDL2.lib;SDL2_ttf.lib;SDL2_image.lib;vld.lib;Xinput.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Libraries/SDL2/lib/x86;$(SolutionDir)Libraries/SDL2_ttf/lib/x86;$(SolutionDir)Libraries/SDL2_image/lib/x86;$(SolutionDir)Libraries/vld/lib/x86</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(SolutionDir)Libraries\SDL2\lib\x86\SDL2.dll" "$(OutDir)" /y /D
+
+xcopy "$(SolutionDir)Libraries\vld\lib\Win32\vld_x86.dll" "$(OutDir)" /y /D
+
+xcopy "$(SolutionDir)Libraries\vld\lib\Win32\dbghelp.dll" "$(OutDir)" /y /D
+
+xcopy "$(SolutionDir)Libraries\vld\lib\Win32\Microsoft.DTfW.DHL.manifest" "$(OutDir)" /y /D
+
+xcopy "$(SolutionDir)Libraries\SDL2_image\lib\x86\*.dll" "$(OutDir)" /y /D
+xcopy "$(SolutionDir)Libraries\SDL2_ttf\lib\x86\*.dll" "$(OutDir)" /y /D</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)OhDeerEngine;$(SolutionDir)Libraries/vld/include;$(SolutionDir)Libraries/SDL2/include;$(SolutionDir)Libraries/SDL2_image/include;$(SolutionDir)Libraries/SDL2_ttf/include;$(SolutionDir)Libraries/glm</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+      <AdditionalDependencies>SDL2.lib;SDL2_ttf.lib;SDL2_image.lib;vld.lib;Xinput.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Libraries/SDL2/lib/x86;$(SolutionDir)Libraries/SDL2_ttf/lib/x86;$(SolutionDir)Libraries/SDL2_image/lib/x86;$(SolutionDir)Libraries/vld/lib/x86</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(SolutionDir)Libraries\SDL2\lib\x86\SDL2.dll" "$(OutDir)" /y /D
+
+xcopy "$(SolutionDir)Libraries\vld\lib\Win32\vld_x86.dll" "$(OutDir)" /y /D
+
+xcopy "$(SolutionDir)Libraries\vld\lib\Win32\dbghelp.dll" "$(OutDir)" /y /D
+
+xcopy "$(SolutionDir)Libraries\vld\lib\Win32\Microsoft.DTfW.DHL.manifest" "$(OutDir)" /y /D
+
+xcopy "$(SolutionDir)Libraries\SDL2_image\lib\x86\*.dll" "$(OutDir)" /y /D
+xcopy "$(SolutionDir)Libraries\SDL2_ttf\lib\x86\*.dll" "$(OutDir)" /y /D</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)OhDeerEngine;$(SolutionDir)Libraries/vld/include;$(SolutionDir)Libraries/SDL2/include;$(SolutionDir)Libraries/SDL2_image/include;$(SolutionDir)Libraries/SDL2_ttf/include;$(SolutionDir)Libraries/glm</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+      <AdditionalDependencies>SDL2.lib;SDL2_ttf.lib;SDL2_image.lib;vld.lib;Xinput.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Libraries/SDL2/lib/x64;$(SolutionDir)Libraries/SDL2_ttf/lib/x64;$(SolutionDir)Libraries/SDL2_image/lib/x64;$(SolutionDir)Libraries/vld/lib/x64</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(SolutionDir)Libraries\SDL2\lib\x64\SDL2.dll" "$(OutDir)" /y /D
+
+xcopy "$(SolutionDir)Libraries\vld\lib\Win64\vld_x64.dll" "$(OutDir)" /y /D
+
+xcopy "$(SolutionDir)Libraries\vld\lib\Win64\dbghelp.dll" "$(OutDir)" /y /D
+
+xcopy "$(SolutionDir)Libraries\vld\lib\Win64\Microsoft.DTfW.DHL.manifest" "$(OutDir)" /y /D
+
+xcopy "$(SolutionDir)Libraries\SDL2_image\lib\x64\*.dll" "$(OutDir)" /y /D
+xcopy "$(SolutionDir)Libraries\SDL2_ttf\lib\x64\*.dll" "$(OutDir)" /y /D
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)OhDeerEngine;$(SolutionDir)Libraries/vld/include;$(SolutionDir)Libraries/SDL2/include;$(SolutionDir)Libraries/SDL2_image/include;$(SolutionDir)Libraries/SDL2_ttf/include;$(SolutionDir)Libraries/glm</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+      <AdditionalDependencies>SDL2.lib;SDL2_ttf.lib;SDL2_image.lib;vld.lib;Xinput.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Libraries/SDL2/lib/x64;$(SolutionDir)Libraries/SDL2_ttf/lib/x64;$(SolutionDir)Libraries/SDL2_image/lib/x64;$(SolutionDir)Libraries/vld/lib/x64</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(SolutionDir)Libraries\SDL2\lib\x64\SDL2.dll" "$(OutDir)" /y /D
+
+xcopy "$(SolutionDir)Libraries\vld\lib\Win64\vld_x64.dll" "$(OutDir)" /y /D
+
+xcopy "$(SolutionDir)Libraries\vld\lib\Win64\dbghelp.dll" "$(OutDir)" /y /D
+
+xcopy "$(SolutionDir)Libraries\vld\lib\Win64\Microsoft.DTfW.DHL.manifest" "$(OutDir)" /y /D
+
+xcopy "$(SolutionDir)Libraries\SDL2_image\lib\x64\*.dll" "$(OutDir)" /y /D
+xcopy "$(SolutionDir)Libraries\SDL2_ttf\lib\x64\*.dll" "$(OutDir)" /y /D
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OhDeerEngine\OhDeerEngine.vcxproj">
+      <Project>{043ce60c-121f-4649-b569-c5c6a2c06b4c}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DiggerGame.cpp" />
+    <ClCompile Include="MainGame.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MainGame.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

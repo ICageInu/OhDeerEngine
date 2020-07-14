@@ -1,6 +1,8 @@
 #pragma once
 #include "Singleton.h"
 #include <map>
+#include <vector>
+#include <string>
 
 namespace OhDeerEngine
 {

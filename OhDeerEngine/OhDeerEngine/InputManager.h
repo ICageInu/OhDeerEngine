@@ -1,5 +1,5 @@
 #pragma once
-#include <XInput.h>
+#include <Xinput.h>
 #include "Singleton.h"
 
 namespace OhDeerEngine
