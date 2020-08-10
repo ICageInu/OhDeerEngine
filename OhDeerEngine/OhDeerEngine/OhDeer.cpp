@@ -68,7 +68,7 @@ void OhDeerEngine::OhDeer::Run()
 		auto& renderer = Renderer::GetInstance();
 		auto& sceneManager = SceneManager::GetInstance();
 		auto& input = InputManager::GetInstance();
-
+		input.Initialize();
 		//we want a normal update and a fixed update
 		auto lastTime = std::chrono::high_resolution_clock::now();
 		//this is for fixedupdate

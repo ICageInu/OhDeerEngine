@@ -1,5 +1,7 @@
 #pragma once
 #include "Singleton.h"
+#include <iostream>
+#include <vector>
 
 namespace OhDeerEngine
 {

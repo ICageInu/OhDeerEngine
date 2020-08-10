@@ -25,6 +25,8 @@ namespace OhDeerEngine
 	private:
 		glm::vec2 m_Position;
 		float m_Rotation;
+		//TODO make this have a scale?
+
 	};
 
 }

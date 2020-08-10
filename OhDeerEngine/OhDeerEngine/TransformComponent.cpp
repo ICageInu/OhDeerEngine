@@ -3,20 +3,16 @@
 OhDeerEngine::TransformComponent::TransformComponent(const glm::vec2& pos, const float angle):
 	m_Position{pos},
 	m_Rotation{angle}
-{
-}
+{}
 
 void OhDeerEngine::TransformComponent::Update(const float)
-{
-}
+{}
 
 void OhDeerEngine::TransformComponent::Render() const
-{
-}
+{}
 
 void OhDeerEngine::TransformComponent::FixedUpdate(const float)
-{
-}
+{}
 
 void OhDeerEngine::TransformComponent::SetPosition(float x, float y)
 {

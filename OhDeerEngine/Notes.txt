@@ -12,3 +12,20 @@ msperupdate = value we want each update to update by
 
 
 textcomponent: what am I actually trying to do, make it so that once you load a texture, it is in memory and you can find it again
+
+
+ - sound in resourcemanager
+ - transformcomponent
+ 
+ 
+needed for game:
+ - score
+	-> saving of scores
+ - lifes
+ - enemy behaviour
+ - destructable map
+ - pickups -> collision
+ - level loader
+ - reading of info files
+ - input manager -> controller support
+ 

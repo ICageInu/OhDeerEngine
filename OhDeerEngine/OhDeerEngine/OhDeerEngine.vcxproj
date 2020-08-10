@@ -91,6 +91,7 @@
       <PrecompiledHeaderFile>OhDeerPCH.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalIncludeDirectories>$(SolutionDir)Libraries/glm;$(SolutionDir)Libraries/vld/include;$(SolutionDir)Libraries/SDL2/include;$(SolutionDir)Libraries/SDL2_image/include;$(SolutionDir)Libraries/SDL2_ttf/include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -108,6 +109,7 @@
       <PrecompiledHeaderFile>OhDeerPCH.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalIncludeDirectories>$(SolutionDir)Libraries/glm;$(SolutionDir)Libraries/vld/include;$(SolutionDir)Libraries/SDL2/include;$(SolutionDir)Libraries/SDL2_image/include;$(SolutionDir)Libraries/SDL2_ttf/include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -125,6 +127,7 @@
       <PrecompiledHeaderFile>OhDeerPCH.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalIncludeDirectories>$(SolutionDir)Libraries/glm;$(SolutionDir)Libraries/vld/include;$(SolutionDir)Libraries/SDL2/include;$(SolutionDir)Libraries/SDL2_image/include;$(SolutionDir)Libraries/SDL2_ttf/include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -142,6 +145,7 @@
       <PrecompiledHeaderFile>OhDeerPCH.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalIncludeDirectories>$(SolutionDir)Libraries/glm;$(SolutionDir)Libraries/vld/include;$(SolutionDir)Libraries/SDL2/include;$(SolutionDir)Libraries/SDL2_image/include;$(SolutionDir)Libraries/SDL2_ttf/include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

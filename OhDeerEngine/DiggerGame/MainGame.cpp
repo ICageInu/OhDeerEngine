@@ -8,10 +8,14 @@
 
 void MainGame::LoadGame() const
 {
+	//so basically
+	//I want this to add the scene that I make, set active scene and that it
+	//shouldn't be too difficult now should it
 	using namespace OhDeerEngine;
 
 	// tell the resource manager where he can find the game data
-	ResourceManager::GetInstance().Init("../Resources/");
+	//ResourceManager::GetInstance().Init("../Resources/");
+	ResourceManager::GetInstance().Init("./Resources/");
 
 
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
