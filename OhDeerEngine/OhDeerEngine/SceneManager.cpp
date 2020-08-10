@@ -6,7 +6,7 @@ void OhDeerEngine::SceneManager::Update(float deltaT)
 {
 	for(auto& scene : m_Scenes)
 	{
-		scene->Update(deltaT);
+		scene->BaseUpdate(deltaT);
 	}
 }
 
@@ -26,11 +26,22 @@ void OhDeerEngine::SceneManager::Render()
 	}
 }
 
-OhDeerEngine::Scene& OhDeerEngine::SceneManager::CreateScene(const std::string& name)
+//OhDeerEngine::Scene& OhDeerEngine::SceneManager::CreateScene(const std::string& name)
+//{
+//	const auto scene = new Scene(name);
+//	m_Scenes.push_back(scene);
+//	return *scene;
+//}
+
+void OhDeerEngine::SceneManager::AddGameScene(OhDeerEngine::Scene* pScene)
 {
-	const auto scene = new Scene(name);
-	m_Scenes.push_back(scene);
-	return *scene;
+	const auto it = std::find(m_Scenes.begin(), m_Scenes.end(), pScene);
+
+	if (it == m_Scenes.end())
+	{
+		m_Scenes.push_back(pScene);
+		pScene->Initialize();
+	}
 }
 
 OhDeerEngine::SceneManager::~SceneManager()
