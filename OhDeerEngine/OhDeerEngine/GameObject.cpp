@@ -5,6 +5,7 @@
 #include "Texture2D.h"
 #include "BaseComponent.h"
 #include "TransformComponent.h"
+#include "CollisionComponent.h"
 
 OhDeerEngine::GameObject::GameObject(const glm::vec2& pos, const float angle)
 {
@@ -61,8 +62,29 @@ void OhDeerEngine::GameObject::Render() const
 	}
 
 }
+OhDeerEngine::TransformComponent* OhDeerEngine::GameObject::GetTransform()const
+{
+	return GetComponent<TransformComponent>();
+}
 
-//void OhDeerEngine::GameObject::SetTexture(const std::string& filename)
-//{
-//	m_pTexture = ResourceManager::GetInstance().LoadTexture(filename);
-//}
+void OhDeerEngine::GameObject::CheckForCollision(GameObject* pOther)
+{
+	auto colComp = GetComponent<CollisionComponent>();
+	if (colComp) 
+	{
+		colComp->CheckForCollision(pOther);
+	}
+}
+
+void OhDeerEngine::GameObject::SetOnTriggerCallBack(TriggerCallback triggerCallback)
+{
+	m_OnTriggerCallback = triggerCallback;
+}
+
+void OhDeerEngine::GameObject::OnTrigger(GameObject* triggerObject, GameObject* otherObject, TriggerAction action)
+{
+	if (m_OnTriggerCallback)
+		m_OnTriggerCallback(triggerObject, otherObject, action);
+}
+
+

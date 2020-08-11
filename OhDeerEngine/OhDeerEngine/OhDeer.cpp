@@ -84,8 +84,8 @@ void OhDeerEngine::OhDeer::Run()
 			lastTime = currentTime;
 			lag += deltaT;
 
-
 			doContinue = input.ProcessInput();
+
 			sceneManager.Update(deltaT);
 
 			while (lag >= SPerFrame)

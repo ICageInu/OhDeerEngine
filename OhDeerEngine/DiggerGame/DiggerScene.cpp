@@ -1,12 +1,14 @@
 #include "DiggerScene.h"
 #include "SceneManager.h"
-#include "Singleton.h"
 #include "ResourceManager.h"
 #include "GameObject.h"
 #include "RenderComponent.h"
 #include "TextComponent.h"
+#include "InputManager.h"
+#include "TransformComponent.h"
+#include <SDL.h>
 
-DiggerScene::DiggerScene(const std::string& sceneName):
+DiggerScene::DiggerScene(const std::string& sceneName) :
 	Scene(sceneName)
 {
 	//OhDeerEngine::SceneManager::GetInstance().CreateScene(sceneName);
@@ -36,7 +38,7 @@ void DiggerScene::Initialize()
 	tex3->AddTexture(ResourceManager::GetInstance().LoadTexture("logo.png"));
 	auto font = new TextComponent("Programming 4 Assignment");
 	font->AddFont(ResourceManager::GetInstance().LoadFont("Lingua.otf", 36));
-	
+
 
 	go->AddComponent(font);
 	go->AddComponent(tex3);
@@ -50,8 +52,17 @@ void DiggerScene::Initialize()
 	Add(m_pFPSCounter);
 }
 
-void DiggerScene::Update([[maybe_unused]]float deltaT)
+void DiggerScene::Update([[maybe_unused]] float deltaT)
 {
+
+	//if (OhDeerEngine::InputManager::GetInstance().IsPressed(OhDeerEngine::ControllerButton::ButtonA)) 
+	//{
+	//	const float movementSpeed = 5.0f;
+	//	auto tempPos = m_pFPSCounter->GetTransform()->GetPosition();
+	//	glm::vec2 movementVec = OhDeerEngine::InputManager::GetInstance().LeftStick() * movementSpeed * deltaT;
+	//	m_pFPSCounter->GetTransform()->SetPosition(tempPos+movementVec);
+	//}
+
 	m_FrameCounter++;
 	m_SecondsTimer += deltaT;
 

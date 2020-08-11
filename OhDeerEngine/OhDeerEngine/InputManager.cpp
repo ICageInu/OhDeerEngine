@@ -1,24 +1,28 @@
-#include "OhDeerPCH.h"
 #include "InputManager.h"
-#include <SDL.h>
 
+//https://stackoverflow.com/questions/11699183/what-is-the-best-way-to-read-input-from-keyboard-using-sdl
 
-PBYTE OhDeerEngine::InputManager::m_pCurrKeyboardState = nullptr;
-PBYTE OhDeerEngine::InputManager::m_pOldKeyboardState = nullptr;
 
 //these functions will always happen regardless on if gamepad is connected or not
 
 OhDeerEngine::InputManager::~InputManager()
 {
-	delete m_pCurrKeyboardState;
-	delete m_pOldKeyboardState;
-	m_pCurrKeyboardState = nullptr;
-	m_pOldKeyboardState = nullptr;
+
 }
 
 void OhDeerEngine::InputManager::Initialize()
 {
 	m_GamepadIsConnected = Connected();
+
+	int size;
+	SDL_GetKeyboardState(&size);
+
+	for (int i = 0; i < size; i++)
+	{
+		m_KeyboardCurrent[i] = false;
+		m_KeyboardOld[i] = false;
+		m_KeyboardTemp[i] = false;
+	}
 }
 
 bool OhDeerEngine::InputManager::ProcessInput()
@@ -30,23 +34,33 @@ bool OhDeerEngine::InputManager::ProcessInput()
 	}
 	//ZeroMemory(&m_CurrentState, sizeof(XINPUT_STATE));
 	//XInputGetState(m_GamepadIndex, &m_CurrentState);
+		
+
+
+
+	//updating keyboard states
+	m_KeyboardOld = m_KeyboardCurrent;
+	m_KeyboardCurrent = m_KeyboardTemp;
+
+
+
 
 	SDL_Event e;
-	while (SDL_PollEvent(&e)) {
-		if (e.type == SDL_QUIT) {
+	//this is for closing 
+	while (SDL_PollEvent(&e))
+	{
+		if (e.type == SDL_QUIT)
+		{
 			return false;
-
 		}
-		if (e.type == SDL_KEYDOWN) {
-			std::cout << "button pressed" << std::endl;
-			//e.
+		if (e.type == SDL_KEYUP)
+		{
+			m_KeyboardTemp[e.key.keysym.sym] = false;
 			break;
 		}
-		if (e.type == SDL_KEYUP) {
-			std::cout << "button up" << std::endl;
-			break;
-		}
-		if (e.type == SDL_MOUSEBUTTONDOWN) {
+		if (e.type == SDL_KEYDOWN)
+		{
+			m_KeyboardTemp[e.key.keysym.sym] = true;
 			break;
 		}
 	}
@@ -54,7 +68,7 @@ bool OhDeerEngine::InputManager::ProcessInput()
 	return true;
 }
 
-bool OhDeerEngine::InputManager::IsPressed(ControllerButton button) const
+bool OhDeerEngine::InputManager::IsPressed(const ControllerButton& button) const
 {
 	switch (button)
 	{
@@ -70,16 +84,17 @@ bool OhDeerEngine::InputManager::IsPressed(ControllerButton button) const
 	}
 }
 
-bool OhDeerEngine::InputManager::IsPressed([[maybe_unused]] int button) const
+bool OhDeerEngine::InputManager::IsPressed([[maybe_unused]] const SDL_Keycode& button) const
 {
-	SDL_Event e;
-	while (SDL_PollEvent(&e)) {
-		if (e.type == SDL_KEYUP) {
-			
-			return true;
-		}
-	}
-	return false;
+	return !m_KeyboardOld.at(button) && m_KeyboardCurrent.at(button);
+}
+bool  OhDeerEngine::InputManager::IsReleased([[maybe_unused]]const SDL_Keycode& button) const
+{
+	return m_KeyboardOld.at(button) && !m_KeyboardCurrent.at(button);
+}
+bool  OhDeerEngine::InputManager::IsDown([[maybe_unused]] const SDL_Keycode& button) const
+{
+	return m_KeyboardOld.at(button) && m_KeyboardCurrent.at(button);
 }
 
 
@@ -169,12 +184,12 @@ glm::vec2 OhDeerEngine::InputManager::LeftStick()const
 	//but that is from float to short, so just keep it in mind if getting weird errors
 	short sX = m_CurrentState.Gamepad.sThumbLX;
 	short sY = m_CurrentState.Gamepad.sThumbLY;
-	return glm::vec2(static_cast<float>(sX) / 32767.0f, static_cast<float>(sY) / 32767.0f);
+	return glm::vec2(static_cast<float>(sX) / 32767.0f, -(static_cast<float>(sY) / 32767.0f));
 }
 
 glm::vec2 OhDeerEngine::InputManager::RightStick()const
 {
 	short sX = m_CurrentState.Gamepad.sThumbRX;
 	short sY = m_CurrentState.Gamepad.sThumbRY;
-	return glm::vec2(static_cast<float>(sX) / 32767.0f, static_cast<float>(sY) / 32767.0f);
+	return glm::vec2(static_cast<float>(sX) / 32767.0f, -(static_cast<float>(sY) / 32767.0f));
 }

@@ -7,14 +7,6 @@
 #include "Texture2D.h"
 #include "Renderer.h"
 
-//OhDeerEngine::RenderComponent::~RenderComponent()
-//{
-//	for (TextureAnimation* pTex : m_Animations)
-//	{
-//		SafeDelete(pTex);
-//	}
-//}
-
 void OhDeerEngine::RenderComponent::Update(const float){}
 
 void OhDeerEngine::RenderComponent::Render() const

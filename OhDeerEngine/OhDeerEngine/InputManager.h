@@ -1,10 +1,11 @@
 #pragma once
-#include <Xinput.h>
+#include "OhDeerPCH.h"
+#include "Xinput.h"
 #include "Singleton.h"
-#include "glm/vec2.hpp"
+#include "glm/common.hpp"
 #include <map>
+#include <SDL.h>
 //https://lcmccauley.wordpress.com/2014/01/05/gamepad-input-tutorial/
-
 
 
 
@@ -40,19 +41,21 @@ namespace OhDeerEngine
 		float RightTrigger()const;
 
 		bool ProcessInput();
-		bool IsPressed(ControllerButton button) const;
-		bool IsPressed(int button) const;
+		bool IsPressed(const ControllerButton& button) const;
+		bool IsPressed(const SDL_Keycode& button) const;
+		bool IsReleased(const SDL_Keycode& button) const;
+		bool IsDown(const SDL_Keycode& button) const;
 
 	private:
 		friend class Singleton<InputManager>;
 		InputManager() = default;
 
-		//std::map<int, InputAction> m_InputActions{};
+		std::map<SDL_Keycode, bool> m_KeyboardCurrent{};
+		std::map<SDL_Keycode,bool> m_KeyboardOld{};
+		std::map<SDL_Keycode,bool> m_KeyboardTemp{};
 		XINPUT_STATE m_CurrentState{};
 		int m_GamepadIndex{0};
 		bool m_GamepadIsConnected{false};
-
-		static BYTE* m_pCurrKeyboardState, * m_pOldKeyboardState;
 
 
 

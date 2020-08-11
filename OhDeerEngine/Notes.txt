@@ -27,5 +27,4 @@ needed for game:
  - pickups -> collision
  - level loader
  - reading of info files
- - input manager -> controller support
- 
+ - input manager -> controller support -> this might be working already

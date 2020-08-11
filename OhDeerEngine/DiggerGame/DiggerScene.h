@@ -1,6 +1,6 @@
 #pragma once
 #include "Scene.h"
-#include "GameObject.h"
+
 class DiggerScene :
     public OhDeerEngine::Scene
 {

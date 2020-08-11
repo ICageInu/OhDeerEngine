@@ -21,9 +21,14 @@ void OhDeerEngine::Scene::Add(GameObject* object)
 
 void OhDeerEngine::Scene::BaseUpdate(float deltaT)
 {
-	for (auto& object : m_Objects)
+	//for (auto& object : m_Objects)
+	//{
+	//	object->Update(deltaT);
+	//}
+	for (size_t i = 0; i < m_Objects.size(); i++)
 	{
-		object->Update(deltaT);
+		m_Objects[i]->Update(deltaT);
+
 	}
 	Update(deltaT);
 }
