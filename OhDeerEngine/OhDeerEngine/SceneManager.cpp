@@ -50,4 +50,5 @@ OhDeerEngine::SceneManager::~SceneManager()
 	{
 		SafeDelete(pScene);
 	}
+	m_Scenes.clear();
 }

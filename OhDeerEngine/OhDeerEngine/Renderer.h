@@ -17,8 +17,7 @@ namespace OhDeerEngine
 	public:
 		void Init(SDL_Window* window);
 		void Render() const;
-		void Destroy();
-
+		void Release();
 		void RenderTexture(const Texture2D& texture, const float x,const float y) const;
 
 		void RenderTexture(const Texture2D& texture, const SDL_Rect* destRect, const SDL_Rect* srcRect, const SDL_Point& pivot, const float angle, bool isMirrororororor) const;

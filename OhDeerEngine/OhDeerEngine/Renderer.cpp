@@ -22,7 +22,7 @@ void OhDeerEngine::Renderer::Render() const
 	SDL_RenderPresent(m_Renderer);
 }
 
-void OhDeerEngine::Renderer::Destroy()
+void OhDeerEngine::Renderer::Release()
 {
 	if (m_Renderer != nullptr)
 	{

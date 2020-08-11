@@ -9,10 +9,15 @@
 #include "Texture2D.h"
 #include "ResourceManager.h"
 
+OhDeerEngine::TextComponent::~TextComponent()
+{
+	//SafeDelete(m_pTexture);
+}
+
 OhDeerEngine::TextComponent::TextComponent(const std::string& text):
 	m_Text{text},
 	m_pFont{nullptr},
-	m_pTexture{nullptr},
+	m_pTexture{},
 	m_NeedsUpdate{false}
 {
 }
@@ -41,7 +46,7 @@ void OhDeerEngine::TextComponent::Update(const float)
 			throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
 		}
 		SDL_FreeSurface(surf);
-		m_pTexture = ResourceManager::GetInstance().ChangeTexture(new Texture2D(texture),m_Text);
+		m_pTexture = ResourceManager::GetInstance().ChangeTexture(*texture,m_Text);
 		m_NeedsUpdate = false;
 	}
 }
@@ -55,8 +60,7 @@ void OhDeerEngine::TextComponent::Render() const
 	}
 }
 
-void OhDeerEngine::TextComponent::FixedUpdate(const float)
-{}
+void OhDeerEngine::TextComponent::FixedUpdate(const float){}
 
 void OhDeerEngine::TextComponent::AddFont(Font* pFont)
 {
@@ -69,3 +73,4 @@ void OhDeerEngine::TextComponent::SetText(const std::string& text)
 	m_Text = text;
 	m_NeedsUpdate = true;
 }
+

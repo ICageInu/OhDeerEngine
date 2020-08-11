@@ -13,7 +13,7 @@ SDL_Texture* OhDeerEngine::Texture2D::GetSDLTexture() const
 	return m_Texture;
 }
 
-OhDeerEngine::Texture2D::Texture2D(SDL_Texture* texture)
+OhDeerEngine::Texture2D::Texture2D(SDL_Texture* texture):
+	m_Texture{texture}
 {
-	m_Texture = texture;
 }

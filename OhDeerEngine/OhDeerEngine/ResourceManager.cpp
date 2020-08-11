@@ -39,9 +39,9 @@ OhDeerEngine::ResourceManager::~ResourceManager()
 		SafeDelete(pTexture.first);
 	}
 	m_Textures.clear();
-	for (Font* pFont : m_Fonts)
+	for (std::pair<Font*,std::string> pFont : m_Fonts)
 	{
-		SafeDelete(pFont);
+		SafeDelete(pFont.first);
 	}
 	m_Fonts.clear();
 }
@@ -75,39 +75,9 @@ OhDeerEngine::Texture2D* OhDeerEngine::ResourceManager::LoadTexture(const std::s
 	return m_Textures.back().first;
 }
 
-OhDeerEngine::Texture2D* OhDeerEngine::ResourceManager::ChangeTexture(Texture2D* pTexture, const std::string& text)
+OhDeerEngine::Texture2D* OhDeerEngine::ResourceManager::ChangeTexture(SDL_Texture& pTexture, const std::string& text)
 {
 	//make this look over te textures, if exist return that texture, otherwise make new texture
-	//if index is < 0 that means you don't know if the texture exists or that the texture needs to be made
-	//if (index < 0)
-	//{
-		//failsafe to make sure texture isn't in here already
-		//is this plausible?? TODO
-		//const auto it = std::find_if(m_Textures.cbegin(), m_Textures.cend(), [pTexture](Texture2D* pTex)
-		//	{
-		//		return *pTexture == *pTex;
-		//	});
-		//if (it != m_Textures.cend())
-		//{
-		//	int index = it - m_Textures.cbegin();
-		//	return m_Textures[index].first;
-		//}
-		//if (index != m_Textures.size())
-		//{
-		//}
-	//		m_Textures.push_back(pTexture);
-	//		index = int(m_Textures.size());
-	//		return m_Textures.back();
-	//}
-	//else
-	//{
-		//delete m_Textures[index].first;
-		//m_Textures[index].first = pTexture;
-		//return m_Textures[index].first;
-	//}
-	//return nullptr;
-
-
 	const auto it = std::find_if(m_Textures.cbegin(), m_Textures.cend(), [text](const std::pair < Texture2D*, std::string>& pair)
 		{
 			return text == pair.second;
@@ -120,10 +90,11 @@ OhDeerEngine::Texture2D* OhDeerEngine::ResourceManager::ChangeTexture(Texture2D*
 	}
 	else
 	{
-		m_Textures.push_back(std::pair<Texture2D*, std::string>{ pTexture, text });
+		m_Textures.push_back(std::pair<Texture2D*, std::string>{new Texture2D(&pTexture), text });
 		return m_Textures.back().first;
 	}
 }
+
 
 OhDeerEngine::Texture2D* OhDeerEngine::ResourceManager::LoadTexture(const std::string& file, const std::string& data)
 {
@@ -154,12 +125,26 @@ OhDeerEngine::Texture2D* OhDeerEngine::ResourceManager::LoadTexture(const std::s
 
 OhDeerEngine::Font* OhDeerEngine::ResourceManager::LoadFont(const std::string& file, unsigned int size)
 {
-	m_Fonts.push_back(new Font(m_DataPath + file, size));
-	return m_Fonts.back();
+	return LoadFont(file, size, m_DataPath);
 }
 
 OhDeerEngine::Font* OhDeerEngine::ResourceManager::LoadFont(const std::string& file, unsigned int size, const std::string& data)
 {
-	m_Fonts.push_back(new Font(data + file, size));
-	return m_Fonts.back();
+
+	const auto fullPath = data + file;
+
+
+	const auto it = std::find_if(m_Fonts.cbegin(), m_Fonts.cend(), [fullPath](const std::pair < Font*, std::string>& pair)
+		{
+			return fullPath == pair.second;
+		});
+
+	if (it != m_Fonts.cend())
+	{
+		int index = int(it - m_Fonts.cbegin());
+		return m_Fonts[index].first;
+	}
+
+	m_Fonts.push_back(std::pair<Font*, std::string>{ new Font(fullPath,size), fullPath });
+	return m_Fonts.back().first;
 }

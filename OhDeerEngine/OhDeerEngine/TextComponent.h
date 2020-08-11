@@ -11,6 +11,7 @@ namespace OhDeerEngine
 	{
 	public:
 		TextComponent() = default;
+		~TextComponent() override;
 		TextComponent(const std::string& text);
 		TextComponent(const std::string& text, Font* pFont);
 		//overrides
@@ -24,6 +25,7 @@ namespace OhDeerEngine
 		Font* m_pFont;
 		std::string m_Text;
 		bool m_NeedsUpdate;
+
 	};
 
 

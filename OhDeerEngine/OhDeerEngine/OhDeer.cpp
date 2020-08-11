@@ -49,7 +49,7 @@ void OhDeerEngine::OhDeer::LoadGame() const
 void OhDeerEngine::OhDeer::Cleanup()
 {
 
-	Renderer::GetInstance().Destroy();
+	Renderer::GetInstance().Release();
 	SDL_DestroyWindow(m_Window);
 	m_Window = nullptr;
 	SDL_Quit();

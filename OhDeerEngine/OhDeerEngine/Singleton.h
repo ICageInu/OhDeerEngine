@@ -12,7 +12,6 @@ namespace OhDeerEngine
 		}
 
 		virtual ~Singleton() = default;
-
 		static T& Release() {
 			delete T;
 			T = nullptr;
