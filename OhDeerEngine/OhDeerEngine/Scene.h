@@ -6,7 +6,7 @@
 namespace OhDeerEngine
 {
 	class GameObject;
-	class Scene
+	class Scene final
 	{
 		
 	public:
@@ -17,7 +17,7 @@ namespace OhDeerEngine
 		void FixedUpdate(float deltaT);
 		void Render() const;
 
-		virtual ~Scene();
+		~Scene();
 		Scene(const Scene& other) = delete;
 		Scene(Scene&& other) = delete;
 		Scene& operator=(const Scene& other) = delete;
@@ -26,8 +26,8 @@ namespace OhDeerEngine
 	protected:
 		friend class SceneManager;
 
-		virtual void Initialize() =0;
-		virtual void Update([[maybe_unused]]float deltaT) =0;
+		//virtual void Initialize() =0;
+		//virtual void Update([[maybe_unused]]float deltaT) =0;
 
 	private: 
 

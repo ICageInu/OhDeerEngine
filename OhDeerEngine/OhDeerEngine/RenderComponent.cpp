@@ -7,13 +7,14 @@
 #include "Texture2D.h"
 #include "Renderer.h"
 
-void OhDeerEngine::RenderComponent::Update(const float){}
+void OhDeerEngine::RenderComponent::Update(const float) {}
 
 void OhDeerEngine::RenderComponent::Render() const
 {
+	const glm::fvec2& pos = m_pParent->GetComponent<TransformComponent>()->GetPosition();
+	if (m_DrawRectangle)DrawRectangle(pos);
 	for (const TextureAnimation& anim : m_Animations)
 	{
-		const glm::fvec2& pos = m_pParent->GetComponent<TransformComponent>()->GetPosition();
 
 		SDL_Rect dstRect{ static_cast<int>(pos.x), static_cast<int>(pos.y) };
 		SDL_QueryTexture(anim.Image->GetSDLTexture(), nullptr, nullptr, &dstRect.w, &dstRect.h);
@@ -39,8 +40,25 @@ void OhDeerEngine::RenderComponent::Render() const
 		dstRect.x += int(worldOffset.x) - pivot.x;
 		dstRect.y += int(worldOffset.y) + pivot.y;
 
-		Renderer::GetInstance().RenderTexture(*anim.Image, &dstRect, &srcRect, pivot,m_pParent->GetComponent<TransformComponent>()->GetRotation() + anim.Angle,anim.IsMirrored);
+		Renderer::GetInstance().RenderTexture(*anim.Image, &dstRect, &srcRect, pivot, m_pParent->GetComponent<TransformComponent>()->GetRotation() + anim.Angle, anim.IsMirrored);
 	}
+}
+
+void  OhDeerEngine::RenderComponent::AddRectangleToDraw(float width, float height)
+{
+	m_DrawRectangle = true;
+	m_Width = width;
+	m_Height = height;
+}
+void  OhDeerEngine::RenderComponent::DrawRectangle(const glm::fvec2& pos)const
+{
+	SDL_Rect temp{};
+	temp.x = int(pos.x);
+	temp.y = int(pos.y);
+	temp.h = int(m_Height);
+	temp.w = int(m_Width);
+	SDL_SetRenderDrawColor(Renderer::GetInstance().GetSDLRenderer(), 255, 255, 255, 255);
+	SDL_RenderDrawRect(Renderer::GetInstance().GetSDLRenderer(), &temp);
 }
 
 void OhDeerEngine::RenderComponent::FixedUpdate(const float deltaT)
@@ -65,7 +83,7 @@ void OhDeerEngine::RenderComponent::FixedUpdate(const float deltaT)
 	}
 }
 
-void OhDeerEngine::RenderComponent::AddTexture(Texture2D* texture, const glm::fvec2& pivot, bool isAnimated, bool reverse, const int rows, const int columns, const float frameTime, const int drawWidth, const int drawHeight, const glm::fvec2 srcPos, const glm::fvec2 srcDim, const glm::fvec2 offSet, bool mirror, float angle)
+void OhDeerEngine::RenderComponent::AddTexture(Texture2D* texture, const int drawWidth, const int drawHeight, const glm::fvec2& pivot, bool isAnimated, bool reverse, const int rows, const int columns, const float frameTime, const glm::fvec2 srcPos, const glm::fvec2 srcDim, const glm::fvec2 offSet, bool mirror, float angle)
 {
 	//TODO please fix naming conventions
 	m_Animations.push_back(TextureAnimation{ texture,pivot,srcPos,srcDim,offSet,frameTime,0,angle,rows,columns,0,drawWidth,drawHeight,isAnimated,reverse,mirror });

@@ -21,16 +21,15 @@ void OhDeerEngine::Scene::Add(GameObject* object)
 
 void OhDeerEngine::Scene::BaseUpdate(float deltaT)
 {
-	//for (auto& object : m_Objects)
-	//{
-	//	object->Update(deltaT);
-	//}
-	for (size_t i = 0; i < m_Objects.size(); i++)
+	for (auto& object : m_Objects)
 	{
-		m_Objects[i]->Update(deltaT);
-
+		object->Update(deltaT);
 	}
-	Update(deltaT);
+	for (size_t i = 1; i < m_Objects.size(); i++)
+	{
+		m_Objects[i]->CheckForCollision(m_Objects[i-1]);
+	}
+	//Update(deltaT);
 }
 
 void OhDeerEngine::Scene::FixedUpdate(float deltaT)

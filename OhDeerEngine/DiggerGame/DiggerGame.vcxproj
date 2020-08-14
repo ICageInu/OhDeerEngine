@@ -210,12 +210,12 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf\lib\x64\*.dll" "$(OutDir)" /y /D
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\OhDeerEngine\PlayerComponent.cpp" />
     <ClCompile Include="DiggerGame.cpp" />
-    <ClCompile Include="DiggerScene.cpp" />
     <ClCompile Include="MainGame.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DiggerScene.h" />
+    <ClInclude Include="..\OhDeerEngine\PlayerComponent.h" />
     <ClInclude Include="MainGame.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

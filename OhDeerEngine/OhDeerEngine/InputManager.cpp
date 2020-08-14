@@ -30,20 +30,13 @@ bool OhDeerEngine::InputManager::ProcessInput()
 	if (m_GamepadIsConnected)
 	{
 		m_CurrentState = GetState();
-
 	}
 	//ZeroMemory(&m_CurrentState, sizeof(XINPUT_STATE));
 	//XInputGetState(m_GamepadIndex, &m_CurrentState);
-		
-
-
 
 	//updating keyboard states
 	m_KeyboardOld = m_KeyboardCurrent;
 	m_KeyboardCurrent = m_KeyboardTemp;
-
-
-
 
 	SDL_Event e;
 	//this is for closing 
@@ -88,7 +81,7 @@ bool OhDeerEngine::InputManager::IsPressed([[maybe_unused]] const SDL_Keycode& b
 {
 	return !m_KeyboardOld.at(button) && m_KeyboardCurrent.at(button);
 }
-bool  OhDeerEngine::InputManager::IsReleased([[maybe_unused]]const SDL_Keycode& button) const
+bool  OhDeerEngine::InputManager::IsReleased([[maybe_unused]] const SDL_Keycode& button) const
 {
 	return m_KeyboardOld.at(button) && !m_KeyboardCurrent.at(button);
 }
@@ -140,7 +133,7 @@ bool OhDeerEngine::InputManager::LStick_InDeadZone()const
 	if (sY > XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE || sY < -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)
 		return false;
 
-	return false;
+	return true;
 }
 
 bool OhDeerEngine::InputManager::RStick_InDeadZone()const
@@ -153,7 +146,7 @@ bool OhDeerEngine::InputManager::RStick_InDeadZone()const
 	if (sY > XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE || sY < -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE)
 		return false;
 
-	return false;
+	return true;
 }
 
 float OhDeerEngine::InputManager::LeftTrigger() const
@@ -177,19 +170,48 @@ float OhDeerEngine::InputManager::RightTrigger() const
 	return 0.0f;
 }
 
-glm::vec2 OhDeerEngine::InputManager::LeftStick()const
+glm::vec2 OhDeerEngine::InputManager::GetLeftStick(bool squareDir)const
 {
 	//in OG tutorial he divides these shorts with 32767, tried finding out why and found this short thread
 	//https://e2e.ti.com/support/tools/ccs/f/81/t/586525?CCS-TMS320VC5402-cast-from-float-to-short
 	//but that is from float to short, so just keep it in mind if getting weird errors
-	short sX = m_CurrentState.Gamepad.sThumbLX;
-	short sY = m_CurrentState.Gamepad.sThumbLY;
-	return glm::vec2(static_cast<float>(sX) / 32767.0f, -(static_cast<float>(sY) / 32767.0f));
+	float sX = (static_cast<float>(m_CurrentState.Gamepad.sThumbLX) / 32767.0f);
+	float sY = -(static_cast<float>(m_CurrentState.Gamepad.sThumbLY) / 32767.0f);
+	//if not square dirs, return the axis direction
+	if (!squareDir)
+		return glm::vec2(sX, sY);
+
+	//if in deadzone just return 0
+	if (LStick_InDeadZone()) return glm::vec2(0, 0);
+
+	if (std::fabsf(sX) > std::fabsf(sY))
+	{
+		if (std::signbit(sX))
+			return glm::vec2(-1, 0);
+		else return glm::vec2(1, 0);
+	}
+	if (std::signbit(sY))
+		return glm::vec2(0, 1);
+	else return glm::vec2(0, -1);
 }
 
-glm::vec2 OhDeerEngine::InputManager::RightStick()const
+glm::vec2 OhDeerEngine::InputManager::GetRightStick(bool squareDir)const
 {
-	short sX = m_CurrentState.Gamepad.sThumbRX;
-	short sY = m_CurrentState.Gamepad.sThumbRY;
-	return glm::vec2(static_cast<float>(sX) / 32767.0f, -(static_cast<float>(sY) / 32767.0f));
+	float sX = (static_cast<float>(m_CurrentState.Gamepad.sThumbRX) / 32767.0f);
+	float sY = -(static_cast<float>(m_CurrentState.Gamepad.sThumbRY) / 32767.0f);
+	if (!squareDir)
+		return glm::vec2(sX, sY);
+
+
+	if (RStick_InDeadZone()) return glm::vec2(0, 0);
+
+	if (std::fabsf(sX) > std::fabsf(sY))
+	{
+		if (std::signbit(sX))
+			return glm::vec2(-1, 0);
+		else return glm::vec2(1, 0);
+	}
+	if (std::signbit(sY))
+		return glm::vec2(0, 1);
+	else return glm::vec2(0, -1);
 }

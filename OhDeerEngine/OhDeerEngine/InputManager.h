@@ -5,6 +5,7 @@
 #include "glm/common.hpp"
 #include <map>
 #include <SDL.h>
+#include "Commands.h"
 //https://lcmccauley.wordpress.com/2014/01/05/gamepad-input-tutorial/
 
 
@@ -32,8 +33,8 @@ namespace OhDeerEngine
 		bool Connected();
 
 		//thumbstick functions
-		glm::vec2 LeftStick()const;
-		glm::vec2 RightStick()const;
+		glm::vec2 GetLeftStick(bool squareDir = false)const;
+		glm::vec2 GetRightStick(bool squareDir = false)const;
 		bool LStick_InDeadZone()const;
 		bool RStick_InDeadZone()const;
 		//trigger functions
@@ -56,8 +57,6 @@ namespace OhDeerEngine
 		XINPUT_STATE m_CurrentState{};
 		int m_GamepadIndex{0};
 		bool m_GamepadIsConnected{false};
-
-
 
 	};
 

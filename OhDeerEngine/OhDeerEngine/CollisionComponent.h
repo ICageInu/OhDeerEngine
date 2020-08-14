@@ -1,6 +1,9 @@
 #pragma once
 #include "BaseComponent.h"
 #include "glm/vec2.hpp"
+
+struct Rectf;
+
 namespace OhDeerEngine
 {
 
@@ -25,6 +28,7 @@ namespace OhDeerEngine
 		void EnableTrigger(bool isTrigger);
 		void EnableStatic(bool isStatic);
 		glm::vec2 GetDimensions()const;
+		Rectf* GetCollision()const;
 		//getters
 		bool IsTrigger()const;
 		float GetHeight()const;
@@ -34,8 +38,7 @@ namespace OhDeerEngine
 		void Render() const override;
 		void FixedUpdate(const float deltaT)override;
 	private:
-		glm::vec2 m_Position;
-		float m_Width, m_Height;
+		Rectf* m_pCollisionBox;
 		CollisionType m_CollisionType;
 		bool m_IsTrigger;
 	};

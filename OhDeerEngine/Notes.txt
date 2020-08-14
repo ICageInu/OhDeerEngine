@@ -1,10 +1,30 @@
 first make some components to make all of this work
 cause right now it's gameobject based
+components have been implemented, gameobject is final just to make sure I can't inherit from it
+
+on another related note thought, right, make scene final or not? I guess it's a good challenge to do so
+
+//question to tom
+so I actually got a question that I can't seem to find
+gameobjects need to be final, deal
+does the scene have to be final as well? or are we allowed to have scene specific updates?
+reason I'm asking is then I can not bind callbacks to the input manager and just question if button is pressed or not in the scene specific update
+
+//toms answer to my question
+
+Is inheritance the only way you can add functionality to a scene?
+(Rhetorical question)
+I don’t really understand your problem though - 
+I can see how for SOME games with tremendously different stages you would have scene specific update managers, but not for a  simple game like digger.,
+Does that mean you will select your scene object depending on the level file you read in?
+The idea in itself is interesting though I look forward to how you did it.
+To get back to the technical aspect of your question - since we prefer composition over inheritance, 
+why not have an update SceneComponent for your scene
+
 
 rendercomponent - this is same - texture component
 textcomponent
 
-lets remake the resourcemanager, cause right now it's a resourceloader
 
 
 sooooo ruben is a beast and helped me do sprite animations, letsagoo
@@ -12,11 +32,22 @@ msperupdate = value we want each update to update by
 
 
 textcomponent: what am I actually trying to do, make it so that once you load a texture, it is in memory and you can find it again
+made an fps component that literally does what the name says, easy to call and everything
 
 
+
+lets remake the resourcemanager, cause right now it's a resourceloader
  - sound in resourcemanager
- - transformcomponent
- 
+
+
+//=============inputmanager
+so each player has a set amount of commands with both keyboard and controller
+each player checks for his own input at update
+meaning each player has an container of commands and then asks the inputmanager if they're pressed or now
+I do not like the command pattern in the way that is presented, if possibnle I'd just love to actually bind the callback to the buttons
+but OH WELL, right now need to figure out a way if the player is actually controlelr supported or keyboard supported
+need to save the keys for the player as well, just to make sure that I'm not confusing the controlls of the players
+honestly not sure how to tackle this, so gonna leave it for now
  
 needed for game:
  - score

@@ -49,6 +49,18 @@
     <ClInclude Include="CollisionComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="Structs.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="FPSComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Commands.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseCharComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OhDeer.cpp">
@@ -91,6 +103,12 @@
       <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="CollisionComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="FPSComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseCharComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>

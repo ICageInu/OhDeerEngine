@@ -64,13 +64,17 @@ void OhDeerEngine::GameObject::Render() const
 }
 OhDeerEngine::TransformComponent* OhDeerEngine::GameObject::GetTransform()const
 {
-	return GetComponent<TransformComponent>();
+	const auto temp = GetComponent<TransformComponent>();
+	if (temp) return temp;
+	else
+		throw std::runtime_error(std::string("trying to get a transform on an object that doesn't have one") + m_Tag);
+
 }
 
 void OhDeerEngine::GameObject::CheckForCollision(GameObject* pOther)
 {
-	auto colComp = GetComponent<CollisionComponent>();
-	if (colComp) 
+	const auto colComp = GetComponent<CollisionComponent>();
+	if (colComp)
 	{
 		colComp->CheckForCollision(pOther);
 	}

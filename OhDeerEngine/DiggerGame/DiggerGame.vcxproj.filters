@@ -3,10 +3,19 @@
   <ItemGroup>
     <ClCompile Include="DiggerGame.cpp" />
     <ClCompile Include="MainGame.cpp" />
-    <ClCompile Include="DiggerScene.cpp" />
+    <ClCompile Include="..\OhDeerEngine\PlayerComponent.cpp">
+      <Filter>GameComponents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
-    <ClInclude Include="DiggerScene.h" />
+    <ClInclude Include="..\OhDeerEngine\PlayerComponent.h">
+      <Filter>GameComponents</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="GameComponents">
+      <UniqueIdentifier>{22a8f53e-3b3d-43f5-b2fb-787aa376a124}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
