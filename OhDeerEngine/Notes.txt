@@ -48,6 +48,28 @@ I do not like the command pattern in the way that is presented, if possibnle I'd
 but OH WELL, right now need to figure out a way if the player is actually controlelr supported or keyboard supported
 need to save the keys for the player as well, just to make sure that I'm not confusing the controlls of the players
 honestly not sure how to tackle this, so gonna leave it for now
+
+
+
+//================states shenanigans
+alright so we got multiple state that we can update depending on the buttons and actions being done
+so right now we can make it so that if moving we get to the state moving and that will change the texture for the different character components
+will also do the movement so that's also not aprt there anymore
+ 
+so states we have:
+idle: not doing anything
+moving: will take care of the texture as well making sure that that one is solid
+do I want different states for the movement direction?
+do I want this state to tell me the inputs?
+do I want this state to influence the character or do I call on the state from the character
+I feel like the last one is the better option:
+SO: in the character we will check for inputs
+and we will change the state based on that
+we will have one moving state but the moving state will be able to influence the texture of the charcomponent
+so we need to pass a reference towards the texture in there
+I have no clue how to implement the state pattern,
+so for now I'm ignoring it as it will only make the character more complicated and I honestly cannot use that right now
+ 
  
 needed for game:
  - score

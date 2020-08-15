@@ -9,6 +9,7 @@
 #include "PlayerComponent.h"
 #include "Commands.h"
 #include "CollisionComponent.h"
+#include <SDL.h>
 
 void MainGame::LoadGame() const
 {
@@ -29,7 +30,7 @@ void MainGame::LoadGame() const
 	auto go = new GameObject();
 	//go->SetTexture("background.jpg");
 	auto tex1 = new RenderComponent();
-	tex1->AddTexture(ResourceManager::GetInstance().LoadTexture("background.jpg"));
+	tex1->SetTexture(ResourceManager::GetInstance().LoadTexture("background.jpg"));
 	go->AddComponent(tex1);
 	go->SetTag("background");
 	scene.Add(go);
@@ -37,13 +38,13 @@ void MainGame::LoadGame() const
 	go = new GameObject({ 216, 180 }, 0);
 	////go->SetTexture("logo.png");
 	auto tex2 = new RenderComponent();
-	tex2->AddTexture(ResourceManager::GetInstance().LoadTexture("logo.png"));
+	tex2->SetTexture(ResourceManager::GetInstance().LoadTexture("logo.png"));
 	go->AddComponent(tex2);
 	scene.Add(go);
 
 	go = new GameObject({ 60,60 });
 	auto tex3 = new RenderComponent();
-	tex3->AddTexture(ResourceManager::GetInstance().LoadTexture("logo.png"));
+	tex3->SetTexture(ResourceManager::GetInstance().LoadTexture("logo.png"));
 	auto font = new TextComponent("Programming 4 Assignment");
 	font->AddFont(ResourceManager::GetInstance().LoadFont("Lingua.otf", 36));
 
@@ -59,9 +60,13 @@ void MainGame::LoadGame() const
 
 	go = new GameObject();
 	auto pPlayerTexture = new RenderComponent();
-	pPlayerTexture->AddTexture(ResourceManager::GetInstance().LoadTexture("digger.png"), 30, 30, { 0,1 }, false , false,1,1,0.0f);
+	pPlayerTexture->SetTexture(ResourceManager::GetInstance().LoadTexture("digger.png"), 30, 30, { 0,1 }, false , false,1,1,0.0f);
+	pPlayerTexture->SetTexture(ResourceManager::GetInstance().LoadTexture("digger.png"), 30, 30, { 0,1 }, false , false,1,1,0.0f,true);
+	pPlayerTexture->SetTexture(ResourceManager::GetInstance().LoadTexture("digger.png"), 30, 30, { 0,1 }, false , false,1,1,0.0f);
+	pPlayerTexture->SetTexture(ResourceManager::GetInstance().LoadTexture("digger.png"), 30, 30, { 0,1 }, false , false,1,1,0.0f);
 	auto pPlayerComp = new CollisionComponent({ 150,150 });
 	auto pPlayer = new PlayerComponent(go, pPlayerTexture,pPlayerComp);
-	pPlayer->BindButtonA(new ActionOneCommand());
+	pPlayer->SetKeyboardKeys(SDLK_w, SDLK_s, SDLK_d, SDLK_a);
+	pPlayer->BindActionA(new ActionOneCommand());
 	scene.Add(go);
 }

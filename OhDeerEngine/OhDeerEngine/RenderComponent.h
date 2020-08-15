@@ -29,12 +29,14 @@ namespace OhDeerEngine
 
 
 		//pivot is standard left bottom
-		void AddTexture(Texture2D* texture, const int drawWidth = 0, const int drawHeight = 0, const glm::fvec2& pivot = {0, 1}, bool isAnimated = false, bool reverse = false, const int rows = 0, const int columns = 0, const float frameTime = 0.0f, const glm::fvec2 srcPos = { 0.0f, 0.0f }, const glm::fvec2 srcDim = { 1.0f, 1.0f }, const glm::fvec2 offSet = { 0.0f, 0.0f }, bool mirror = false, float angle = 0.0f);
+		void SetTexture(Texture2D* texture, const int drawWidth = 0, const int drawHeight = 0, const glm::fvec2& pivot = {0, 1}, bool isAnimated = false, bool reverse = false, const int rows = 0, const int columns = 0, const float frameTime = 0.0f, bool mirror = false, float angle = 0.0f, const glm::fvec2 srcPos = { 0.0f, 0.0f }, const glm::fvec2 srcDim = { 1.0f, 1.0f }, const glm::fvec2 offSet = { 0.0f, 0.0f });
 
 		//pass the width and height of the collision component
 		void AddRectangleToDraw(float width, float height);
+
+		TextureAnimation GetTextureAnimation()const;
 	private:
-		std::vector<TextureAnimation> m_Animations;
+		TextureAnimation m_Animation;
 		float m_Height, m_Width;
 		bool m_DrawRectangle;
 	};
