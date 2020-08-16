@@ -71,6 +71,11 @@ I have no clue how to implement the state pattern,
 so for now I'm ignoring it as it will only make the character more complicated and I honestly cannot use that right now
  
  
+ //==========observer pattern
+ so here we're gonna use this pattern in a couple cases: score and health wise
+ right now we set up the base observer nice and easy, but I'm gonna make the healthobserver and the score observer part of the engine
+ this seems fair as most games will have something in that sense I presume, and if not you can just leave it out
+ 
 needed for game:
  - score
 	-> saving of scores

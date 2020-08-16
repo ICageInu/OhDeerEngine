@@ -61,6 +61,12 @@
     <ClInclude Include="BaseCharComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="HealthObserver.h">
+      <Filter>Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Observers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OhDeer.cpp">
@@ -111,6 +117,9 @@
     <ClCompile Include="BaseCharComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="HealthObserver.cpp">
+      <Filter>Observers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Components">
@@ -130,6 +139,9 @@
     </Filter>
     <Filter Include="Scene">
       <UniqueIdentifier>{8462541d-2ee8-4b49-bae6-c3938bfbe93f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Observers">
+      <UniqueIdentifier>{0a0fecbc-5a71-4dde-be1a-f242d59d2975}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
