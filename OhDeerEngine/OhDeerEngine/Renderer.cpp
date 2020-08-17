@@ -44,8 +44,8 @@ void OhDeerEngine::Renderer::RenderTexture(const Texture2D& texture, const SDL_R
 {
 	int w, h;
 	SDL_GetRendererOutputSize(m_Renderer, &w, &h);
-	SDL_Rect dst{destRect->x,h-destRect->y,destRect->w,destRect->h};
+	//SDL_Rect dst{destRect->x,h-destRect->y,destRect->w,destRect->h};
 	
-	SDL_RenderCopyEx(m_Renderer, texture.GetSDLTexture(), srcRect, &dst,angle,&pivot,(SDL_RendererFlip)isMirrororororor);
+	SDL_RenderCopyEx(m_Renderer, texture.GetSDLTexture(), srcRect, destRect,angle,&pivot,(SDL_RendererFlip)isMirrororororor);
 }
 

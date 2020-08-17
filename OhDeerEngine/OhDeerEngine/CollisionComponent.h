@@ -18,7 +18,7 @@ namespace OhDeerEngine
 		public BaseComponent
 	{
 	public:
-		CollisionComponent(const glm::vec2& pos,float width = 0.0f,float height = 0.0f);
+		CollisionComponent(const glm::vec2& pos,float width = 0.0f,float height = 0.0f, bool drawRect = false);
 		~CollisionComponent() override;
 		//setters
 		void SetWidth(float width);
@@ -41,6 +41,7 @@ namespace OhDeerEngine
 		Rectf* m_pCollisionBox;
 		CollisionType m_CollisionType;
 		bool m_IsTrigger;
+		bool m_DrawRect;
 	};
 
 

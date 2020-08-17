@@ -91,4 +91,9 @@ void OhDeerEngine::GameObject::OnTrigger(GameObject* triggerObject, GameObject* 
 		m_OnTriggerCallback(triggerObject, otherObject, action);
 }
 
+std::string OhDeerEngine::GameObject::GetTag() const
+{
+	return m_Tag;
+}
+
 

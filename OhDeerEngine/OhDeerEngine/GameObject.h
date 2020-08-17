@@ -49,6 +49,7 @@ namespace OhDeerEngine
 		void CheckForCollision(GameObject* pOther);
 		void SetOnTriggerCallBack(TriggerCallback);
 		void OnTrigger(GameObject* triggerObject, GameObject* otherObject, TriggerAction action);
+		std::string GetTag()const;
 	private:
 		
 		std::vector<BaseComponent*> m_Components;

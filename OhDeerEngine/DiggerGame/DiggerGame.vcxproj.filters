@@ -6,12 +6,27 @@
     <ClCompile Include="..\OhDeerEngine\PlayerComponent.cpp">
       <Filter>GameComponents</Filter>
     </ClCompile>
+    <ClCompile Include="BaseEnemyComponent.cpp">
+      <Filter>GameComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="NobbinsComponent.cpp">
+      <Filter>GameComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="HobbinsComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="..\OhDeerEngine\PlayerComponent.h">
       <Filter>GameComponents</Filter>
     </ClInclude>
+    <ClInclude Include="BaseEnemyComponent.h">
+      <Filter>GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="NobbinsComponent.h">
+      <Filter>GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="HobbinsComponent.h" />
+    <ClInclude Include="..\OhDeerEngine\Commands.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="GameComponents">

@@ -33,7 +33,11 @@ msperupdate = value we want each update to update by
 
 textcomponent: what am I actually trying to do, make it so that once you load a texture, it is in memory and you can find it again
 made an fps component that literally does what the name says, easy to call and everything
-
+sooooooo after adding a collision component, I found out that there is something naice going on, the collision boxes are being drawn at 
+the wrong position in comparision to the textures, now just to figure out
+the weird part is: the collision component places itself at the position of the gameobject
+the rendercomponent takes the gameobject position as well
+so the collision component needs to be inverting it's y position???
 
 
 lets remake the resourcemanager, cause right now it's a resourceloader

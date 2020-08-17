@@ -27,7 +27,11 @@ void OhDeerEngine::Scene::BaseUpdate(float deltaT)
 	}
 	for (size_t i = 1; i < m_Objects.size(); i++)
 	{
-		m_Objects[i]->CheckForCollision(m_Objects[i-1]);
+		for (size_t j = 0; j < m_Objects.size() - 1; j++)
+		{
+			m_Objects[i]->CheckForCollision(m_Objects[j]);
+
+		}
 	}
 	//Update(deltaT);
 }

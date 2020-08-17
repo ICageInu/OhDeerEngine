@@ -55,9 +55,6 @@
     <ClInclude Include="FPSComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="Commands.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
     <ClInclude Include="BaseCharComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -67,6 +64,7 @@
     <ClInclude Include="Observer.h">
       <Filter>Observers</Filter>
     </ClInclude>
+    <ClInclude Include="ScoreObserver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OhDeer.cpp">
@@ -120,6 +118,7 @@
     <ClCompile Include="HealthObserver.cpp">
       <Filter>Observers</Filter>
     </ClCompile>
+    <ClCompile Include="ScoreObserver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Components">

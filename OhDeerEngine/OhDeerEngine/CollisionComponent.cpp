@@ -5,15 +5,17 @@
 #include <string>
 #include <SDL.h>
 #include "Structs.h"
+#include "Renderer.h"
 
-OhDeerEngine::CollisionComponent::CollisionComponent(const glm::vec2& pos, float width, float height)
+OhDeerEngine::CollisionComponent::CollisionComponent(const glm::vec2& pos, float width, float height, bool drawRect):
+	m_DrawRect{drawRect}
 {
 	m_pCollisionBox = new Rectf();
 	m_pCollisionBox->left = pos.x;
 	m_pCollisionBox->bottom = pos.y;
 	m_pCollisionBox->width = width;
 	m_pCollisionBox->height = height;
-	
+
 }
 
 OhDeerEngine::CollisionComponent::~CollisionComponent()
@@ -80,15 +82,16 @@ float OhDeerEngine::CollisionComponent::GetWidth() const
 
 void OhDeerEngine::CollisionComponent::CheckForCollision([[maybe_unused]] GameObject* otherObject)
 {
+
 	const auto collComp = otherObject->GetComponent<CollisionComponent>();
-	if (!collComp) return;
+	if (!collComp || collComp == this) return;
+
 	const auto otherColl = collComp->GetCollision();
 	// If one rectangle is on left side of the other
 	if ((m_pCollisionBox->left + m_pCollisionBox->width) < otherColl->left || (otherColl->left + otherColl->width) < m_pCollisionBox->left)
 	{
 		return;
 	}
-
 	// If one rectangle is under the other
 	if (m_pCollisionBox->bottom > (otherColl->bottom + otherColl->height) || otherColl->bottom > (m_pCollisionBox->bottom + m_pCollisionBox->height))
 	{
@@ -114,6 +117,19 @@ void OhDeerEngine::CollisionComponent::Update([[maybe_unused]] const float delta
 
 }
 
-void OhDeerEngine::CollisionComponent::Render() const{}
+void OhDeerEngine::CollisionComponent::Render() const 
+{
+	if (m_DrawRect) 
+	{
+		SDL_Rect rect{};
+		rect.x = (int)m_pCollisionBox->left;
+		rect.y = (int)m_pCollisionBox->bottom;
+		rect.w = (int)m_pCollisionBox->width;
+		rect.h = (int)m_pCollisionBox->height;
+		SDL_SetRenderDrawColor(Renderer::GetInstance().GetSDLRenderer(), 255, 255, 255, 255);
+		SDL_RenderDrawRect(Renderer::GetInstance().GetSDLRenderer(), &rect);
+		SDL_SetRenderDrawColor(Renderer::GetInstance().GetSDLRenderer(), 0, 0, 0, 0);
+	}
+}
 
-void OhDeerEngine::CollisionComponent::FixedUpdate([[maybe_unused]] const float deltaT){}
+void OhDeerEngine::CollisionComponent::FixedUpdate([[maybe_unused]] const float deltaT) {}

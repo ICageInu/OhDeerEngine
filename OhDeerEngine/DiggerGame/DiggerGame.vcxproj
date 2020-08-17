@@ -211,12 +211,19 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf\lib\x64\*.dll" "$(OutDir)" /y /D
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\OhDeerEngine\PlayerComponent.cpp" />
+    <ClCompile Include="BaseEnemyComponent.cpp" />
     <ClCompile Include="DiggerGame.cpp" />
+    <ClCompile Include="HobbinsComponent.cpp" />
     <ClCompile Include="MainGame.cpp" />
+    <ClCompile Include="NobbinsComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\OhDeerEngine\Commands.h" />
     <ClInclude Include="..\OhDeerEngine\PlayerComponent.h" />
+    <ClInclude Include="BaseEnemyComponent.h" />
+    <ClInclude Include="HobbinsComponent.h" />
     <ClInclude Include="MainGame.h" />
+    <ClInclude Include="NobbinsComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
