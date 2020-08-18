@@ -64,7 +64,9 @@
     <ClInclude Include="Observer.h">
       <Filter>Observers</Filter>
     </ClInclude>
-    <ClInclude Include="ScoreObserver.h" />
+    <ClInclude Include="ScoreObserver.h">
+      <Filter>Observers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OhDeer.cpp">
@@ -118,7 +120,9 @@
     <ClCompile Include="HealthObserver.cpp">
       <Filter>Observers</Filter>
     </ClCompile>
-    <ClCompile Include="ScoreObserver.cpp" />
+    <ClCompile Include="ScoreObserver.cpp">
+      <Filter>Observers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Components">

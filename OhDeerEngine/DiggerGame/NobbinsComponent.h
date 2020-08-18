@@ -3,5 +3,6 @@
 class NobbinsComponent :
     public BaseEnemyComponent
 {
+
 };
 

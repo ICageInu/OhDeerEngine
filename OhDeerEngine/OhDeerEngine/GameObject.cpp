@@ -95,5 +95,3 @@ std::string OhDeerEngine::GameObject::GetTag() const
 {
 	return m_Tag;
 }
-
-

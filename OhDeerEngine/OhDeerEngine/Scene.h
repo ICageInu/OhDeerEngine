@@ -30,7 +30,7 @@ namespace OhDeerEngine
 		//virtual void Update([[maybe_unused]]float deltaT) =0;
 
 	private: 
-
+		bool m_IsActive;
 		std::string m_Name;
 		std::vector <GameObject*> m_Objects{};
 	};

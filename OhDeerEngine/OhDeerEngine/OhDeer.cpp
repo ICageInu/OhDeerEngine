@@ -38,6 +38,8 @@ void OhDeerEngine::OhDeer::Initialize()
 	}
 
 	Renderer::GetInstance().Init(m_Window);
+	ServiceLocator::InitGameHandler();
+	ServiceLocator::RegisterWindow(m_Window);
 }
 
 /**
@@ -48,8 +50,8 @@ void OhDeerEngine::OhDeer::LoadGame() const
 
 void OhDeerEngine::OhDeer::Cleanup()
 {
-
 	Renderer::GetInstance().Release();
+	ServiceLocator::CleanUpGameHandler();
 	SDL_DestroyWindow(m_Window);
 	m_Window = nullptr;
 	SDL_Quit();

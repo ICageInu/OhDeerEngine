@@ -3,8 +3,9 @@
 #include "Commands.h"
 #include "InputManager.h"
 #include "glm/geometric.hpp"
+#include "TransformComponent.h"
 
-PlayerComponent::PlayerComponent(OhDeerEngine::GameObject* pParent, OhDeerEngine::RenderComponent* pTexture, OhDeerEngine::CollisionComponent* pCollider, bool isController):
+PlayerComponent::PlayerComponent(OhDeerEngine::GameObject* pParent, OhDeerEngine::RenderComponent* pTexture, OhDeerEngine::CollisionComponent* pCollider, bool isController) :
 	BaseCharComponent(pParent, pTexture, pCollider),
 	m_KeyUp{},
 	m_KeyDown{},
@@ -14,10 +15,10 @@ PlayerComponent::PlayerComponent(OhDeerEngine::GameObject* pParent, OhDeerEngine
 	m_KeyActionTwo{},
 	m_KeyActionThree{},
 	m_KeyActionFour{},
-	m_ButtonA{nullptr},
-	m_ButtonB{nullptr},
-	m_ButtonY{nullptr},
-	m_ButtonX{nullptr},
+	m_ButtonA{ nullptr },
+	m_ButtonB{ nullptr },
+	m_ButtonY{ nullptr },
+	m_ButtonX{ nullptr },
 	m_IsController{ isController }
 {
 
@@ -57,7 +58,6 @@ void PlayerComponent::SpecificUpdate([[maybe_unused]] const float deltaT)
 		else if (OhDeerEngine::InputManager::GetInstance().IsPressed(m_KeyActionFour))m_ButtonX->Execute(this);
 	}
 
-
 	m_PosNextFrame += m_Direction * deltaT * m_MovementSpeed;
 }
 
@@ -85,6 +85,11 @@ void PlayerComponent::BindActionX(Command* newCommand)
 void PlayerComponent::SetPlayerId(int id)
 {
 	m_PlayerId = id;
+}
+
+void PlayerComponent::Respawn()
+{
+	m_pParent->GetTransform()->SetPosition(m_StartPos);
 }
 
 void PlayerComponent::SetKeyboardKeys(const SDL_Keycode& up, const SDL_Keycode& down, const SDL_Keycode& left, const SDL_Keycode& right)

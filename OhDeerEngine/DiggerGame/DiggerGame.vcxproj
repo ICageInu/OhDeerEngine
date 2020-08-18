@@ -219,8 +219,10 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf\lib\x64\*.dll" "$(OutDir)" /y /D
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\OhDeerEngine\Commands.h" />
+    <ClInclude Include="..\OhDeerEngine\LevelParser.h" />
     <ClInclude Include="..\OhDeerEngine\PlayerComponent.h" />
     <ClInclude Include="BaseEnemyComponent.h" />
+    <ClInclude Include="Factory.h" />
     <ClInclude Include="HobbinsComponent.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="NobbinsComponent.h" />

@@ -10,6 +10,8 @@
 #include "Commands.h"
 #include "CollisionComponent.h"
 #include <SDL.h>
+#include "LevelParser.h"
+#include "Factory.h"
 
 void MainGame::LoadGame() const
 {
@@ -26,6 +28,7 @@ void MainGame::LoadGame() const
 
 
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
+	Factory factory;
 
 	auto go = new GameObject();
 	//go->SetTexture("background.jpg");
@@ -53,31 +56,8 @@ void MainGame::LoadGame() const
 	go->AddComponent(tex3);
 	scene.Add(go);
 
-	//go = new GameObject();
-	//auto fps = new FPSComponent();
-	//go->AddComponent(fps);
-	//fps->Initialize(ResourceManager::GetInstance().LoadFont("Lingua.otf", 24));
-	//scene.Add(go);
-
-	go = new GameObject();
-	go->SetTag("player");
-	auto pPlayerTexture = new RenderComponent();
-	pPlayerTexture->SetTexture(ResourceManager::GetInstance().LoadTexture("digger.png"), 30, 30);
-	pPlayerTexture->SetTexture(ResourceManager::GetInstance().LoadTexture("digger.png"), 30, 30);
-	pPlayerTexture->SetTexture(ResourceManager::GetInstance().LoadTexture("digger.png"), 30, 30);
-	pPlayerTexture->SetTexture(ResourceManager::GetInstance().LoadTexture("digger.png"), 30, 30);
-	//pPlayerTexture->AddRectangleToDraw(150, 150);
-	auto pPlayerComp = new CollisionComponent(glm::vec2(0, 0), 30, 30,true);
-	//pPlayerComp->EnableTrigger(true);
-	//auto lambdaTrigger = [](GameObject* ob1, GameObject* ob2, GameObject::TriggerAction) 
-	//{
-	//	std::cout << "actually colliding with: " + ob2->GetTag() << std::endl; 
-	//};
-	//go->SetOnTriggerCallBack(lambdaTrigger);
-	auto pPlayer = new PlayerComponent(go, pPlayerTexture, pPlayerComp);
-	pPlayer->SetKeyboardKeys(SDLK_w, SDLK_s, SDLK_d, SDLK_a);
-	pPlayer->BindActionA(new ActionOneCommand());
-	scene.Add(go);
+	auto player = factory.MakePlayer(30, 30);
+	scene.Add(player);
 
 
 	//setup of enemies
@@ -89,4 +69,10 @@ void MainGame::LoadGame() const
 	pEnemOne->AddComponent(pHobbinTexture);
 	pEnemOne->AddComponent(pHobbinComp);
 	scene.Add(pEnemOne);
+
+	LevelParser parser;
+	parser.ParseFile("./Resources/levels.txt");
+
+
+
 }

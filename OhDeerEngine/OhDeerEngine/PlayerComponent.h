@@ -24,6 +24,7 @@ public:
 	void BindActionX(Command* newCommand);
 
 	void SetPlayerId(int id);
+	void Respawn();
 
 	void SetKeyboardKeys(const SDL_Keycode& up, const SDL_Keycode& down, const SDL_Keycode& left, const SDL_Keycode& right);
 
@@ -46,6 +47,7 @@ private:
 	Command* m_ButtonB;
 	Command* m_ButtonY;
 	Command* m_ButtonX;
+	glm::vec2 m_StartPos;
 	int m_PlayerId;
 	bool m_IsController;
 };

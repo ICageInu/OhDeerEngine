@@ -38,6 +38,7 @@ the wrong position in comparision to the textures, now just to figure out
 the weird part is: the collision component places itself at the position of the gameobject
 the rendercomponent takes the gameobject position as well
 so the collision component needs to be inverting it's y position???
+after a little bit of looking around I fixed the collision boxes and the drawing of the texture
 
 
 lets remake the resourcemanager, cause right now it's a resourceloader
@@ -79,6 +80,23 @@ so for now I'm ignoring it as it will only make the character more complicated a
  so here we're gonna use this pattern in a couple cases: score and health wise
  right now we set up the base observer nice and easy, but I'm gonna make the healthobserver and the score observer part of the engine
  this seems fair as most games will have something in that sense I presume, and if not you can just leave it out
+ 
+ 
+ 
+//======== enemies
+for the enemies I want them to move in the straightest line possible towards the player
+the nobbins move only through predefined hallways
+the hobbins make their own hallways
+
+
+first make the landscape maybe
+
+
+
+
+//======= terrain
+
+ 
  
 needed for game:
  - score

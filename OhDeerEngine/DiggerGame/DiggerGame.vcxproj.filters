@@ -27,6 +27,8 @@
     </ClInclude>
     <ClInclude Include="HobbinsComponent.h" />
     <ClInclude Include="..\OhDeerEngine\Commands.h" />
+    <ClInclude Include="..\OhDeerEngine\LevelParser.h" />
+    <ClInclude Include="Factory.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="GameComponents">
