@@ -9,14 +9,14 @@
 class Factory
 {
 public:
-	inline OhDeerEngine::GameObject* MakePlayer(float width,float height)
+	inline OhDeerEngine::GameObject* MakePlayer(const glm::vec2& pos,float width,float height)
 	{
 		OhDeerEngine::GameObject* pPlayer = new OhDeerEngine::GameObject();
 		pPlayer->SetTag("player");
 		auto pPlayerTexture = new OhDeerEngine::RenderComponent();
 		pPlayerTexture->SetTexture(OhDeerEngine::ResourceManager::GetInstance().LoadTexture("digger.png"), (int)width,(int)height);
 		//pPlayerTexture->AddRectangleToDraw(150, 150);
-		auto pPlayerCol = new OhDeerEngine::CollisionComponent(glm::vec2(0, 0), width,height, true);
+		auto pPlayerCol = new OhDeerEngine::CollisionComponent(pos, width,height, true);
 		//pPlayerComp->EnableTrigger(true);
 		//auto lambdaTrigger = [](GameObject* ob1, GameObject* ob2, GameObject::TriggerAction) 
 		//{
@@ -30,7 +30,7 @@ public:
 		return pPlayer;
 	}
 
-	inline OhDeerEngine::GameObject* MakeNobbin(float width, float height)
+	inline OhDeerEngine::GameObject* MakeNobbin(const glm::vec2& pos, float width, float height)
 	{
 		OhDeerEngine::GameObject* pNobbin = new OhDeerEngine::GameObject();
 
@@ -39,12 +39,48 @@ public:
 		return pNobbin;
 	}
 
-	inline OhDeerEngine::GameObject* MakeLevel(float width, float height)
+	inline OhDeerEngine::GameObject* MakeLevel(const glm::vec2& pos, float width, float height)
 	{
-		OhDeerEngine::GameObject* pLevel = new OhDeerEngine::GameObject();
+		OhDeerEngine::GameObject* pLevel = new OhDeerEngine::GameObject(pos);
+		pLevel->SetTag("Level");
+		auto pCol = new OhDeerEngine::CollisionComponent(pos,width,height,true);
+		pCol->EnableStatic(true);
+		auto pTex = new OhDeerEngine::RenderComponent();
+		pTex->SetTexture(OhDeerEngine::ResourceManager::GetInstance().LoadTexture("wall.png"), (int)width, (int)height);
 
 
+		pLevel->AddComponent(pCol);
+		pLevel->AddComponent(pTex);
+		return pLevel;
+	}
 
+	inline OhDeerEngine::GameObject* MakeEmerald(const glm::vec2& pos, float width, float height)
+	{
+		OhDeerEngine::GameObject* pLevel = new OhDeerEngine::GameObject(pos);
+		pLevel->SetTag("Tunnel");
+		auto pCol = new OhDeerEngine::CollisionComponent(pos,width,height,true);
+		pCol->EnableStatic(true);
+		auto pTex = new OhDeerEngine::RenderComponent();
+		pTex->SetTexture(OhDeerEngine::ResourceManager::GetInstance().LoadTexture("emerald.png"), (int)width, (int)height);
+
+
+		pLevel->AddComponent(pCol);
+		pLevel->AddComponent(pTex);
+		return pLevel;
+	}
+
+	inline OhDeerEngine::GameObject* MakeMoneyBag(const glm::vec2& pos, float width, float height)
+	{
+		OhDeerEngine::GameObject* pLevel = new OhDeerEngine::GameObject(pos);
+		pLevel->SetTag("Tunnel");
+		auto pCol = new OhDeerEngine::CollisionComponent(pos,width,height,true);
+		pCol->EnableStatic(true);
+		auto pTex = new OhDeerEngine::RenderComponent();
+		pTex->SetTexture(OhDeerEngine::ResourceManager::GetInstance().LoadTexture("Gold.png"), (int)width, (int)height);
+
+
+		pLevel->AddComponent(pCol);
+		pLevel->AddComponent(pTex);
 		return pLevel;
 	}
 };

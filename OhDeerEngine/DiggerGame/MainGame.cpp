@@ -27,15 +27,15 @@ void MainGame::LoadGame() const
 
 
 
-	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
-	Factory factory;
+	//auto& scene = SceneManager::GetInstance().CreateScene("Demo");
+	//Factory factory;
 
-	auto go = new GameObject();
-	//go->SetTexture("background.jpg");
-	auto tex1 = new RenderComponent();
-	tex1->SetTexture(ResourceManager::GetInstance().LoadTexture("background.jpg"));
-	go->AddComponent(tex1);
-	scene.Add(go);
+	//auto go = new GameObject();
+	////go->SetTexture("background.jpg");
+	//auto tex1 = new RenderComponent();
+	//tex1->SetTexture(ResourceManager::GetInstance().LoadTexture("background.jpg"));
+	//go->AddComponent(tex1);
+	//scene.Add(go);
 
 	//go = new GameObject({ 0,0 }, 0);
 	//////go->SetTexture("logo.png");
@@ -44,31 +44,31 @@ void MainGame::LoadGame() const
 	//go->AddComponent(tex2);
 	//scene.Add(go);
 
-	go = new GameObject({ 60,60 });
-	auto tex3 = new RenderComponent();
-	tex3->SetTexture(ResourceManager::GetInstance().LoadTexture("logo.png"));
-	auto font = new TextComponent("Programming 4 Assignment");
-	font->AddFont(ResourceManager::GetInstance().LoadFont("Lingua.otf", 36));
-	auto fontCol = new CollisionComponent({ 0,0 },150,30,true);
-	go->AddComponent(fontCol);
-	go->SetTag("title");
-	go->AddComponent(font);
-	go->AddComponent(tex3);
-	scene.Add(go);
+	//go = new GameObject({ 60,60 });
+	//auto tex3 = new RenderComponent();
+	//tex3->SetTexture(ResourceManager::GetInstance().LoadTexture("logo.png"));
+	//auto font = new TextComponent("Programming 4 Assignment");
+	//font->AddFont(ResourceManager::GetInstance().LoadFont("Lingua.otf", 36));
+	//auto fontCol = new CollisionComponent({ 0,0 },150,30,true);
+	//go->AddComponent(fontCol);
+	//go->SetTag("title");
+	//go->AddComponent(font);
+	//go->AddComponent(tex3);
+	//scene.Add(go);
 
-	auto player = factory.MakePlayer(30, 30);
-	scene.Add(player);
+	//auto player = factory.MakePlayer({ 0,0 },30, 30);
+	//scene.Add(player);
 
 
 	//setup of enemies
-	auto pEnemOne = new GameObject({ 150,150 });
-	auto pHobbinTexture = new RenderComponent();
-	pHobbinTexture->SetTexture(ResourceManager::GetInstance().LoadTexture("hobbin.png"), 30, 30, { 0,0 }, false, false, 1, 1);
-	auto pHobbinComp = new CollisionComponent({ 150,150 },30,30,true);
+	//auto pEnemOne = new GameObject({ 150,150 });
+	//auto pHobbinTexture = new RenderComponent();
+	//pHobbinTexture->SetTexture(ResourceManager::GetInstance().LoadTexture("hobbin.png"), 30, 30, { 0,0 }, false, false, 1, 1);
+	//auto pHobbinComp = new CollisionComponent({ 150,150 },30,30,true);
 
-	pEnemOne->AddComponent(pHobbinTexture);
-	pEnemOne->AddComponent(pHobbinComp);
-	scene.Add(pEnemOne);
+	//pEnemOne->AddComponent(pHobbinTexture);
+	//pEnemOne->AddComponent(pHobbinComp);
+	//scene.Add(pEnemOne);
 
 	LevelParser parser;
 	parser.ParseFile("./Resources/levels.txt");

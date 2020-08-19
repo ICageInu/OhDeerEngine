@@ -38,6 +38,7 @@ void OhDeerEngine::OhDeer::Initialize()
 	}
 
 	Renderer::GetInstance().Init(m_Window);
+	
 	ServiceLocator::InitGameHandler();
 	ServiceLocator::RegisterWindow(m_Window);
 }

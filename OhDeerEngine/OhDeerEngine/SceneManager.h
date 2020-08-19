@@ -9,7 +9,7 @@ namespace OhDeerEngine
 	class SceneManager final : public Singleton<SceneManager>
 	{
 	public:
-		Scene& CreateScene(const std::string& name);
+		Scene* CreateScene(const std::string& name);
 		void AddGameScene(Scene* pScene);
 
 
@@ -18,10 +18,15 @@ namespace OhDeerEngine
 		void Update(float deltaT);
 		void FixedUpdate(float deltaT);
 		void Render();
+
+		//switching scene functions
+		void NextScene();
+		void PreviousScene();
 	private:
 		//this is for us to be unable to call on the constructor
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;
 		std::vector<Scene*> m_Scenes;
+		int m_ActiveScene{ 1 };
 	};
 }
