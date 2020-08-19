@@ -40,7 +40,6 @@ public:
 				firstChar = line.substr(0, line.find("\""));
 				if (line[0] == '{' || line[0] == ' ' && line[1] == '{')
 				{
-
 					level++;
 					pScene = OhDeerEngine::SceneManager::GetInstance().CreateScene(std::to_string(level));
 
@@ -53,10 +52,7 @@ public:
 					int horzCounter{ 0 };
 					size_t firsPos = line.find('\"') + 1;
 					line = line.substr(firsPos,line.find((char)firsPos,'\"'));
-
-					
 					line = line.substr(0, line.find('\"'));
-
 					do
 					{
 						switch (line[0])

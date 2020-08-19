@@ -43,6 +43,7 @@ namespace OhDeerEngine
 			}
 			return nullptr;
 		}
+		void AddChild(GameObject* pChild);
 		void AddComponent(BaseComponent* pComp);
 		void SetTag(const std::string& tag);
 		TransformComponent* GetTransform()const;
@@ -51,9 +52,10 @@ namespace OhDeerEngine
 		void OnTrigger(GameObject* triggerObject, GameObject* otherObject, TriggerAction action);
 		std::string GetTag()const;
 	private:
-		
+		std::vector<GameObject*> m_Children;
 		std::vector<BaseComponent*> m_Components;
 		TriggerCallback m_OnTriggerCallback;
 		std::string m_Tag;
+		bool m_IsActive;
 	};
 }
