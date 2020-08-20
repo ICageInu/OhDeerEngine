@@ -1,3 +1,4 @@
+#include "GameObject.h"
 #include "OhDeerPCH.h"
 #include "GameObject.h"
 #include "ResourceManager.h"
@@ -8,18 +9,13 @@
 #include "CollisionComponent.h"
 
 OhDeerEngine::GameObject::GameObject(const glm::vec2& pos, const float angle):
-	m_IsActive{ true }
+	IsActive{ true }
 {
 	AddComponent(new TransformComponent(pos, angle));
 }
 
 OhDeerEngine::GameObject::~GameObject()
 {
-
-	for (GameObject* pObj : m_Children)
-		SafeDelete(pObj);
-	m_Children.clear();
-
 	for (BaseComponent* pComp : m_Components)
 	{
 		SafeDelete(pComp);
@@ -27,10 +23,8 @@ OhDeerEngine::GameObject::~GameObject()
 	m_Components.clear();
 }
 
-void OhDeerEngine::GameObject::AddChild(GameObject* pChild)
-{
-	m_Children.push_back(pChild);
-}
+
+
 
 void OhDeerEngine::GameObject::AddComponent(BaseComponent* pComponent)
 {
@@ -53,11 +47,8 @@ void OhDeerEngine::GameObject::SetTag(const std::string& tag)
 
 void OhDeerEngine::GameObject::Update(float deltaT)
 {
-	if (!m_IsActive) return;
-	for (GameObject* pChild : m_Children)
-	{
-		pChild->Update(deltaT);
-	}	
+	if (!IsActive) return;
+
 	for (BaseComponent* pComp : m_Components)
 	{
 		pComp->Update(deltaT);
@@ -65,11 +56,8 @@ void OhDeerEngine::GameObject::Update(float deltaT)
 }
 void OhDeerEngine::GameObject::FixedUpdate(float deltaT)
 {
-	if (!m_IsActive) return;
-	for (GameObject* pChild : m_Children)
-	{
-		pChild->FixedUpdate(deltaT);
-	}
+	if (!IsActive) return;
+
 	for (BaseComponent* pComp : m_Components)
 	{
 		pComp->FixedUpdate(deltaT);
@@ -77,11 +65,8 @@ void OhDeerEngine::GameObject::FixedUpdate(float deltaT)
 }
 void OhDeerEngine::GameObject::Render() const
 {
-	if (!m_IsActive) return;
-	for (GameObject* pChild : m_Children)
-	{
-		pChild->Render();
-	}
+	if (!IsActive) return;
+
 	for (BaseComponent* pComp : m_Components)
 	{
 		pComp->Render();
@@ -97,15 +82,15 @@ OhDeerEngine::TransformComponent* OhDeerEngine::GameObject::GetTransform()const
 
 }
 
-void OhDeerEngine::GameObject::CheckForCollision(GameObject* pOther)
-{
-	if (!m_IsActive) return;
-	const auto colComp = GetComponent<CollisionComponent>();
-	if (colComp)
-	{
-		colComp->CheckForCollision(pOther);
-	}
-}
+//void OhDeerEngine::GameObject::CheckForCollision(GameObject* pOther)
+//{
+//	if (!m_IsActive) return;
+//	const auto colComp = GetComponent<CollisionComponent>();
+//	if (colComp)
+//	{
+//		colComp->CheckForCollision(pOther);
+//	}
+//}
 
 void OhDeerEngine::GameObject::SetOnTriggerCallBack(TriggerCallback triggerCallback)
 {
@@ -122,3 +107,13 @@ std::string OhDeerEngine::GameObject::GetTag() const
 {
 	return m_Tag;
 }
+
+void OhDeerEngine::GameObject::SetEnabledDisabled(bool isEnabled)
+{
+	IsActive = isEnabled;
+}
+
+//bool OhDeerEngine::GameObject::GetIsActive() const
+//{
+//	return m_IsActive;
+//}

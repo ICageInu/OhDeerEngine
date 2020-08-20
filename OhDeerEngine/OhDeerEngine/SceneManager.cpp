@@ -41,9 +41,18 @@ void OhDeerEngine::SceneManager::Render()
 	m_Scenes[m_ActiveScene]->Render();
 }
 
+OhDeerEngine::Scene* OhDeerEngine::SceneManager::GetActiveScene() const
+{
+	return m_Scenes[m_ActiveScene];
+}
+
 void OhDeerEngine::SceneManager::NextScene()
 {
-	if (m_ActiveScene + 1 != m_Scenes.size()) m_ActiveScene++;
+	if (m_ActiveScene + 1 != m_Scenes.size())
+	{
+		m_ActiveScene++;
+		m_Scenes[m_ActiveScene]->Subject = (m_Scenes[m_ActiveScene - 1]->Subject);
+	}
 }
 
 void OhDeerEngine::SceneManager::PreviousScene()

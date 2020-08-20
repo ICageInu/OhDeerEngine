@@ -18,6 +18,7 @@ namespace OhDeerEngine
 		public BaseComponent
 	{
 	public:
+		CollisionComponent() = default;
 		CollisionComponent(const glm::vec2& pos,float width = 0.0f,float height = 0.0f, bool drawRect = false);
 		~CollisionComponent() override;
 		//setters
@@ -33,7 +34,8 @@ namespace OhDeerEngine
 		bool IsTrigger()const;
 		float GetHeight()const;
 		float GetWidth()const;
-		void CheckForCollision(GameObject* otherObject);
+		void CheckForCollision(CollisionComponent* otherObject);
+		//void CheckChildrenForCollision(const std::vector<CollisionComponent*>& otherObject);
 		void Update(const float deltaT) override;
 		void Render() const override;
 		void FixedUpdate(const float deltaT)override;

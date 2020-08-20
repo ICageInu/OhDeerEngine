@@ -31,31 +31,34 @@ namespace OhDeerEngine
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
 
+		std::vector<GameObject*>GetChildren()const;
+
 		//handy functions
+		//TODO do auto&
 		template <class T>
 		T* GetComponent()const
 		{
 			const type_info& ti = typeid(T);
-			for (BaseComponent* pComp : m_Components)
+			for (auto& pComp : m_Components)
 			{
 				if (pComp && typeid(*pComp) == ti)
 					return static_cast<T*>(pComp);
 			}
 			return nullptr;
 		}
-		void AddChild(GameObject* pChild);
 		void AddComponent(BaseComponent* pComp);
 		void SetTag(const std::string& tag);
 		TransformComponent* GetTransform()const;
-		void CheckForCollision(GameObject* pOther);
+		//void CheckForCollision(GameObject* pOther);
 		void SetOnTriggerCallBack(TriggerCallback);
 		void OnTrigger(GameObject* triggerObject, GameObject* otherObject, TriggerAction action);
 		std::string GetTag()const;
+		void SetEnabledDisabled(bool isEnabled);
+		//bool GetIsActive()const;
+		bool IsActive;
 	private:
-		std::vector<GameObject*> m_Children;
 		std::vector<BaseComponent*> m_Components;
 		TriggerCallback m_OnTriggerCallback;
 		std::string m_Tag;
-		bool m_IsActive;
 	};
 }

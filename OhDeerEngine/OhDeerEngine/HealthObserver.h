@@ -8,10 +8,10 @@ namespace OhDeerEngine
 	public:
 		HealthObserver() = default;
 		virtual ~HealthObserver() override;
-		virtual void OnNotify(const BaseCharComponent& baseChar) override;
+		virtual void OnNotify(const char eventType) override;
 
 	private:
-
+		int AmountHealth;
 	};
 
 

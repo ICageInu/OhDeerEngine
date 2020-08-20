@@ -80,7 +80,9 @@ so for now I'm ignoring it as it will only make the character more complicated a
  so here we're gonna use this pattern in a couple cases: score and health wise
  right now we set up the base observer nice and easy, but I'm gonna make the healthobserver and the score observer part of the engine
  this seems fair as most games will have something in that sense I presume, and if not you can just leave it out
- 
+ so right now I'm adding the observers to a vector of the scene, the question now is how do I bring them over
+ cause they shouldn't have any update whatsoever
+ think I might just make a ui shenanigans for all scenes and bring over the values of said observers
  
  
 //======== enemies

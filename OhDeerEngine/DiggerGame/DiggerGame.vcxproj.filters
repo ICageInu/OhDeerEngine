@@ -12,7 +12,9 @@
     <ClCompile Include="NobbinsComponent.cpp">
       <Filter>GameComponents</Filter>
     </ClCompile>
-    <ClCompile Include="HobbinsComponent.cpp" />
+    <ClCompile Include="HobbinsComponent.cpp">
+      <Filter>GameComponents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -25,10 +27,12 @@
     <ClInclude Include="NobbinsComponent.h">
       <Filter>GameComponents</Filter>
     </ClInclude>
-    <ClInclude Include="HobbinsComponent.h" />
     <ClInclude Include="..\OhDeerEngine\Commands.h" />
     <ClInclude Include="..\OhDeerEngine\LevelParser.h" />
     <ClInclude Include="Factory.h" />
+    <ClInclude Include="HobbinsComponent.h">
+      <Filter>GameComponents</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="GameComponents">

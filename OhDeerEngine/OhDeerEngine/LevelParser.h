@@ -11,7 +11,7 @@
 class LevelParser
 {
 public:
-	inline void ParseFile(const std::string& fileName)
+	inline void ParseFile(const std::string& fileName, glm::vec2& playerPos, float& playerWidth, float& playerHeight)
 	{
 		Factory factory;
 		int objWidth, screenWidth;
@@ -19,8 +19,8 @@ public:
 		int amountRows = 15;
 		int amountColums = 11;
 		SDL_GetWindowSize(OhDeerEngine::ServiceLocator::GetGameHandlers()->window, &screenWidth, &screenHeight);
-		objWidth = screenWidth / amountRows + 1; //this is a magic number right now, still thinking how I want to read it in better
-		objHeight = screenHeight / amountColums+1;
+		objWidth = screenWidth / amountRows + 1; //adding one pixel to width and height to make sure there are no seams because of floating errors
+		objHeight = screenHeight / amountColums + 1;
 		std::ifstream file;
 		std::string line;
 		std::regex sentence{ "^\\D+[SBHVC\\s]{15}.+" };
@@ -28,8 +28,13 @@ public:
 		file.open(fileName, std::ios::in);
 		int level{ 0 };
 		int vertCounter{ 42 };
-
 		auto pScene = OhDeerEngine::SceneManager::GetInstance().CreateScene(std::to_string(level));
+
+		//setting player pos and width
+		playerPos = { screenWidth / 2.0f, screenHeight - (float)objHeight };
+		playerWidth = (float)objWidth;
+		playerHeight = (float)objHeight;
+
 
 		if (file.is_open())
 		{
@@ -43,6 +48,7 @@ public:
 					level++;
 					pScene = OhDeerEngine::SceneManager::GetInstance().CreateScene(std::to_string(level));
 
+					pScene->Add(factory.MakeFPS());
 					vertCounter = { 1 };
 					line = line.substr(1);
 				}
@@ -51,21 +57,21 @@ public:
 				{
 					int horzCounter{ 0 };
 					size_t firsPos = line.find('\"') + 1;
-					line = line.substr(firsPos,line.find((char)firsPos,'\"'));
+					line = line.substr(firsPos, line.find((char)firsPos, '\"'));
 					line = line.substr(0, line.find('\"'));
 					do
 					{
 						switch (line[0])
 						{
 						case ' ':
-							pScene->Add(factory.MakeLevel({ objWidth * horzCounter, objHeight * vertCounter
-								}, (float)objWidth, (float)objHeight));
+							factory.MakeLevel(pScene, { objWidth * horzCounter,objHeight * vertCounter
+								}, (float)objWidth, (float)objHeight);
 							horzCounter++;
 							break;
 						case 'B':
-							pScene->Add(factory.MakeLevel({ objWidth * horzCounter, 1+objHeight * vertCounter
-								}, (float)objWidth, (float)objHeight));
-							pScene->Add(factory.MakeMoneyBag({  objWidth * horzCounter,objHeight * vertCounter
+							factory.MakeLevel(pScene, { objWidth * horzCounter,objHeight * vertCounter
+								}, (float)objWidth, (float)objHeight);
+							pScene->Add(factory.MakeMoneyBag({ objWidth * horzCounter,objHeight * vertCounter
 								}, (float)objWidth, (float)objHeight));
 							horzCounter++;
 							break;
@@ -80,15 +86,15 @@ public:
 							horzCounter++;
 							break;
 						case 'C':
-							pScene->Add(factory.MakeLevel({ objWidth * horzCounter,objHeight * vertCounter
-								}, (float)objWidth, (float)objHeight));
-							pScene->Add(factory.MakeEmerald({  objWidth * horzCounter,objHeight * vertCounter
+							factory.MakeLevel(pScene,{ objWidth * horzCounter,objHeight * vertCounter
+								}, (float)objWidth, (float)objHeight);
+							pScene->Add(factory.MakeEmerald({ objWidth * horzCounter,objHeight * vertCounter
 								}, (float)objWidth, (float)objHeight));
 							horzCounter++;
 							break;
 						case 'S':
-							//pScene->Add(factory.MakeLevel({ screenWidth - screenWidth * horzCounter,screenHeight - screenHeight * vertCounter
-							//	}, (float)screenWidth, (float)screenHeight));
+							pScene->Add(factory.MakeEnemyStart({ screenWidth - screenWidth * horzCounter,screenHeight - screenHeight * vertCounter
+								}, (float)screenWidth, (float)screenHeight));
 							horzCounter++;
 							break;
 						}

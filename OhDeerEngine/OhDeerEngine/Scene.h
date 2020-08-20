@@ -3,12 +3,28 @@
 #include <vector>
 #include <string>
 
+
 namespace OhDeerEngine
 {
+	class Observer;
+	class CollisionComponent;
 	class GameObject;
+	class Subject
+	{
+	public:
+		Subject() = default;
+		virtual ~Subject();
+
+		std::vector<GameObject*>Objects;
+		std::vector<Observer*>Observers;
+
+		void RegisterObserver(Observer* pObserver);
+		bool UnRegisterObserver(Observer* pObserver);
+		void NotifyAllObservers(const uint8_t event);
+	};
 	class Scene final
 	{
-		
+
 	public:
 		explicit Scene(const std::string& name);
 		void Add(GameObject* pObject);
@@ -23,16 +39,14 @@ namespace OhDeerEngine
 		Scene& operator=(const Scene& other) = delete;
 		Scene& operator=(Scene&& other) = delete;
 
-	protected:
+		Subject* Subject = nullptr;
+
+	private:
 		friend class SceneManager;
-
-		//virtual void Initialize() =0;
-		//virtual void Update([[maybe_unused]]float deltaT) =0;
-
-	private: 
 		//bool m_IsActive;
 		std::string m_Name;
 		std::vector <GameObject*> m_Objects{};
+		std::vector<CollisionComponent*> m_Collisions{};
 	};
 
 }

@@ -1,3 +1,4 @@
+#include "CollisionComponent.h"
 #include "OhDeerPCH.h"
 #include "CollisionComponent.h"
 #include "GameObject.h"
@@ -7,8 +8,8 @@
 #include "Structs.h"
 #include "Renderer.h"
 
-OhDeerEngine::CollisionComponent::CollisionComponent(const glm::vec2& pos, float width, float height, bool drawRect):
-	m_DrawRect{drawRect}
+OhDeerEngine::CollisionComponent::CollisionComponent(const glm::vec2& pos, float width, float height, bool drawRect) :
+	m_DrawRect{ drawRect }
 {
 	m_pCollisionBox = new Rectf();
 	m_pCollisionBox->left = pos.x;
@@ -56,7 +57,6 @@ void OhDeerEngine::CollisionComponent::EnableStatic(bool isStatic)
 
 glm::vec2 OhDeerEngine::CollisionComponent::GetDimensions() const
 {
-	// TODO: insert return statement here
 	return glm::vec2(m_pCollisionBox->width, m_pCollisionBox->height);
 }
 
@@ -80,27 +80,34 @@ float OhDeerEngine::CollisionComponent::GetWidth() const
 	return m_pCollisionBox->width;
 }
 
-void OhDeerEngine::CollisionComponent::CheckForCollision([[maybe_unused]] GameObject* otherObject)
+void OhDeerEngine::CollisionComponent::CheckForCollision([[maybe_unused]] CollisionComponent* otherCol)
 {
+	//if (!GetParent()->IsActive) return;
+	//if (otherCol->GetParent()->GetChildren().size() != 0)CheckChildrenForCollision(otherCol->GetParent()->GetChildren());
 
-	const auto collComp = otherObject->GetComponent<CollisionComponent>();
-	if (!collComp || collComp == this) return;
+	//if (!otherCol || otherCol == this) return;
 
-	const auto otherColl = collComp->GetCollision();
-	// If one rectangle is on left side of the other
-	if ((m_pCollisionBox->left + m_pCollisionBox->width) < otherColl->left || (otherColl->left + otherColl->width) < m_pCollisionBox->left)
+
+	const Rectf otherColl = *otherCol->GetCollision();
+
+	// If one rectangle is on left side of the other or under the other
+	if ((m_pCollisionBox->left + m_pCollisionBox->width) < otherColl.left || (otherColl.left + otherColl.width) < m_pCollisionBox->left
+		|| m_pCollisionBox->bottom > (otherColl.bottom + otherColl.height) || otherColl.bottom > (m_pCollisionBox->bottom + m_pCollisionBox->height)		)
 	{
 		return;
 	}
-	// If one rectangle is under the other
-	if (m_pCollisionBox->bottom > (otherColl->bottom + otherColl->height) || otherColl->bottom > (m_pCollisionBox->bottom + m_pCollisionBox->height))
-	{
-		return;
-	}
 
-	m_pParent->OnTrigger(m_pParent, otherObject, GameObject::TriggerAction::ENTER);
+	m_pParent->OnTrigger(m_pParent, otherCol->GetParent(), GameObject::TriggerAction::ENTER);
 
 }
+
+//void OhDeerEngine::CollisionComponent::CheckChildrenForCollision(const std::vector<CollisionComponent*>& vColComps)
+//{
+//	for (size_t i = 0; i < vColComps.size(); i++)
+//	{
+//			CheckForCollision(vColComps[i]);
+//	}
+//}
 
 void OhDeerEngine::CollisionComponent::Update([[maybe_unused]] const float deltaT)
 {
@@ -115,11 +122,12 @@ void OhDeerEngine::CollisionComponent::Update([[maybe_unused]] const float delta
 		throw std::runtime_error(std::string("Trying to move a static Collider"));
 	}
 
+	
 }
 
-void OhDeerEngine::CollisionComponent::Render() const 
+void OhDeerEngine::CollisionComponent::Render() const
 {
-	if (m_DrawRect) 
+	if (m_DrawRect)
 	{
 		SDL_Rect rect{};
 		rect.x = (int)m_pCollisionBox->left;

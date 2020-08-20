@@ -19,6 +19,8 @@ namespace OhDeerEngine
 		void FixedUpdate(float deltaT);
 		void Render();
 
+		Scene* GetActiveScene()const;
+
 		//switching scene functions
 		void NextScene();
 		void PreviousScene();

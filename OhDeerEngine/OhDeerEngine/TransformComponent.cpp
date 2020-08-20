@@ -31,12 +31,11 @@ void OhDeerEngine::TransformComponent::SetRotation(float angle)
 
 const glm::vec2& OhDeerEngine::TransformComponent::GetPosition() const
 {
-	// TODO: insert return statement here
 	return m_Position;
 }
 
 const float& OhDeerEngine::TransformComponent::GetRotation() const
 {
-	// TODO: insert return statement here
+
 	return m_Rotation;
 }

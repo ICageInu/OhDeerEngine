@@ -8,6 +8,6 @@ namespace OhDeerEngine
 	{
 	public:
 		virtual ~Observer() {};
-		virtual void OnNotify(const BaseCharComponent& baseChar/*,uint8_t eventType=0*/) = 0;
+		virtual void OnNotify(const char eventType=0) = 0;
 	};
 }

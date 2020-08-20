@@ -4,7 +4,7 @@
 #include "TransformComponent.h"
 #include "RenderComponent.h"
 #include "CollisionComponent.h"
-#include "Observer.h"
+
 
 OhDeerEngine::BaseCharComponent::BaseCharComponent(GameObject* pParent, RenderComponent* pTexture, CollisionComponent* pCollider, CharType chartype) :
 	m_PosNextFrame{},
@@ -43,43 +43,10 @@ void OhDeerEngine::BaseCharComponent::SetScoreWorth(int score)
 	m_ScoreOnDeath = score;
 }
 
-void OhDeerEngine::BaseCharComponent::RegisterObserver(Observer* pObserver)
-{
-	for (Observer* pObs : m_Observers)
-	{
-
-		if (typeid(*pObs) == typeid(*pObserver))
-		{
-			throw std::exception("RegisterObserver: This component already exists");
-		}
-	}
-	m_Observers.push_back(pObserver);
-}
-
-bool OhDeerEngine::BaseCharComponent::UnRegisterObserver([[maybe_unused]] Observer* pObserver)
-{
-	auto it = std::find_if(m_Observers.cbegin(), m_Observers.cend(), [pObserver](Observer* pObs)
-		{
-			return typeid(*pObs) == typeid(*pObserver);
-		});
-	if (it != m_Observers.cend())
-	{
-		m_Observers.erase(it);
-		return true;
-	}
-	return false;
-}
-
-void OhDeerEngine::BaseCharComponent::NotifyAllObservers()
-{
-	for (Observer* pObs : m_Observers)
-	{
-		pObs->OnNotify(*this);
-	}
-}
 
 void OhDeerEngine::BaseCharComponent::Move()
 {
+
 	m_pParent->GetTransform()->SetPosition(m_PosNextFrame);
 
 }

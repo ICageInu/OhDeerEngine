@@ -5,7 +5,6 @@
 
 namespace OhDeerEngine
 {
-	class Observer;
 	class RenderComponent;
 	class CollisionComponent;
 	class BaseCharComponent :
@@ -25,14 +24,12 @@ namespace OhDeerEngine
 		int GetScoreToAdd()const;
 		int GetCharacterType()const;
 		void SetScoreWorth(int score);
-		void RegisterObserver(Observer* pObserver);
-		bool UnRegisterObserver(Observer* pObserver);
-		void NotifyAllObservers();
+
 	protected:
 		void Move();
 		virtual void SpecificUpdate(const float deltaT) = 0;
 	protected:
-		std::vector<Observer*> m_Observers;
+
 		RenderComponent* m_pTexture;
 		CollisionComponent* m_pCollision;
 		glm::vec2 m_PosNextFrame;
