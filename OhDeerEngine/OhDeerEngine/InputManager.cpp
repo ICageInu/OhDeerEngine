@@ -1,4 +1,6 @@
 #include "InputManager.h"
+#include "InputManager.h"
+#include "InputManager.h"
 
 //https://stackoverflow.com/questions/11699183/what-is-the-best-way-to-read-input-from-keyboard-using-sdl
 
@@ -39,6 +41,7 @@ bool OhDeerEngine::InputManager::ProcessInput()
 	m_KeyboardCurrent = m_KeyboardTemp;
 
 	SDL_Event e;
+	SDL_StartTextInput();
 	//this is for closing 
 	while (SDL_PollEvent(&e))
 	{
@@ -53,12 +56,29 @@ bool OhDeerEngine::InputManager::ProcessInput()
 		}
 		if (e.type == SDL_KEYDOWN)
 		{
+			if (e.key.keysym.sym == SDLK_BACKSPACE && m_InputString.size() > 0)
+				m_InputString = m_InputString.substr(0, m_InputString.size() - 1);
 			m_KeyboardTemp[e.key.keysym.sym] = true;
 			break;
 		}
+		if (e.type == SDL_TEXTINPUT) 
+		{
+			m_InputString += e.text.text;
+		}
 	}
-
+	SDL_StopTextInput();
 	return true;
+}
+
+bool OhDeerEngine::InputManager::AnyButtonPressed() const
+{
+	if (m_CurrentState.Gamepad.wButtons & XINPUT_GAMEPAD_A ||
+		m_CurrentState.Gamepad.wButtons & XINPUT_GAMEPAD_B ||
+		m_CurrentState.Gamepad.wButtons & XINPUT_GAMEPAD_X ||
+		m_CurrentState.Gamepad.wButtons & XINPUT_GAMEPAD_Y)
+		return true;
+	return false;
+
 }
 
 bool OhDeerEngine::InputManager::IsPressed(const ControllerButton& button) const
@@ -88,6 +108,11 @@ bool  OhDeerEngine::InputManager::IsReleased([[maybe_unused]] const SDL_Keycode&
 bool  OhDeerEngine::InputManager::IsDown([[maybe_unused]] const SDL_Keycode& button) const
 {
 	return m_KeyboardOld.at(button) && m_KeyboardCurrent.at(button);
+}
+
+std::string OhDeerEngine::InputManager::GetInputString() const
+{
+	return m_InputString;
 }
 
 
@@ -191,8 +216,8 @@ glm::vec2 OhDeerEngine::InputManager::GetLeftStick(bool squareDir)const
 		else return glm::vec2(1, 0);
 	}
 	if (std::signbit(sY))
-		return glm::vec2(0, 1);
-	else return glm::vec2(0, -1);
+		return glm::vec2(0, -1);
+	else return glm::vec2(0, 1);
 }
 
 glm::vec2 OhDeerEngine::InputManager::GetRightStick(bool squareDir)const

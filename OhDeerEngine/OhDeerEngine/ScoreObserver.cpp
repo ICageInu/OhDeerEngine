@@ -4,10 +4,11 @@
 #include "TextComponent.h"
 #include "SceneManager.h"
 #include "Scene.h"
+#include "Subject.h"
 
-OhDeerEngine::ScoreObserver::ScoreObserver(TextComponent* pScore):
+OhDeerEngine::ScoreObserver::ScoreObserver(TextComponent* pScore) :
+	Observer(),
 	m_pScore{ pScore },
-	m_ScoreGained{0},
 	m_ScoreValue{0},
 	m_Update{false}
 {
@@ -20,37 +21,35 @@ void OhDeerEngine::ScoreObserver::OnNotify(const char eventType)
 	{
 	case 'n':
 		m_Update = true;
-		m_ScoreGained += 250;
+		m_ScoreValue += 250;
 		break;
 	case 'h':
 		m_Update = true;
-		m_ScoreGained += 250;
+		m_ScoreValue += 250;
 		break;
 	case 'e':
 		m_Update = true;
-		m_ScoreGained += 25;
+		m_ScoreValue += 25;
 		break;
 	case 'g':
 		m_Update = true;
-		m_ScoreGained += 500;
+		m_ScoreValue += 500;
 		break;
 
 	case 'l':
-		OhDeerEngine::SceneManager::GetInstance().NextScene();
+		OhDeerEngine::SceneManager::GetInstance().NextSceneWithSubject();
 		break;
 
 	}
-	
+
 	if (m_Update) 
 	{
-		m_ScoreValue += m_ScoreGained;
+		m_Update = false;
 
-		if (m_ScoreGained > 2000)
+		if (m_ScoreValue % 20000 == 0)
 		{
-			m_ScoreGained = 0;
 			OhDeerEngine::SceneManager::GetInstance().GetActiveScene()->Subject->NotifyAllObservers('+');
 		}
-		m_Update = false;
 		m_pScore->SetText(std::to_string(m_ScoreValue));
 	}
 }

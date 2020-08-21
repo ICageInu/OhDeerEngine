@@ -11,6 +11,7 @@
 class LevelParser
 {
 public:
+	//you need to pass the full path to the file, as this is not done through the resourcemanager
 	inline void ParseFile(const std::string& fileName, glm::vec2& playerPos, float& playerWidth, float& playerHeight)
 	{
 		Factory factory;
@@ -48,6 +49,8 @@ public:
 					level++;
 					pScene = OhDeerEngine::SceneManager::GetInstance().CreateScene(std::to_string(level));
 
+					auto pPlayer = factory.MakePlayer(playerPos, (float)objWidth, (float)objHeight);
+					pScene->Add(pPlayer);
 					pScene->Add(factory.MakeFPS());
 					vertCounter = { 1 };
 					line = line.substr(1);

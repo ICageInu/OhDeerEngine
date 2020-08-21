@@ -35,6 +35,8 @@ namespace OhDeerEngine
 		float GetHeight()const;
 		float GetWidth()const;
 		void CheckForCollision(CollisionComponent* otherObject);
+		bool IsPointInRect(const glm::vec2& point,const Rectf& otherObject);
+		bool IsPointInRect(CollisionComponent* otherObject);
 		//void CheckChildrenForCollision(const std::vector<CollisionComponent*>& otherObject);
 		void Update(const float deltaT) override;
 		void Render() const override;

@@ -9,19 +9,7 @@ namespace OhDeerEngine
 	class Observer;
 	class CollisionComponent;
 	class GameObject;
-	class Subject
-	{
-	public:
-		Subject() = default;
-		virtual ~Subject();
-
-		std::vector<GameObject*>Objects;
-		std::vector<Observer*>Observers;
-
-		void RegisterObserver(Observer* pObserver);
-		bool UnRegisterObserver(Observer* pObserver);
-		void NotifyAllObservers(const uint8_t event);
-	};
+	class Subject;
 	class Scene final
 	{
 
@@ -40,6 +28,8 @@ namespace OhDeerEngine
 		Scene& operator=(Scene&& other) = delete;
 
 		Subject* Subject = nullptr;
+
+		
 
 	private:
 		friend class SceneManager;

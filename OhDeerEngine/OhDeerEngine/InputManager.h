@@ -42,11 +42,13 @@ namespace OhDeerEngine
 		float RightTrigger()const;
 
 		bool ProcessInput();
+		bool AnyButtonPressed() const;
 		bool IsPressed(const ControllerButton& button) const;
 		bool IsPressed(const SDL_Keycode& button) const;
 		bool IsReleased(const SDL_Keycode& button) const;
 		bool IsDown(const SDL_Keycode& button) const;
 
+		std::string GetInputString()const;
 	private:
 		friend class Singleton<InputManager>;
 		InputManager() = default;
@@ -55,6 +57,7 @@ namespace OhDeerEngine
 		std::map<SDL_Keycode,bool> m_KeyboardOld{};
 		std::map<SDL_Keycode,bool> m_KeyboardTemp{};
 		XINPUT_STATE m_CurrentState{};
+		std::string m_InputString;
 		int m_GamepadIndex{0};
 		bool m_GamepadIsConnected{false};
 

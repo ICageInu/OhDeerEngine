@@ -57,6 +57,7 @@ void PlayerComponent::SpecificUpdate([[maybe_unused]] const float deltaT)
 		else if (OhDeerEngine::InputManager::GetInstance().IsPressed(m_KeyActionThree))m_ButtonY->Execute(this);
 		else if (OhDeerEngine::InputManager::GetInstance().IsPressed(m_KeyActionFour))m_ButtonX->Execute(this);
 	}
+
 	m_PosNextFrame += m_Direction * deltaT * m_MovementSpeed;
 	if (m_PosNextFrame.x < 0 ||
 		m_PosNextFrame.x + m_pCollision->GetWidth() > OhDeerEngine::ServiceLocator::GetGameHandlers()->windowDimensions.x ||

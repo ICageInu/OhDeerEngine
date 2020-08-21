@@ -11,11 +11,11 @@
 OhDeerEngine::CollisionComponent::CollisionComponent(const glm::vec2& pos, float width, float height, bool drawRect) :
 	m_DrawRect{ drawRect }
 {
-	m_pCollisionBox = new Rectf();
-	m_pCollisionBox->left = pos.x;
-	m_pCollisionBox->bottom = pos.y;
-	m_pCollisionBox->width = width;
-	m_pCollisionBox->height = height;
+	m_pCollisionBox = new Rectf(pos.x,pos.y,width,height);
+	//m_pCollisionBox->left = pos.x;
+	//m_pCollisionBox->bottom = pos.y;
+	//m_pCollisionBox->width = width;
+	//m_pCollisionBox->height = height;
 
 }
 
@@ -87,6 +87,7 @@ void OhDeerEngine::CollisionComponent::CheckForCollision([[maybe_unused]] Collis
 
 	//if (!otherCol || otherCol == this) return;
 
+	if (m_CollisionType) return;
 
 	const Rectf otherColl = *otherCol->GetCollision();
 
@@ -97,8 +98,35 @@ void OhDeerEngine::CollisionComponent::CheckForCollision([[maybe_unused]] Collis
 		return;
 	}
 
-	m_pParent->OnTrigger(m_pParent, otherCol->GetParent(), GameObject::TriggerAction::ENTER);
+	//if (m_pCollisionBox->left+ m_pCollisionBox->width/2.f >= otherColl.left && 
+	//	m_pCollisionBox->left + m_pCollisionBox->width / 2.f <= otherColl.left + otherColl.width &&
+	//	m_pCollisionBox->bottom + m_pCollisionBox->height / 2.f >= otherColl.bottom && 
+	//	m_pCollisionBox->bottom + m_pCollisionBox->height / 2.f <= otherColl.bottom + otherColl.height)
+		m_pParent->OnTrigger(m_pParent, otherCol->GetParent(), GameObject::TriggerAction::ENTER);
 
+
+}
+
+bool OhDeerEngine::CollisionComponent::IsPointInRect(const glm::vec2& point, const Rectf& otherObject)
+{
+	if (m_CollisionType) return false;
+
+	return (point.x >= otherObject.left && point.x <= otherObject.left + otherObject.width &&
+		point.y >= otherObject.bottom && point.y <= otherObject.bottom + otherObject.height);
+}
+
+bool OhDeerEngine::CollisionComponent::IsPointInRect(CollisionComponent* otherCol)
+{
+	if (m_CollisionType) return false;
+
+	const Rectf otherColl = *otherCol->GetCollision();
+
+	if (m_pCollisionBox->left + m_pCollisionBox->width / 2.f >= otherColl.left &&
+		m_pCollisionBox->left + m_pCollisionBox->width / 2.f <= otherColl.left + otherColl.width &&
+		m_pCollisionBox->bottom + m_pCollisionBox->height / 2.f >= otherColl.bottom &&
+		m_pCollisionBox->bottom + m_pCollisionBox->height / 2.f <= otherColl.bottom + otherColl.height)
+		return true;
+	return false;
 }
 
 //void OhDeerEngine::CollisionComponent::CheckChildrenForCollision(const std::vector<CollisionComponent*>& vColComps)
@@ -122,7 +150,7 @@ void OhDeerEngine::CollisionComponent::Update([[maybe_unused]] const float delta
 		throw std::runtime_error(std::string("Trying to move a static Collider"));
 	}
 
-	
+
 }
 
 void OhDeerEngine::CollisionComponent::Render() const

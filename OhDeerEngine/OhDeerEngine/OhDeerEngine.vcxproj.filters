@@ -67,6 +67,9 @@
     <ClInclude Include="ScoreObserver.h">
       <Filter>Observers</Filter>
     </ClInclude>
+    <ClInclude Include="Subject.h">
+      <Filter>Observers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OhDeer.cpp">
@@ -121,6 +124,9 @@
       <Filter>Observers</Filter>
     </ClCompile>
     <ClCompile Include="ScoreObserver.cpp">
+      <Filter>Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="Subject.cpp">
       <Filter>Observers</Filter>
     </ClCompile>
   </ItemGroup>

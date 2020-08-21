@@ -91,22 +91,34 @@ the nobbins move only through predefined hallways
 the hobbins make their own hallways
 
 
-first make the landscape maybe
-
-
-
-
-//======= terrain
-
- 
- 
 needed for game:
- - score
-	-> saving of scores
- - lifes
- - enemy behaviour
- - destructable map
- - pickups -> collision
- - level loader
- - reading of info files
- - input manager -> controller support -> this might be working already
+Digger automatically records the top 10 high scores and the players' initials in a file. 
+	NOTE! the online emulator linked in this assignment does not allow the entry of initials, 
+	a feature your game should have! These high scores can be seen in the startup screen!
+	
+initials done!
+now to make it so that they get saved
+	
+With every 20,000 points, you earn an extra life.
+
+     Nobbins ................... 250
+     Hobbins ................... 250
+     Emeralds ..................  25
+     Gold Nuggets .............. 500
+
+Bonus points:
+     8 Emeralds in a row ....... 250
+
+ 
+ 
+needed for engine:
+Use the minigin project as a start point for your game engine. check
+There are at least two projects in your VS solution: the game engine and the game. check
+Make sure the project builds for all build targets at warning level 4 and warnings flagged as errors.
+Apply all best practices we’ve seen
+Apply software design patterns and game programming patterns as you see fit, 
+	but we expect to see at least Game Loop, Update method, Command, State, Observer and Component.
+Use threading in your engine, carefully think where you can apply this.
+You must use a public git repo. Make sure you use it from the start, so we are able to see all you commits and progress. 
+	Only pushing your code in one go at the end of the deadline is regarded as "didn't use git".
+Use Visual Studio 2019

@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "CollisionComponent.h"
 #include "Observer.h"
+#include "Subject.h"
 
 OhDeerEngine::Scene::Scene(const std::string& name) : m_Name(name)
 {
@@ -12,6 +13,11 @@ OhDeerEngine::Scene::Scene(const std::string& name) : m_Name(name)
 OhDeerEngine::Scene::~Scene()
 {
 	SafeDelete(Subject);
+	//if (Subject != NULL)
+	//{
+	//	delete Subject;
+	//	Subject = nullptr;
+	//}
 	for (auto pObj : m_Objects)
 	{
 		SafeDelete(pObj);
@@ -66,56 +72,5 @@ void OhDeerEngine::Scene::Render() const
 	for (const auto& object : Subject->Objects)
 	{
 		object->Render();
-	}
-}
-
-
-
-
-//subject
-OhDeerEngine::Subject::~Subject()
-{
-	for (auto pObs :Observers)
-	{
-		SafeDelete(pObs);
-	}
-	for (auto pObj :Objects)
-	{
-		SafeDelete(pObj);
-	}
-}
-
-void OhDeerEngine::Subject::RegisterObserver(Observer* pObserver)
-{
-	for (Observer* pComp : Observers)
-	{
-
-		if (typeid(*pComp) == typeid(*pObserver))
-		{
-			throw std::exception("RegisterObserver: This observer already exists");
-		}
-	}
-	Observers.push_back(pObserver);
-}
-
-bool OhDeerEngine::Subject::UnRegisterObserver(Observer* pObserver)
-{
-	auto it = std::find_if(Observers.cbegin(), Observers.cend(), [pObserver](Observer* pObs)
-		{
-			return typeid(*pObs) == typeid(*pObserver);
-		});
-	if (it != Observers.cend())
-	{
-		Observers.erase(it);
-		return true;
-	}
-	return false;
-}
-
-void OhDeerEngine::Subject::NotifyAllObservers(const uint8_t event)
-{
-	for (Observer* pObs : Observers)
-	{
-		pObs->OnNotify(event);
 	}
 }

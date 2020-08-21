@@ -1,21 +1,23 @@
+#include "SceneManager.h"
+#include "SceneManager.h"
+#include "SceneManager.h"
 #include "OhDeerPCH.h"
 #include "SceneManager.h"
 #include "Scene.h"
 #include "InputManager.h"
+#include "Subject.h"
+#include "Observer.h"
 
 void OhDeerEngine::SceneManager::Update(float deltaT)
 {
-	//for(auto& scene : m_Scenes)
-	//{
-	//	if (!scene->m_IsActive) continue;
-	//	scene->BaseUpdate(deltaT);
-	//}
-
-
-
-
-
 	m_Scenes[m_ActiveScene]->BaseUpdate(deltaT);
+	//DEBUG BUTTONS
+	//if (InputManager::GetInstance().IsPressed(SDLK_p)) PreviousScene();
+
+	if (InputManager::GetInstance().IsPressed(SDLK_n))
+	{
+		NextSceneWithSubject();
+	}
 }
 
 void OhDeerEngine::SceneManager::FixedUpdate(float deltaT)
@@ -26,9 +28,6 @@ void OhDeerEngine::SceneManager::FixedUpdate(float deltaT)
 	//	scene->FixedUpdate(deltaT);
 	//}
 	m_Scenes[m_ActiveScene]->FixedUpdate(deltaT);
-	//DEBUG BUTTONS
-	if (InputManager::GetInstance().IsPressed(SDLK_p)) PreviousScene();
-	if (InputManager::GetInstance().IsPressed(SDLK_n)) NextScene();
 }
 
 void OhDeerEngine::SceneManager::Render()
@@ -41,6 +40,11 @@ void OhDeerEngine::SceneManager::Render()
 	m_Scenes[m_ActiveScene]->Render();
 }
 
+std::vector<OhDeerEngine::Scene*> OhDeerEngine::SceneManager::GetScenes() const
+{
+	return m_Scenes;
+}
+
 OhDeerEngine::Scene* OhDeerEngine::SceneManager::GetActiveScene() const
 {
 	return m_Scenes[m_ActiveScene];
@@ -51,7 +55,25 @@ void OhDeerEngine::SceneManager::NextScene()
 	if (m_ActiveScene + 1 != m_Scenes.size())
 	{
 		m_ActiveScene++;
-		m_Scenes[m_ActiveScene]->Subject = (m_Scenes[m_ActiveScene - 1]->Subject);
+	}
+}
+
+void OhDeerEngine::SceneManager::NextScene(OhDeerEngine::Subject* pSubject)
+{
+
+	if (m_ActiveScene + 1 != m_Scenes.size())
+	{
+		m_ActiveScene++;
+		m_Scenes[m_ActiveScene]->Subject->operator=(*pSubject);
+	}
+}
+
+void OhDeerEngine::SceneManager::NextSceneWithSubject()
+{
+	if (m_ActiveScene + 1 != m_Scenes.size())
+	{
+		m_ActiveScene++;
+		m_Scenes[m_ActiveScene]->Subject->operator=(*m_Scenes[m_ActiveScene - 1]->Subject);
 	}
 }
 
@@ -79,9 +101,28 @@ void OhDeerEngine::SceneManager::AddGameScene(OhDeerEngine::Scene* pScene)
 	}
 }
 
+OhDeerEngine::Scene* OhDeerEngine::SceneManager::GetScene(const std::string& name)const
+{
+	for (size_t i = 0; i < m_Scenes.size(); i++)
+	{
+		if (m_Scenes[i]->m_Name == name) return m_Scenes[i];
+	}
+	return nullptr;
+}
+
+OhDeerEngine::Scene* OhDeerEngine::SceneManager::GetScene(size_t index) const
+{
+	if (index > 0 || index < m_Scenes.size())
+		return m_Scenes[index];
+
+	return nullptr;
+}
+
 OhDeerEngine::SceneManager::~SceneManager()
 {
-	for (auto pScene : m_Scenes) 
+	//SafeDelete(m_Scenes[m_ActiveScene]->Subject);
+
+	for (auto pScene : m_Scenes)
 	{
 		SafeDelete(pScene);
 	}
