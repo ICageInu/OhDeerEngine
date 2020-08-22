@@ -6,7 +6,7 @@
 #include "Scene.h"
 #include "Subject.h"
 
-OhDeerEngine::ScoreObserver::ScoreObserver(TextComponent* pScore) :
+ScoreObserver::ScoreObserver(OhDeerEngine::TextComponent* pScore) :
 	Observer(),
 	m_pScore{ pScore },
 	m_ScoreValue{0},
@@ -15,7 +15,7 @@ OhDeerEngine::ScoreObserver::ScoreObserver(TextComponent* pScore) :
 }
 
 //n for nobbins,h for hobbins, e for emeralds, g, for gold, l for level
-void OhDeerEngine::ScoreObserver::OnNotify(const char eventType)
+void ScoreObserver::OnNotify(const char eventType)
 {
 	switch (eventType)
 	{

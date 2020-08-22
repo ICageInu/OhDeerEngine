@@ -28,6 +28,7 @@ namespace OhDeerEngine
 		void SetDimensions(const glm::vec2& dimensions);
 		void EnableTrigger(bool isTrigger);
 		void EnableStatic(bool isStatic);
+		bool GetIsStatic()const;
 		glm::vec2 GetDimensions()const;
 		Rectf* GetCollision()const;
 		//getters
@@ -35,7 +36,9 @@ namespace OhDeerEngine
 		float GetHeight()const;
 		float GetWidth()const;
 		void CheckForCollision(CollisionComponent* otherObject);
+		bool IsOverlapping(CollisionComponent* otherObject);
 		bool IsPointInRect(const glm::vec2& point,const Rectf& otherObject);
+		bool IsPointInRect(const glm::vec2& point,Rectf* pOtherObject);
 		bool IsPointInRect(CollisionComponent* otherObject);
 		//void CheckChildrenForCollision(const std::vector<CollisionComponent*>& otherObject);
 		void Update(const float deltaT) override;

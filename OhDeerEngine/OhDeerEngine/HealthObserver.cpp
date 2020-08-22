@@ -5,7 +5,7 @@
 #include "Scene.h"
 #include "Subject.h"
 
-OhDeerEngine::HealthObserver::HealthObserver(const std::array<RenderComponent*, 5>& rendercomps) :
+HealthObserver::HealthObserver(const std::array<OhDeerEngine::RenderComponent*, 5>& rendercomps) :
 	OhDeerEngine::Observer(),
 	m_Lives{ rendercomps },
 	m_AmountHealth{ 3 }
@@ -19,7 +19,7 @@ OhDeerEngine::HealthObserver::HealthObserver(const std::array<RenderComponent*, 
 
 //there will be a couple different eventTypes,just to make it so that we can differentiate between what's picked up
 //use first letter of the event
-void OhDeerEngine::HealthObserver::OnNotify(const char eventType)
+void HealthObserver::OnNotify(const char eventType)
 {
 
 	switch (eventType)

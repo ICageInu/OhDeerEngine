@@ -36,9 +36,11 @@ void MainGame::LoadGame() const
 	//{
 	//	//debug level
 	//	auto test = SceneManager::GetInstance().CreateScene("debug");
-	//	auto player = factory.MakePlayer({150,150}, 30, 30);
+	//	auto player = factory.MakePlayer({ 150,150 }, 30, 30);
 	//	auto emerald = factory.MakeEmerald({ 250,250 }, 30, 30);
+	//	auto nobbin = factory.MakeEnemyStart({ 50, 50 }, 30, 30,1);
 	//	test->Add(emerald);
+	//	test->Add(nobbin);
 	//	test->Add(player);
 	//}
 

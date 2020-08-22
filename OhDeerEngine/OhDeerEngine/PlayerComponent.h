@@ -25,7 +25,7 @@ public:
 
 	void SetPlayerId(int id);
 	void Respawn();
-
+	void SetController(bool useController);
 	void SetKeyboardKeys(const SDL_Keycode& up, const SDL_Keycode& down, const SDL_Keycode& left, const SDL_Keycode& right);
 
 	//actions able to be done through commands

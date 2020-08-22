@@ -58,13 +58,7 @@
     <ClInclude Include="BaseCharComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="HealthObserver.h">
-      <Filter>Observers</Filter>
-    </ClInclude>
     <ClInclude Include="Observer.h">
-      <Filter>Observers</Filter>
-    </ClInclude>
-    <ClInclude Include="ScoreObserver.h">
       <Filter>Observers</Filter>
     </ClInclude>
     <ClInclude Include="Subject.h">
@@ -119,12 +113,6 @@
     </ClCompile>
     <ClCompile Include="BaseCharComponent.cpp">
       <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="HealthObserver.cpp">
-      <Filter>Observers</Filter>
-    </ClCompile>
-    <ClCompile Include="ScoreObserver.cpp">
-      <Filter>Observers</Filter>
     </ClCompile>
     <ClCompile Include="Subject.cpp">
       <Filter>Observers</Filter>

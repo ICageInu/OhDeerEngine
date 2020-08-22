@@ -11,7 +11,7 @@
 OhDeerEngine::CollisionComponent::CollisionComponent(const glm::vec2& pos, float width, float height, bool drawRect) :
 	m_DrawRect{ drawRect }
 {
-	m_pCollisionBox = new Rectf(pos.x,pos.y,width,height);
+	m_pCollisionBox = new Rectf(pos.x, pos.y, width, height);
 	//m_pCollisionBox->left = pos.x;
 	//m_pCollisionBox->bottom = pos.y;
 	//m_pCollisionBox->width = width;
@@ -55,6 +55,11 @@ void OhDeerEngine::CollisionComponent::EnableStatic(bool isStatic)
 	m_CollisionType = CollisionType(isStatic);
 }
 
+bool OhDeerEngine::CollisionComponent::GetIsStatic() const
+{
+	return m_CollisionType;
+}
+
 glm::vec2 OhDeerEngine::CollisionComponent::GetDimensions() const
 {
 	return glm::vec2(m_pCollisionBox->width, m_pCollisionBox->height);
@@ -82,29 +87,27 @@ float OhDeerEngine::CollisionComponent::GetWidth() const
 
 void OhDeerEngine::CollisionComponent::CheckForCollision([[maybe_unused]] CollisionComponent* otherCol)
 {
-	//if (!GetParent()->IsActive) return;
-	//if (otherCol->GetParent()->GetChildren().size() != 0)CheckChildrenForCollision(otherCol->GetParent()->GetChildren());
-
-	//if (!otherCol || otherCol == this) return;
 
 	if (m_CollisionType) return;
 
-	const Rectf otherColl = *otherCol->GetCollision();
 
 	// If one rectangle is on left side of the other or under the other
-	if ((m_pCollisionBox->left + m_pCollisionBox->width) < otherColl.left || (otherColl.left + otherColl.width) < m_pCollisionBox->left
-		|| m_pCollisionBox->bottom > (otherColl.bottom + otherColl.height) || otherColl.bottom > (m_pCollisionBox->bottom + m_pCollisionBox->height)		)
-	{
-		return;
-	}
 
-	//if (m_pCollisionBox->left+ m_pCollisionBox->width/2.f >= otherColl.left && 
-	//	m_pCollisionBox->left + m_pCollisionBox->width / 2.f <= otherColl.left + otherColl.width &&
-	//	m_pCollisionBox->bottom + m_pCollisionBox->height / 2.f >= otherColl.bottom && 
-	//	m_pCollisionBox->bottom + m_pCollisionBox->height / 2.f <= otherColl.bottom + otherColl.height)
+	if (IsOverlapping(otherCol))
 		m_pParent->OnTrigger(m_pParent, otherCol->GetParent(), GameObject::TriggerAction::ENTER);
 
+}
 
+bool OhDeerEngine::CollisionComponent::IsOverlapping(CollisionComponent* otherObject)
+{
+
+	const Rectf otherColl = *otherObject->GetCollision();
+	if ((m_pCollisionBox->left + m_pCollisionBox->width) < otherColl.left || (otherColl.left + otherColl.width) < m_pCollisionBox->left
+		|| m_pCollisionBox->bottom > (otherColl.bottom + otherColl.height) || otherColl.bottom > (m_pCollisionBox->bottom + m_pCollisionBox->height))
+	{
+		return false;
+	}
+	return true;
 }
 
 bool OhDeerEngine::CollisionComponent::IsPointInRect(const glm::vec2& point, const Rectf& otherObject)
@@ -113,6 +116,13 @@ bool OhDeerEngine::CollisionComponent::IsPointInRect(const glm::vec2& point, con
 
 	return (point.x >= otherObject.left && point.x <= otherObject.left + otherObject.width &&
 		point.y >= otherObject.bottom && point.y <= otherObject.bottom + otherObject.height);
+}
+bool OhDeerEngine::CollisionComponent::IsPointInRect(const glm::vec2& point, Rectf* pOtherObject)
+{
+	if (m_CollisionType) return false;
+
+	return (point.x >= pOtherObject->left && point.x <= pOtherObject->left + pOtherObject->width &&
+		point.y >= pOtherObject->bottom && point.y <= pOtherObject->bottom + pOtherObject->height);
 }
 
 bool OhDeerEngine::CollisionComponent::IsPointInRect(CollisionComponent* otherCol)

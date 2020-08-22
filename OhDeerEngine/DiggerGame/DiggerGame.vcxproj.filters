@@ -12,7 +12,18 @@
     <ClCompile Include="EnemyComponent.cpp">
       <Filter>GameComponents</Filter>
     </ClCompile>
-    <ClCompile Include="PickupComponent.cpp" />
+    <ClCompile Include="..\OhDeerEngine\ScoreObserver.cpp">
+      <Filter>observers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OhDeerEngine\HealthObserver.cpp">
+      <Filter>observers</Filter>
+    </ClCompile>
+    <ClCompile Include="PickupComponent.cpp">
+      <Filter>GameComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyStartComponent.cpp">
+      <Filter>GameComponents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -37,7 +48,18 @@
     <ClInclude Include="EnemyComponent.h">
       <Filter>GameComponents</Filter>
     </ClInclude>
-    <ClInclude Include="PickupComponent.h" />
+    <ClInclude Include="..\OhDeerEngine\ScoreObserver.h">
+      <Filter>observers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OhDeerEngine\HealthObserver.h">
+      <Filter>observers</Filter>
+    </ClInclude>
+    <ClInclude Include="PickupComponent.h">
+      <Filter>GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyStartComponent.h">
+      <Filter>GameComponents</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="GameComponents">
@@ -48,6 +70,9 @@
     </Filter>
     <Filter Include="headerFiles">
       <UniqueIdentifier>{0a055615-aded-4b9e-abdb-6244a629a48e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="observers">
+      <UniqueIdentifier>{8ffcc5ca-7f66-4705-bc56-2719e4b26267}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

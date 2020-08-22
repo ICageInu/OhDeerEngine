@@ -35,7 +35,7 @@ public:
 		playerPos = { screenWidth / 2.0f, screenHeight - (float)objHeight };
 		playerWidth = (float)objWidth;
 		playerHeight = (float)objHeight;
-
+		int amountEnemiesALevel{ 2 };
 
 		if (file.is_open())
 		{
@@ -48,9 +48,9 @@ public:
 				{
 					level++;
 					pScene = OhDeerEngine::SceneManager::GetInstance().CreateScene(std::to_string(level));
-
-					auto pPlayer = factory.MakePlayer(playerPos, (float)objWidth, (float)objHeight);
-					pScene->Add(pPlayer);
+					amountEnemiesALevel++;
+					//auto pPlayer = factory.MakePlayer(playerPos, (float)objWidth, (float)objHeight);
+					//pScene->Add(pPlayer);
 					pScene->Add(factory.MakeFPS());
 					vertCounter = { 1 };
 					line = line.substr(1);
@@ -67,15 +67,15 @@ public:
 						switch (line[0])
 						{
 						case ' ':
-							factory.MakeLevel(pScene, { objWidth * horzCounter,objHeight * vertCounter
+							factory.AddLevel(pScene, { objWidth * horzCounter,objHeight * vertCounter
 								}, (float)objWidth, (float)objHeight);
 							horzCounter++;
 							break;
 						case 'B':
-							factory.MakeLevel(pScene, { objWidth * horzCounter,objHeight * vertCounter
+							factory.AddLevel(pScene, { objWidth * horzCounter,objHeight * vertCounter
 								}, (float)objWidth, (float)objHeight);
-							pScene->Add(factory.MakeMoneyBag({ objWidth * horzCounter,objHeight * vertCounter
-								}, (float)objWidth, (float)objHeight));
+							factory.AddMoneyBag(pScene,{ objWidth * horzCounter,objHeight * vertCounter
+								}, (float)objWidth, (float)objHeight);
 							horzCounter++;
 							break;
 						case 'H':
@@ -89,15 +89,15 @@ public:
 							horzCounter++;
 							break;
 						case 'C':
-							factory.MakeLevel(pScene,{ objWidth * horzCounter,objHeight * vertCounter
+							factory.AddLevel(pScene,{ objWidth * horzCounter,objHeight * vertCounter
 								}, (float)objWidth, (float)objHeight);
 							pScene->Add(factory.MakeEmerald({ objWidth * horzCounter,objHeight * vertCounter
 								}, (float)objWidth, (float)objHeight));
 							horzCounter++;
 							break;
 						case 'S':
-							pScene->Add(factory.MakeEnemyStart({ screenWidth - screenWidth * horzCounter,screenHeight - screenHeight * vertCounter
-								}, (float)screenWidth, (float)screenHeight));
+							pScene->Add(factory.MakeEnemyStart({ objWidth * horzCounter,objHeight * vertCounter
+								}, (float)objWidth, (float)objHeight, amountEnemiesALevel));
 							horzCounter++;
 							break;
 						}

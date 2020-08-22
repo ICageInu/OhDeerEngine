@@ -12,6 +12,7 @@
 #include "RenderComponent.h"
 #include "TextComponent.h"
 
+
 using namespace std;
 using namespace std::chrono;
 //16 for 60 fps, 33 for 30 fps
@@ -72,6 +73,8 @@ void OhDeerEngine::OhDeer::Run()
 		auto& sceneManager = SceneManager::GetInstance();
 		auto& input = InputManager::GetInstance();
 		input.Initialize();
+
+
 		//we want a normal update and a fixed update
 		auto lastTime = std::chrono::high_resolution_clock::now();
 		//this is for fixedupdate
@@ -97,7 +100,9 @@ void OhDeerEngine::OhDeer::Run()
 				lag -= SPerFrame;
 			}
 			//rendering after updates
+
 			renderer.Render();
+
 		}
 	}
 	Cleanup();

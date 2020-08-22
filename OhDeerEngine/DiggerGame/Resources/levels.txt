@@ -8,7 +8,7 @@ C = emerald
  = nothing
 and well one string is one line of the level
 LEVEL 1:
-{"S   B     HHHHS", 
+{"    B     HHHHS", 
   "V  CC  C  V B  ", 
   "VB CC  C  V    ", 
   "V  CCB CB V CCC", 
@@ -20,7 +20,7 @@ LEVEL 1:
   "CC  HHHHHHH  CC"} 
   
   LEVEL 2:
- {"SHHHHH  B B  HS",
+ {" HHHHH  B B  HS",
   " CC  V       V ",
   " CC  V CCCCC V ",
   "BCCB V CCCCC V ",
@@ -32,7 +32,7 @@ LEVEL 1:
   "CC   HHHHHH    "}
   
   LEVEL 3:
- {"SHHHHB B BHHHHS",
+ {" HHHHB B BHHHHS",
   "CC  V C C V BB ",
   "C   V C C V CC ",
   " BB V C C VCCCC",
@@ -44,7 +44,7 @@ LEVEL 1:
   "CC   C H C   CC"}
   
   LEVEL 4:
- {"SHBCCCCBCCCCBHS",
+ {" HBCCCCBCCCCBHS",
   "CV  CCCCCCC  VC",
   "CHHH CCCCC HHHC",
   "C  V  CCC  V  C",
@@ -56,7 +56,7 @@ LEVEL 1:
   "CCCCC CHC CCCCC"}
   
   LEVEL 5:
- {"SHHHHHHHHHHHHHS",
+ {" HHHHHHHHHHHHHS",
   "VBCCCCBVCCCCCCV",
   "VCCCCCCV CCBC V",
   "V CCCC VCCBCCCV",
@@ -68,7 +68,7 @@ LEVEL 1:
   "HHHHHHHHHHHHHHH"}
   
   LEVEL 6:
- {"SHHHHHHHHHHHHHS",
+ {" HHHHHHHHHHHHHS",
   "VCBCCV V VCCBCV",
   "VCCC VBVBV CCCV",
   "VCCCHH V HHCCCV",
@@ -80,7 +80,7 @@ LEVEL 1:
   "HHHHHHHHHHHHHHH"}
   
   LEVEL 7:
- {"SHCCCCCVCCCCCHS",
+ {" HCCCCCVCCCCCHS",
   " VCBCBCVCBCBCV ",
   "BVCCCCCVCCCCCVB",
   "CHHCCCCVCCCCHHC",

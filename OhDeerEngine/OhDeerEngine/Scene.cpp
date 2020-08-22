@@ -13,39 +13,43 @@ OhDeerEngine::Scene::Scene(const std::string& name) : m_Name(name)
 OhDeerEngine::Scene::~Scene()
 {
 	SafeDelete(Subject);
-	//if (Subject != NULL)
-	//{
-	//	delete Subject;
-	//	Subject = nullptr;
-	//}
+
 	for (auto pObj : m_Objects)
 	{
 		SafeDelete(pObj);
 	}
 }
 
+std::vector<OhDeerEngine::GameObject*> OhDeerEngine::Scene::GetObjects() const
+{
+	return m_Objects;
+}
+
 void OhDeerEngine::Scene::Add(GameObject* object)
 {
 	const auto& colComp = object->GetComponent<CollisionComponent>();
-	if (colComp) m_Collisions.push_back(colComp);
+	if (colComp && !colComp->GetIsStatic()) m_KinematicCollisions.push_back(colComp);
+	else if (colComp && colComp->GetIsStatic())m_StaticCollisions.push_back(colComp);
 	m_Objects.push_back(object);
 }
 
 void OhDeerEngine::Scene::BaseUpdate(float deltaT)
 {
-	for (auto& object : m_Objects)
+	for (size_t i = 0; i < m_Objects.size(); i++)
 	{
-		object->Update(deltaT);
+		m_Objects[i]->Update(deltaT);
 	}
 	for (auto& object : Subject->Objects)
 	{
 		object->Update(deltaT);
 	}
-	for (size_t i = 1; i < m_Collisions.size(); i++)
+	for (size_t i = 0; i < m_KinematicCollisions.size(); i++)
 	{
-		for (size_t j = 0; j < m_Collisions.size() - 1; j++)
+		if (i != 0)
+			m_KinematicCollisions[i]->CheckForCollision(m_KinematicCollisions[i - 1]);
+		for (size_t j = 0; j < m_StaticCollisions.size(); j++)
 		{
-			m_Collisions[i]->CheckForCollision(m_Collisions[j]);
+			m_KinematicCollisions[i]->CheckForCollision(m_StaticCollisions[j]);
 		}
 	}
 }

@@ -210,18 +210,24 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf\lib\x64\*.dll" "$(OutDir)" /y /D
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\OhDeerEngine\HealthObserver.cpp" />
     <ClCompile Include="..\OhDeerEngine\PlayerComponent.cpp" />
+    <ClCompile Include="..\OhDeerEngine\ScoreObserver.cpp" />
     <ClCompile Include="EnemyComponent.cpp" />
     <ClCompile Include="DiggerGame.cpp" />
+    <ClCompile Include="EnemyStartComponent.cpp" />
     <ClCompile Include="InputComponent.cpp" />
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="PickupComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\OhDeerEngine\Commands.h" />
+    <ClInclude Include="..\OhDeerEngine\HealthObserver.h" />
     <ClInclude Include="..\OhDeerEngine\LevelParser.h" />
     <ClInclude Include="..\OhDeerEngine\PlayerComponent.h" />
+    <ClInclude Include="..\OhDeerEngine\ScoreObserver.h" />
     <ClInclude Include="EnemyComponent.h" />
+    <ClInclude Include="EnemyStartComponent.h" />
     <ClInclude Include="Factory.h" />
     <ClInclude Include="HighscoreParser.h" />
     <ClInclude Include="InputComponent.h" />

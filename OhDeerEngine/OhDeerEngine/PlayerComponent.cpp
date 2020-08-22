@@ -22,6 +22,7 @@ PlayerComponent::PlayerComponent(OhDeerEngine::GameObject* pParent, OhDeerEngine
 	m_IsController{ isController }
 {
 	m_PosNextFrame = m_pParent->GetTransform()->GetPosition();
+	m_StartPos = m_PosNextFrame;
 }
 
 PlayerComponent::~PlayerComponent()
@@ -96,7 +97,15 @@ void PlayerComponent::SetPlayerId(int id)
 
 void PlayerComponent::Respawn()
 {
+	//m_pCollision->->SetPosition(m_StartPos);
+	m_PosNextFrame = m_StartPos;
 	m_pParent->GetTransform()->SetPosition(m_StartPos);
+}
+
+void PlayerComponent::SetController(bool useController)
+{
+	if (m_IsController)return;
+	m_IsController = useController;
 }
 
 void PlayerComponent::SetKeyboardKeys(const SDL_Keycode& up, const SDL_Keycode& down, const SDL_Keycode& left, const SDL_Keycode& right)
