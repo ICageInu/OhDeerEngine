@@ -8,14 +8,16 @@
 #include "Structs.h"
 #include "Renderer.h"
 
-OhDeerEngine::CollisionComponent::CollisionComponent(const glm::vec2& pos, float width, float height, bool drawRect) :
-	m_DrawRect{ drawRect }
+
+OhDeerEngine::CollisionComponent::CollisionComponent(const glm::vec2& pos, float width, float height,const glm::vec2& offset, bool drawRect) :
+	m_DrawRect{ drawRect },
+	m_Offset{offset}
 {
-	m_pCollisionBox = new Rectf(pos.x, pos.y, width, height);
-	//m_pCollisionBox->left = pos.x;
-	//m_pCollisionBox->bottom = pos.y;
-	//m_pCollisionBox->width = width;
-	//m_pCollisionBox->height = height;
+	m_pCollisionBox = new SDL_Rect();
+	m_pCollisionBox->x = (int)pos.x;
+	m_pCollisionBox->y = (int)pos.y;
+	m_pCollisionBox->w = (int)width;
+	m_pCollisionBox->h = (int)height;
 
 }
 
@@ -26,12 +28,12 @@ OhDeerEngine::CollisionComponent::~CollisionComponent()
 
 void OhDeerEngine::CollisionComponent::SetWidth(float width)
 {
-	m_pCollisionBox->width = width;
+	m_pCollisionBox->w = (int)width;
 }
 
 void OhDeerEngine::CollisionComponent::SetHeight(float height)
 {
-	m_pCollisionBox->height = height;
+	m_pCollisionBox->h = (int)height;
 }
 
 void OhDeerEngine::CollisionComponent::SetDimensions(float width, float height)
@@ -41,13 +43,8 @@ void OhDeerEngine::CollisionComponent::SetDimensions(float width, float height)
 
 void OhDeerEngine::CollisionComponent::SetDimensions(const glm::vec2& dimensions)
 {
-	m_pCollisionBox->width = dimensions.x;
-	m_pCollisionBox->height = dimensions.y;
-}
-
-void OhDeerEngine::CollisionComponent::EnableTrigger(bool isTrigger)
-{
-	m_IsTrigger = isTrigger;
+	m_pCollisionBox->w = (int)dimensions.x;
+	m_pCollisionBox->h = (int)dimensions.y;
 }
 
 void OhDeerEngine::CollisionComponent::EnableStatic(bool isStatic)
@@ -62,11 +59,12 @@ bool OhDeerEngine::CollisionComponent::GetIsStatic() const
 
 glm::vec2 OhDeerEngine::CollisionComponent::GetDimensions() const
 {
-	return glm::vec2(m_pCollisionBox->width, m_pCollisionBox->height);
+	return glm::vec2(m_pCollisionBox->w, m_pCollisionBox->h);
 }
 
-Rectf* OhDeerEngine::CollisionComponent::GetCollision() const
+SDL_Rect* OhDeerEngine::CollisionComponent::GetCollision() const
 {
+
 	return m_pCollisionBox;
 }
 
@@ -77,12 +75,12 @@ bool OhDeerEngine::CollisionComponent::IsTrigger() const
 
 float OhDeerEngine::CollisionComponent::GetHeight() const
 {
-	return m_pCollisionBox->height;
+	return float(m_pCollisionBox->h);
 }
 
 float OhDeerEngine::CollisionComponent::GetWidth() const
 {
-	return m_pCollisionBox->width;
+	return float(m_pCollisionBox->w);
 }
 
 void OhDeerEngine::CollisionComponent::CheckForCollision([[maybe_unused]] CollisionComponent* otherCol)
@@ -101,40 +99,53 @@ void OhDeerEngine::CollisionComponent::CheckForCollision([[maybe_unused]] Collis
 bool OhDeerEngine::CollisionComponent::IsOverlapping(CollisionComponent* otherObject)
 {
 
-	const Rectf otherColl = *otherObject->GetCollision();
-	if ((m_pCollisionBox->left + m_pCollisionBox->width) < otherColl.left || (otherColl.left + otherColl.width) < m_pCollisionBox->left
-		|| m_pCollisionBox->bottom > (otherColl.bottom + otherColl.height) || otherColl.bottom > (m_pCollisionBox->bottom + m_pCollisionBox->height))
+	const SDL_Rect otherColl = *otherObject->GetCollision();
+	if ((m_pCollisionBox->x + m_pCollisionBox->w) < otherColl.x || (otherColl.x + otherColl.w) < m_pCollisionBox->x
+		|| m_pCollisionBox->y > (otherColl.y + otherColl.h) || otherColl.y > (m_pCollisionBox->y + m_pCollisionBox->h))
 	{
 		return false;
 	}
 	return true;
 }
 
-bool OhDeerEngine::CollisionComponent::IsPointInRect(const glm::vec2& point, const Rectf& otherObject)
+bool OhDeerEngine::CollisionComponent::IsOverlapping(SDL_Rect* otherObj)
+{
+	if ((m_pCollisionBox->x + m_pCollisionBox->w) <= otherObj->x || (otherObj->x + otherObj->w) <= m_pCollisionBox->x
+		|| m_pCollisionBox->y >= (otherObj->y + otherObj->h) || otherObj->y >= (m_pCollisionBox->y + m_pCollisionBox->h))
+	{
+		return false;
+	}
+	return true;
+}
+
+bool OhDeerEngine::CollisionComponent::IsPointInRect(const glm::vec2& point, const SDL_Rect& otherObject)
 {
 	if (m_CollisionType) return false;
 
-	return (point.x >= otherObject.left && point.x <= otherObject.left + otherObject.width &&
-		point.y >= otherObject.bottom && point.y <= otherObject.bottom + otherObject.height);
+	return (point.x >= otherObject.x && point.x <= otherObject.x + otherObject.w &&
+		point.y >= otherObject.y && point.y <= otherObject.y + otherObject.h);
 }
-bool OhDeerEngine::CollisionComponent::IsPointInRect(const glm::vec2& point, Rectf* pOtherObject)
+//something seems to be going wrong
+bool OhDeerEngine::CollisionComponent::IsPointInRect(const glm::vec2& point, SDL_Rect* pOtherObject)
 {
 	if (m_CollisionType) return false;
 
-	return (point.x >= pOtherObject->left && point.x <= pOtherObject->left + pOtherObject->width &&
-		point.y >= pOtherObject->bottom && point.y <= pOtherObject->bottom + pOtherObject->height);
+	return (point.x >= pOtherObject->x && point.x <= pOtherObject->x + pOtherObject->w &&
+		point.y >= pOtherObject->y && point.y <= pOtherObject->y + pOtherObject->h);
 }
 
+//this one is for checking under the box
+//very specific case
 bool OhDeerEngine::CollisionComponent::IsPointInRect(CollisionComponent* otherCol)
 {
 	if (m_CollisionType) return false;
 
-	const Rectf otherColl = *otherCol->GetCollision();
+	const SDL_Rect otherColl = *otherCol->GetCollision();
 
-	if (m_pCollisionBox->left + m_pCollisionBox->width / 2.f >= otherColl.left &&
-		m_pCollisionBox->left + m_pCollisionBox->width / 2.f <= otherColl.left + otherColl.width &&
-		m_pCollisionBox->bottom + m_pCollisionBox->height / 2.f >= otherColl.bottom &&
-		m_pCollisionBox->bottom + m_pCollisionBox->height / 2.f <= otherColl.bottom + otherColl.height)
+	if (m_pCollisionBox->x + m_pCollisionBox->w / 2.f >= otherColl.x &&
+		m_pCollisionBox->x + m_pCollisionBox->w / 2.f <= otherColl.x + otherColl.w &&
+		m_pCollisionBox->y + m_pCollisionBox->h / 2.f >= otherColl.y &&
+		m_pCollisionBox->y + m_pCollisionBox->h / 2.f <= otherColl.y + otherColl.h)
 		return true;
 	return false;
 }
@@ -152,10 +163,10 @@ void OhDeerEngine::CollisionComponent::Update([[maybe_unused]] const float delta
 	if (!m_CollisionType)
 	{
 		glm::vec2 temp = m_pParent->GetTransform()->GetPosition();
-		m_pCollisionBox->left = temp.x;
-		m_pCollisionBox->bottom = temp.y;
+		m_pCollisionBox->x = int(temp.x + m_Offset.x);
+		m_pCollisionBox->y = int(temp.y+ m_Offset.y);
 	}
-	if (m_CollisionType && glm::vec2(m_pCollisionBox->left, m_pCollisionBox->bottom) != m_pParent->GetTransform()->GetPosition())
+	if (m_CollisionType && glm::vec2(m_pCollisionBox->x + m_Offset.x, m_pCollisionBox->y + m_Offset.y) != m_pParent->GetTransform()->GetPosition())
 	{
 		throw std::runtime_error(std::string("Trying to move a static Collider"));
 	}
@@ -167,13 +178,9 @@ void OhDeerEngine::CollisionComponent::Render() const
 {
 	if (m_DrawRect)
 	{
-		SDL_Rect rect{};
-		rect.x = (int)m_pCollisionBox->left;
-		rect.y = (int)m_pCollisionBox->bottom;
-		rect.w = (int)m_pCollisionBox->width;
-		rect.h = (int)m_pCollisionBox->height;
+
 		SDL_SetRenderDrawColor(Renderer::GetInstance().GetSDLRenderer(), 255, 255, 255, 255);
-		SDL_RenderDrawRect(Renderer::GetInstance().GetSDLRenderer(), &rect);
+		SDL_RenderDrawRect(Renderer::GetInstance().GetSDLRenderer(), m_pCollisionBox);
 		SDL_SetRenderDrawColor(Renderer::GetInstance().GetSDLRenderer(), 0, 0, 0, 0);
 	}
 }

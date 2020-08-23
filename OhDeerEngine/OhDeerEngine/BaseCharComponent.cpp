@@ -6,12 +6,25 @@
 #include "CollisionComponent.h"
 
 
-OhDeerEngine::BaseCharComponent::BaseCharComponent(GameObject* pParent, RenderComponent* pTexture, CollisionComponent* pCollider, CharType chartype) :
+OhDeerEngine::BaseCharComponent::BaseCharComponent(GameObject* pParent, RenderComponent* pTexture, CollisionComponent* pCollider, CharType chartype,bool isController) :
 	m_PosNextFrame{},
 	m_pCollision{ pCollider },
 	m_pTexture{ pTexture },
 	m_ScoreOnDeath{ 0 },
-	m_CharType{ chartype }
+	m_CharType{ chartype },
+	m_KeyUp{},
+	m_KeyDown{},
+	m_KeyLeft{},
+	m_KeyRight{},
+	m_KeyActionOne{},
+	m_KeyActionTwo{},
+	m_KeyActionThree{},
+	m_KeyActionFour{},
+	m_ButtonA{ nullptr },
+	m_ButtonB{ nullptr },
+	m_ButtonY{ nullptr },
+	m_ButtonX{ nullptr },
+	m_IsController{ isController }
 {
 	m_MovementSpeed = 50;
 	pParent->AddComponent(this);
@@ -49,4 +62,33 @@ void OhDeerEngine::BaseCharComponent::Move()
 
 	m_pParent->GetTransform()->SetPosition(m_PosNextFrame);
 
+}
+
+
+void OhDeerEngine::BaseCharComponent::BindActionA(Command* newCommand)
+{
+	m_ButtonA = newCommand;
+}
+
+void OhDeerEngine::BaseCharComponent::BindActionB(Command* newCommand)
+{
+	m_ButtonB = newCommand;
+}
+
+void OhDeerEngine::BaseCharComponent::BindActionY(Command* newCommand)
+{
+	m_ButtonY = newCommand;
+}
+
+void OhDeerEngine::BaseCharComponent::BindActionX(Command* newCommand)
+{
+	m_ButtonX = newCommand;
+}
+
+void OhDeerEngine::BaseCharComponent::SetKeyboardKeys(const SDL_Keycode& up, const SDL_Keycode& down, const SDL_Keycode& left, const SDL_Keycode& right)
+{
+	m_KeyUp = up;
+	m_KeyDown = down;
+	m_KeyLeft = left;
+	m_KeyRight = right;
 }

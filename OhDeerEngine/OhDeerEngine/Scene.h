@@ -29,6 +29,7 @@ namespace OhDeerEngine
 
 		Subject* Subject = nullptr;
 		std::vector <GameObject*> GetObjects()const;
+		std::vector <CollisionComponent*> GetStaticCollisions()const;
 		
 
 	private:

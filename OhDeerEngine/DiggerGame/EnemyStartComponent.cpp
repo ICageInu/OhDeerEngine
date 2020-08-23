@@ -7,7 +7,7 @@ EnemyStartComponent::EnemyStartComponent(int amountEnemies, float enemyWidth, fl
 	m_SpawnTimer{ m_SpawnTimerMax },
 	m_EnemyWidth{ enemyWidth },
 	m_EnemyHeight{ enemyHeight },
-	m_AmountEnemies{ amountEnemies }
+	m_AmountEnemies{ 1 }
 {
 
 }

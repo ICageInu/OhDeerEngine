@@ -3,20 +3,11 @@
   <ItemGroup>
     <ClCompile Include="DiggerGame.cpp" />
     <ClCompile Include="MainGame.cpp" />
-    <ClCompile Include="..\OhDeerEngine\PlayerComponent.cpp">
-      <Filter>GameComponents</Filter>
-    </ClCompile>
     <ClCompile Include="InputComponent.cpp">
       <Filter>GameComponents</Filter>
     </ClCompile>
     <ClCompile Include="EnemyComponent.cpp">
       <Filter>GameComponents</Filter>
-    </ClCompile>
-    <ClCompile Include="..\OhDeerEngine\ScoreObserver.cpp">
-      <Filter>observers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\OhDeerEngine\HealthObserver.cpp">
-      <Filter>observers</Filter>
     </ClCompile>
     <ClCompile Include="PickupComponent.cpp">
       <Filter>GameComponents</Filter>
@@ -24,18 +15,18 @@
     <ClCompile Include="EnemyStartComponent.cpp">
       <Filter>GameComponents</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerComponent.cpp">
+      <Filter>GameComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthObserver.cpp">
+      <Filter>observers</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreObserver.cpp">
+      <Filter>observers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
-    <ClInclude Include="..\OhDeerEngine\PlayerComponent.h">
-      <Filter>GameComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="..\OhDeerEngine\LevelParser.h">
-      <Filter>Parsers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\OhDeerEngine\Commands.h">
-      <Filter>headerFiles</Filter>
-    </ClInclude>
     <ClInclude Include="Factory.h">
       <Filter>headerFiles</Filter>
     </ClInclude>
@@ -48,17 +39,26 @@
     <ClInclude Include="EnemyComponent.h">
       <Filter>GameComponents</Filter>
     </ClInclude>
-    <ClInclude Include="..\OhDeerEngine\ScoreObserver.h">
-      <Filter>observers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\OhDeerEngine\HealthObserver.h">
-      <Filter>observers</Filter>
-    </ClInclude>
     <ClInclude Include="PickupComponent.h">
       <Filter>GameComponents</Filter>
     </ClInclude>
     <ClInclude Include="EnemyStartComponent.h">
       <Filter>GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerComponent.h">
+      <Filter>GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthObserver.h">
+      <Filter>observers</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreObserver.h">
+      <Filter>observers</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelParser.h">
+      <Filter>Parsers</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandsOverrides.h">
+      <Filter>headerFiles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

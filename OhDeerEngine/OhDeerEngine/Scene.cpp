@@ -1,3 +1,4 @@
+#include "Scene.h"
 #include "OhDeerPCH.h"
 #include "Scene.h"
 #include "GameObject.h"
@@ -23,6 +24,11 @@ OhDeerEngine::Scene::~Scene()
 std::vector<OhDeerEngine::GameObject*> OhDeerEngine::Scene::GetObjects() const
 {
 	return m_Objects;
+}
+
+std::vector<OhDeerEngine::CollisionComponent*> OhDeerEngine::Scene::GetStaticCollisions() const
+{
+	return m_StaticCollisions;
 }
 
 void OhDeerEngine::Scene::Add(GameObject* object)

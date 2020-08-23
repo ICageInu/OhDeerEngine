@@ -17,6 +17,8 @@
 #include "EnemyStartComponent.h"
 #include "TransformComponent.h"
 #include "FPSComponent.h"
+#include "Scene.h"
+#include "CommandsOverrides.h"
 class Factory
 {
 public:
@@ -27,8 +29,7 @@ public:
 		auto pPlayerTexture = new OhDeerEngine::RenderComponent();
 		pPlayerTexture->SetTexture(OhDeerEngine::ResourceManager::GetInstance().LoadTexture("digger.png"), (int)width, (int)height);
 		//pPlayerTexture->AddRectangleToDraw(150, 150);
-		auto pPlayerCol = new OhDeerEngine::CollisionComponent(pos, width, height, true);
-		pPlayerCol->EnableTrigger(true);
+		auto pPlayerCol = new OhDeerEngine::CollisionComponent(pos, width, height, {}, true);
 		auto pPlayerComp = new PlayerComponent(pPlayer, pPlayerTexture, pPlayerCol);
 		auto lambdaTrigger = [](OhDeerEngine::GameObject* ob1, OhDeerEngine::GameObject* ob2, OhDeerEngine::GameObject::TriggerAction)
 		{
@@ -62,18 +63,24 @@ public:
 		return pPlayer;
 	}
 
-	inline OhDeerEngine::GameObject* MakeNobbin(OhDeerEngine::GameObject* pPlayer,const glm::vec2& pos, float width, float height)
+	inline OhDeerEngine::GameObject* MakeNobbin(OhDeerEngine::GameObject* pPlayer, const glm::vec2& pos, float width, float height)
 	{
 		OhDeerEngine::GameObject* pNobbin = new OhDeerEngine::GameObject(pos);
 		pNobbin->SetTag("enemy");
 		auto pEnemyTexture = new OhDeerEngine::RenderComponent();
 		pEnemyTexture->SetTexture(OhDeerEngine::ResourceManager::GetInstance().LoadTexture("hobbin.png"), (int)width, (int)height);
 		//pPlayerTexture->AddRectangleToDraw(150, 150);
-		auto pEnemyCol = new OhDeerEngine::CollisionComponent(pos, width, height, true);
-		pEnemyCol->EnableTrigger(true);
-		auto lambdaTrigger = [](OhDeerEngine::GameObject* ob1, OhDeerEngine::GameObject* ob2, OhDeerEngine::GameObject::TriggerAction)
+		const glm::vec2 colOffset{ width / 8.f, height / 8.f };
+		const float colWidth{ width - width / 4.f };
+		const float colHeight{ height - height / 4.f };
+		auto pEnemyCol = new OhDeerEngine::CollisionComponent(pos, colWidth, colHeight, colOffset, true);
+		auto pEnemyComp = new EnemyComponent(pPlayer, pNobbin, pEnemyTexture, pEnemyCol);
+		auto lambdaTrigger = [&pEnemyComp](OhDeerEngine::GameObject* ob1, OhDeerEngine::GameObject* ob2, OhDeerEngine::GameObject::TriggerAction)
 		{
 			if (!ob2->IsActive)return;
+
+
+
 
 			if (ob2->GetComponent<PlayerComponent>())
 			{
@@ -83,7 +90,7 @@ public:
 
 		};
 		pNobbin->SetOnTriggerCallBack(lambdaTrigger);
-		auto pEnemyComp = new EnemyComponent(pPlayer,pNobbin, pEnemyTexture, pEnemyCol);
+
 
 		return pNobbin;
 	}
@@ -111,7 +118,7 @@ public:
 				pTex->SetTexture(OhDeerEngine::ResourceManager::GetInstance().LoadTexture("wall" + std::to_string(i + 1) + std::to_string(j + 1) + png), (int)widthObj, (int)heightObj);
 
 				//collisions
-				auto pCol = new OhDeerEngine::CollisionComponent(posObj, widthObj, heightObj, true);
+				auto pCol = new OhDeerEngine::CollisionComponent(posObj, widthObj, heightObj,{}, true);
 				pCol->EnableStatic(true);
 
 				pLevel->AddComponent(pCol);
@@ -127,7 +134,7 @@ public:
 	{
 		OhDeerEngine::GameObject* pEmerald = new OhDeerEngine::GameObject(pos);
 		pEmerald->SetTag("Emerald");
-		auto pCol = new OhDeerEngine::CollisionComponent(pos, width, height, true);
+		auto pCol = new OhDeerEngine::CollisionComponent(pos, width, height,{}, true);
 		pCol->EnableStatic(true);
 		auto pTex = new OhDeerEngine::RenderComponent();
 		pTex->SetTexture(OhDeerEngine::ResourceManager::GetInstance().LoadTexture("emerald.png"), (int)width, (int)height);
@@ -145,10 +152,9 @@ public:
 
 		auto pPickupComp = new PickupComponent();
 
-		auto pCol = new OhDeerEngine::CollisionComponent(pos, width, height, true);
+		auto pCol = new OhDeerEngine::CollisionComponent(pos, width, height, {}, true);
 		auto pTex = new OhDeerEngine::RenderComponent();
 		pTex->SetTexture(OhDeerEngine::ResourceManager::GetInstance().LoadTexture("Gold.png"), (int)width, (int)height);
-		pCol->EnableTrigger(true);
 
 		auto lambdaTrigger = [pCol, pPickupComp](OhDeerEngine::GameObject* ob1, OhDeerEngine::GameObject* ob2, OhDeerEngine::GameObject::TriggerAction)
 		{
@@ -158,7 +164,7 @@ public:
 			//we check if the point is in any rectangle, if not we just let it fall
 			//pass point underneath obj
 			auto rect = pCol->GetCollision();
-			const glm::vec2 point{ rect->left + rect->width / 2.0f, rect->bottom - rect->height / 2.0f };
+			const glm::vec2 point{ rect->x + rect->w / 2.0f, rect->y - rect->h / 2.0f };
 			if (!pPickupComp->IsFalling)
 			{
 				if (point.y > 0 || !pCol->IsPointInRect(point, ob2->GetComponent<OhDeerEngine::CollisionComponent>()->GetCollision()))
@@ -213,7 +219,7 @@ public:
 		pCol->EnableStatic(true);
 	}
 
-	inline OhDeerEngine::GameObject* MakeEnemyStart(const glm::vec2& pos, float width, float height,int amountEnemies)
+	inline OhDeerEngine::GameObject* MakeEnemyStart(const glm::vec2& pos, float width, float height, int amountEnemies)
 	{
 		OhDeerEngine::GameObject* pStart = new OhDeerEngine::GameObject(pos);
 		pStart->SetTag("EnemyStart");
@@ -227,7 +233,7 @@ public:
 		OhDeerEngine::GameObject* pFps = new OhDeerEngine::GameObject();
 
 		auto fps = new OhDeerEngine::FPSComponent();
-		
+
 		pFps->AddComponent(fps);
 		fps->Initialize(OhDeerEngine::ResourceManager::GetInstance().LoadFont("Lingua.otf", 24));
 		return pFps;
@@ -290,5 +296,28 @@ public:
 		pTempObj->AddComponent(pInputComp);
 		pTempObj->AddComponent(pTextComp);
 		pScene->Add(pTempObj);
+	}
+
+
+	inline OhDeerEngine::GameObject* MakeFireBall(const glm::vec2& pos, float width, float height)
+	{
+		OhDeerEngine::GameObject* pFireBall = new OhDeerEngine::GameObject(pos);
+		const glm::vec2 colOffset{ width / 8.f, height / 8.f };
+		const float colWidth{ width - width / 4.f };
+		const float colHeight{ height - height / 4.f };
+		auto pCol = new OhDeerEngine::CollisionComponent(pos, colWidth, colHeight, colOffset, true);
+		auto pTex = new OhDeerEngine::RenderComponent();
+		pTex->SetTexture(OhDeerEngine::ResourceManager::GetInstance().LoadTexture("fireball.png"), (int)width, (int)height);
+		auto lambdaTrigger = [](OhDeerEngine::GameObject* ob1, OhDeerEngine::GameObject* ob2, OhDeerEngine::GameObject::TriggerAction)
+		{
+			if (ob2->GetComponent<EnemyComponent>())
+			{
+				OhDeerEngine::SceneManager::GetInstance().GetActiveScene()->Subject->NotifyAllObservers('n');
+				ob2->IsActive = false;
+			}
+		};
+
+
+		return pFireBall;
 	}
 };

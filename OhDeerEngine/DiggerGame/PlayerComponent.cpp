@@ -1,25 +1,14 @@
 #include "OhDeerPCH.h"
+#include "Factory.h"
 #include "PlayerComponent.h"
 #include "Commands.h"
 #include "InputManager.h"
 #include "glm/geometric.hpp"
 #include "TransformComponent.h"
+#include "Factory.h"
 
 PlayerComponent::PlayerComponent(OhDeerEngine::GameObject* pParent, OhDeerEngine::RenderComponent* pTexture, OhDeerEngine::CollisionComponent* pCollider, bool isController) :
-	BaseCharComponent(pParent, pTexture, pCollider),
-	m_KeyUp{},
-	m_KeyDown{},
-	m_KeyLeft{},
-	m_KeyRight{},
-	m_KeyActionOne{},
-	m_KeyActionTwo{},
-	m_KeyActionThree{},
-	m_KeyActionFour{},
-	m_ButtonA{ nullptr },
-	m_ButtonB{ nullptr },
-	m_ButtonY{ nullptr },
-	m_ButtonX{ nullptr },
-	m_IsController{ isController }
+	BaseCharComponent(pParent, pTexture, pCollider,OhDeerEngine::BaseCharComponent::CharType::Player, isController)
 {
 	m_PosNextFrame = m_pParent->GetTransform()->GetPosition();
 	m_StartPos = m_PosNextFrame;
@@ -70,26 +59,6 @@ void PlayerComponent::SpecificUpdate([[maybe_unused]] const float deltaT)
 }
 
 
-void PlayerComponent::BindActionA(Command* newCommand)
-{
-	m_ButtonA = newCommand;
-}
-
-void PlayerComponent::BindActionB(Command* newCommand)
-{
-	m_ButtonB = newCommand;
-}
-
-void PlayerComponent::BindActionY(Command* newCommand)
-{
-	m_ButtonY = newCommand;
-}
-
-void PlayerComponent::BindActionX(Command* newCommand)
-{
-	m_ButtonX = newCommand;
-}
-
 void PlayerComponent::SetPlayerId(int id)
 {
 	m_PlayerId = id;
@@ -108,20 +77,12 @@ void PlayerComponent::SetController(bool useController)
 	m_IsController = useController;
 }
 
-void PlayerComponent::SetKeyboardKeys(const SDL_Keycode& up, const SDL_Keycode& down, const SDL_Keycode& left, const SDL_Keycode& right)
-{
-	m_KeyUp = up;
-	m_KeyDown = down;
-	m_KeyLeft = left;
-	m_KeyRight = right;
-}
-
-void PlayerComponent::Jump() {}
 
 void PlayerComponent::ActionOne()
 {
 	std::cout << "there is really only one thing the digger can do: namely spawn the fireballs" << std::endl;
-
+	Factory factory;
+	//factory.MakeFireBall(m_pParent->GetTransform()->GetPosition,)
 }
 
 void PlayerComponent::ActionTwo() {}

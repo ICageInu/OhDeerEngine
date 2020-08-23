@@ -210,29 +210,29 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf\lib\x64\*.dll" "$(OutDir)" /y /D
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\OhDeerEngine\HealthObserver.cpp" />
-    <ClCompile Include="..\OhDeerEngine\PlayerComponent.cpp" />
-    <ClCompile Include="..\OhDeerEngine\ScoreObserver.cpp" />
     <ClCompile Include="EnemyComponent.cpp" />
     <ClCompile Include="DiggerGame.cpp" />
     <ClCompile Include="EnemyStartComponent.cpp" />
+    <ClCompile Include="HealthObserver.cpp" />
     <ClCompile Include="InputComponent.cpp" />
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="PickupComponent.cpp" />
+    <ClCompile Include="PlayerComponent.cpp" />
+    <ClCompile Include="ScoreObserver.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\OhDeerEngine\Commands.h" />
-    <ClInclude Include="..\OhDeerEngine\HealthObserver.h" />
-    <ClInclude Include="..\OhDeerEngine\LevelParser.h" />
-    <ClInclude Include="..\OhDeerEngine\PlayerComponent.h" />
-    <ClInclude Include="..\OhDeerEngine\ScoreObserver.h" />
+    <ClInclude Include="CommandsOverrides.h" />
     <ClInclude Include="EnemyComponent.h" />
     <ClInclude Include="EnemyStartComponent.h" />
     <ClInclude Include="Factory.h" />
+    <ClInclude Include="HealthObserver.h" />
     <ClInclude Include="HighscoreParser.h" />
     <ClInclude Include="InputComponent.h" />
+    <ClInclude Include="LevelParser.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="PickupComponent.h" />
+    <ClInclude Include="PlayerComponent.h" />
+    <ClInclude Include="ScoreObserver.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
