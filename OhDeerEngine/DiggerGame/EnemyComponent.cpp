@@ -12,9 +12,11 @@ EnemyComponent::EnemyComponent(OhDeerEngine::GameObject* pPlayer, OhDeerEngine::
 	m_pPlayer{ pPlayer },
 	m_AngerIssuesMax{ 8 },
 	m_AngerIssues{ m_AngerIssuesMax },
-	m_State{ AngerState::Kalm }
+	m_State{ AngerState::Kalm },
+	m_SeekerTimerMax{ 3.0f },
+	m_SeekerTimer{ -1.0f }
 {
-	m_MovementSpeed *= 1.1f;
+	m_MovementSpeed *= 1.25f;
 	m_PosNextFrame = m_pParent->GetTransform()->GetPosition();
 }
 
@@ -23,8 +25,14 @@ void EnemyComponent::SetPlayer(OhDeerEngine::GameObject* pPlayer)
 	m_pPlayer = { pPlayer };
 }
 
+void EnemyComponent::FixedUpdate([[maybe_unused]] const float deltaT)
+{
+
+}
+
 void EnemyComponent::SpecificUpdate(const float deltaT)
 {
+
 	//TODO place the logic here for moving towards the player
 	glm::vec2 playerPos{};
 	if (m_pPlayer)
@@ -36,7 +44,7 @@ void EnemyComponent::SpecificUpdate(const float deltaT)
 	glm::vec2 vertDir, horzDir, ogPos = m_PosNextFrame;
 	bool fastestVert{}, fastestHorz{};
 
-	if (std::fabsf(m_Direction.x) > std::fabsf(m_Direction.y))
+	if (std::fabsf(m_Direction.x) >= std::fabsf(m_Direction.y))
 	{
 		fastestHorz = true;
 	}
@@ -59,43 +67,41 @@ void EnemyComponent::SpecificUpdate(const float deltaT)
 	////this wil keep them stuck in their spot
 	////I just realised that this makes it so that it's only checking for objects  
 	auto pColVector = OhDeerEngine::SceneManager::GetInstance().GetActiveScene()->GetStaticCollisions();
-
+	bool goingHorz{}, goingVert{};
 	if (fastestHorz)
 	{
+		goingHorz = true;
 		m_PosNextFrame = tempPosHorz;
 	}
 	else
 	{
+		goingVert = true;
 		m_PosNextFrame = tempPosVert;
 	}
 	bool intersect{};
-	Move();
+
+	SDL_Rect tempRect{};
+	tempRect.x = m_PosNextFrame.x;
+	tempRect.y = m_PosNextFrame.y;
+	tempRect.w = m_pCollision->GetWidth();
+	tempRect.h = m_pCollision->GetHeight();
 
 	for (size_t i = 0; i < pColVector.size(); i++)
 	{
-
+		if (!pColVector[i]->GetParent()->IsActive)continue;
 		auto temp = pColVector[i]->GetCollision();
-		intersect = m_pCollision->IsOverlapping(temp);
+		intersect = m_pCollision->IsOverlapping(&tempRect, temp);
 		if (intersect)
 		{
-			//TODO this doesn't work
-			printf("DO BE INTERSECTING\n");
-			m_PosNextFrame = ogPos;
-			Move();
-			if (fastestHorz)m_PosNextFrame = tempPosVert;
-			else if (fastestVert)m_PosNextFrame = tempPosHorz;
-			break;
+			if (goingHorz)
+				m_PosNextFrame = tempPosVert;
+			else 
+				m_PosNextFrame = tempPosHorz;
 		}
 	}
 
-	if (!intersect)
-	{
-		m_PosNextFrame = ogPos;
-		Move();
-		if (fastestHorz)m_PosNextFrame = tempPosHorz;
-		else m_PosNextFrame = tempPosVert;
-	}
 	//std::cout << "horz: " + std::to_string(doNotMoveHorz) + "\t" + "vert: " + std::to_string(doNotMoveVert) << std::endl;
 
 	//printf("%f\t%f\n", m_Direction.x, m_Direction.y);
+
 }

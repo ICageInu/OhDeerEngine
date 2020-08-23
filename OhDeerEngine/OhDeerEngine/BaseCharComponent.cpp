@@ -92,3 +92,11 @@ void OhDeerEngine::BaseCharComponent::SetKeyboardKeys(const SDL_Keycode& up, con
 	m_KeyLeft = left;
 	m_KeyRight = right;
 }
+
+void OhDeerEngine::BaseCharComponent::SetKeyboardActions(const SDL_Keycode& one, const SDL_Keycode& two, const SDL_Keycode& three, const SDL_Keycode& four)
+{
+	m_KeyActionOne = one;
+	m_KeyActionTwo = two;
+	m_KeyActionThree = three;
+	m_KeyActionFour = four;
+}

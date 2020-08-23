@@ -31,7 +31,7 @@ namespace OhDeerEngine
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
 
-		std::vector<GameObject*>GetChildren()const;
+		//std::vector<GameObject*>GetChildren()const;
 
 		//handy functions
 		//TODO do auto&

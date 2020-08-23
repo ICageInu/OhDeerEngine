@@ -37,6 +37,7 @@ namespace OhDeerEngine
 		void CheckForCollision(CollisionComponent* otherObject);
 		bool IsOverlapping(CollisionComponent* otherObject);
 		bool IsOverlapping(SDL_Rect* otherObj);
+		bool IsOverlapping(SDL_Rect* Obj1,SDL_Rect* Obj2);
 		bool IsPointInRect(const glm::vec2& point,const SDL_Rect& otherObject);
 		bool IsPointInRect(const glm::vec2& point, SDL_Rect* pOtherObject);
 		bool IsPointInRect(CollisionComponent* otherObject);

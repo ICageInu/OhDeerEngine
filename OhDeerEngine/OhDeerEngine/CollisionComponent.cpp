@@ -118,6 +118,16 @@ bool OhDeerEngine::CollisionComponent::IsOverlapping(SDL_Rect* otherObj)
 	return true;
 }
 
+bool OhDeerEngine::CollisionComponent::IsOverlapping(SDL_Rect* Obj1, SDL_Rect* Obj2)
+{
+	if ((Obj1->x + Obj1->w) <= Obj2->x || (Obj2->x + Obj2->w) <= Obj1->x
+		|| Obj1->y >= (Obj2->y + Obj2->h) || Obj2->y >= (Obj1->y + Obj1->h))
+	{
+		return false;
+	}
+	return true;
+}
+
 bool OhDeerEngine::CollisionComponent::IsPointInRect(const glm::vec2& point, const SDL_Rect& otherObject)
 {
 	if (m_CollisionType) return false;
@@ -178,7 +188,6 @@ void OhDeerEngine::CollisionComponent::Render() const
 {
 	if (m_DrawRect)
 	{
-
 		SDL_SetRenderDrawColor(Renderer::GetInstance().GetSDLRenderer(), 255, 255, 255, 255);
 		SDL_RenderDrawRect(Renderer::GetInstance().GetSDLRenderer(), m_pCollisionBox);
 		SDL_SetRenderDrawColor(Renderer::GetInstance().GetSDLRenderer(), 0, 0, 0, 0);

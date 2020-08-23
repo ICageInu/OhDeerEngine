@@ -17,7 +17,7 @@ public:
  
     EnemyComponent(OhDeerEngine::GameObject* pPlayer,OhDeerEngine::GameObject* pParent, OhDeerEngine::RenderComponent* pTexture, OhDeerEngine::CollisionComponent* pCollider, CharType chartype = CharType::Enemy);
     void SetPlayer(OhDeerEngine::GameObject* pPlayer);
-
+    virtual void FixedUpdate(const float deltaT)override;
     virtual void ActionOne() override {};
     virtual void ActionTwo() override {};
     virtual void ActionThree() override {};
@@ -29,6 +29,8 @@ private:
     const float m_AngerIssuesMax;
     float m_AngerIssues;
     AngerState m_State;
+    const float m_SeekerTimerMax;
+    float m_SeekerTimer;
     bool m_WasMovingDown;
 };
 

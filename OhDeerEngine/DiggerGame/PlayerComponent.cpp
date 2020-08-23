@@ -8,7 +8,7 @@
 #include "Factory.h"
 
 PlayerComponent::PlayerComponent(OhDeerEngine::GameObject* pParent, OhDeerEngine::RenderComponent* pTexture, OhDeerEngine::CollisionComponent* pCollider, bool isController) :
-	BaseCharComponent(pParent, pTexture, pCollider,OhDeerEngine::BaseCharComponent::CharType::Player, isController)
+	BaseCharComponent(pParent, pTexture, pCollider, OhDeerEngine::BaseCharComponent::CharType::Player, isController)
 {
 	m_PosNextFrame = m_pParent->GetTransform()->GetPosition();
 	m_StartPos = m_PosNextFrame;
@@ -36,13 +36,30 @@ void PlayerComponent::SpecificUpdate([[maybe_unused]] const float deltaT)
 	}
 	else
 	{
-		if (OhDeerEngine::InputManager::GetInstance().IsDown(m_KeyUp))m_Direction = { 0,-1 };
-		else if (OhDeerEngine::InputManager::GetInstance().IsDown(m_KeyDown))m_Direction = { 0,1 };
-		else if (OhDeerEngine::InputManager::GetInstance().IsDown(m_KeyLeft))m_Direction = { 1,0 };
-		else if (OhDeerEngine::InputManager::GetInstance().IsDown(m_KeyRight))m_Direction = { -1,0 };
+		if (OhDeerEngine::InputManager::GetInstance().IsDown(m_KeyUp))
+		{
+			m_LookDir = m_Direction = { 0,-1 };
+		}
+		else if (OhDeerEngine::InputManager::GetInstance().IsDown(m_KeyDown))
+		{
+			m_LookDir = m_Direction = { 0,1 };
+		}
+		else if (OhDeerEngine::InputManager::GetInstance().IsDown(m_KeyLeft))
+		{
+			m_LookDir = m_Direction = { 1,0 };
+		}
+		else if (OhDeerEngine::InputManager::GetInstance().IsDown(m_KeyRight))
+		{
+			m_LookDir = m_Direction = { -1,0 };
+		}
 		else m_Direction = { 0,0 };
 
-		if (OhDeerEngine::InputManager::GetInstance().IsPressed(m_KeyActionOne))m_ButtonA->Execute(this);
+		if (OhDeerEngine::InputManager::GetInstance().IsPressed(m_KeyActionOne))
+		{
+			m_ButtonA->Execute(this);
+			std::cout << "pressed button a " << std::endl;
+		}
+
 		else if (OhDeerEngine::InputManager::GetInstance().IsPressed(m_KeyActionTwo))m_ButtonB->Execute(this);
 		else if (OhDeerEngine::InputManager::GetInstance().IsPressed(m_KeyActionThree))m_ButtonY->Execute(this);
 		else if (OhDeerEngine::InputManager::GetInstance().IsPressed(m_KeyActionFour))m_ButtonX->Execute(this);
@@ -82,7 +99,7 @@ void PlayerComponent::ActionOne()
 {
 	std::cout << "there is really only one thing the digger can do: namely spawn the fireballs" << std::endl;
 	Factory factory;
-	//factory.MakeFireBall(m_pParent->GetTransform()->GetPosition,)
+	OhDeerEngine::SceneManager::GetInstance().GetActiveScene()->Add(factory.MakeFireBall(m_pParent->GetTransform()->GetPosition(), m_LookDir, m_pCollision->GetWidth(), m_pCollision->GetHeight()));
 }
 
 void PlayerComponent::ActionTwo() {}

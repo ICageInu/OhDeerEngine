@@ -34,6 +34,8 @@ namespace OhDeerEngine
 		void BindActionX(Command* newCommand);
 
 		void SetKeyboardKeys(const SDL_Keycode& up, const SDL_Keycode& down, const SDL_Keycode& left, const SDL_Keycode& right);
+		void SetKeyboardActions(const SDL_Keycode& one, const SDL_Keycode& two, const SDL_Keycode& three, const SDL_Keycode& four);
+
 
 		virtual void ActionOne()=0;
 		virtual void ActionTwo() = 0;

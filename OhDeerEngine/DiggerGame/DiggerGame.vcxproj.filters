@@ -60,6 +60,9 @@
     <ClInclude Include="CommandsOverrides.h">
       <Filter>headerFiles</Filter>
     </ClInclude>
+    <ClInclude Include="FireBallComponent.h">
+      <Filter>GameComponents</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="GameComponents">

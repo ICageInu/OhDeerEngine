@@ -19,6 +19,7 @@
 #include "FPSComponent.h"
 #include "Scene.h"
 #include "CommandsOverrides.h"
+#include "FireBallComponent.h"
 class Factory
 {
 public:
@@ -58,6 +59,7 @@ public:
 		pPlayer->SetOnTriggerCallBack(lambdaTrigger);
 
 		pPlayerComp->SetKeyboardKeys(SDLK_w, SDLK_s, SDLK_d, SDLK_a);
+		pPlayerComp->SetKeyboardActions(SDLK_SPACE, NULL, NULL, NULL);
 		pPlayerComp->BindActionA(new ActionOneCommand());
 
 		return pPlayer;
@@ -65,15 +67,16 @@ public:
 
 	inline OhDeerEngine::GameObject* MakeNobbin(OhDeerEngine::GameObject* pPlayer, const glm::vec2& pos, float width, float height)
 	{
+		const float objWidth{ width - width / 4.f };
+		const float objHeight{ height - height / 4.f };
 		OhDeerEngine::GameObject* pNobbin = new OhDeerEngine::GameObject(pos);
 		pNobbin->SetTag("enemy");
 		auto pEnemyTexture = new OhDeerEngine::RenderComponent();
-		pEnemyTexture->SetTexture(OhDeerEngine::ResourceManager::GetInstance().LoadTexture("hobbin.png"), (int)width, (int)height);
+		pEnemyTexture->SetTexture(OhDeerEngine::ResourceManager::GetInstance().LoadTexture("hobbin.png"), (int)objWidth, (int)objHeight);
 		//pPlayerTexture->AddRectangleToDraw(150, 150);
-		const glm::vec2 colOffset{ width / 8.f, height / 8.f };
-		const float colWidth{ width - width / 4.f };
-		const float colHeight{ height - height / 4.f };
-		auto pEnemyCol = new OhDeerEngine::CollisionComponent(pos, colWidth, colHeight, colOffset, true);
+		const glm::vec2 colOffset{ width / 8.f, height / 4.0f };
+
+		auto pEnemyCol = new OhDeerEngine::CollisionComponent(pos, objWidth, objHeight, {}, true);
 		auto pEnemyComp = new EnemyComponent(pPlayer, pNobbin, pEnemyTexture, pEnemyCol);
 		auto lambdaTrigger = [&pEnemyComp](OhDeerEngine::GameObject* ob1, OhDeerEngine::GameObject* ob2, OhDeerEngine::GameObject::TriggerAction)
 		{
@@ -299,24 +302,35 @@ public:
 	}
 
 
-	inline OhDeerEngine::GameObject* MakeFireBall(const glm::vec2& pos, float width, float height)
+	inline OhDeerEngine::GameObject* MakeFireBall(const glm::vec2& pos,const glm::vec2& dir, float width, float height)
 	{
-		OhDeerEngine::GameObject* pFireBall = new OhDeerEngine::GameObject(pos);
-		const glm::vec2 colOffset{ width / 8.f, height / 8.f };
-		const float colWidth{ width - width / 4.f };
-		const float colHeight{ height - height / 4.f };
-		auto pCol = new OhDeerEngine::CollisionComponent(pos, colWidth, colHeight, colOffset, true);
+		const glm::vec2 colOffset{ width / 4.f, height / 4.f };
+		OhDeerEngine::GameObject* pFireBall = new OhDeerEngine::GameObject(pos+ colOffset);
+		pFireBall->SetTag("FireBallShot");
+		const float colWidth{ width - width / 2.f };
+		const float colHeight{ height - height / 2.f };
+		auto pCol = new OhDeerEngine::CollisionComponent(pos, colWidth, colHeight, {}, true);
 		auto pTex = new OhDeerEngine::RenderComponent();
-		pTex->SetTexture(OhDeerEngine::ResourceManager::GetInstance().LoadTexture("fireball.png"), (int)width, (int)height);
+		auto pFireBallComp = new FireBallComponent(dir);
+		pTex->SetTexture(OhDeerEngine::ResourceManager::GetInstance().LoadTexture("fireball.png"), 
+			(int)colWidth, (int)colHeight/*,colOffset*/);
 		auto lambdaTrigger = [](OhDeerEngine::GameObject* ob1, OhDeerEngine::GameObject* ob2, OhDeerEngine::GameObject::TriggerAction)
 		{
+			if (!ob2->IsActive) return;
+			if (ob2->GetTag() == "Level")
+			{
+				ob1->SetEnabledDisabled(false);
+			}
 			if (ob2->GetComponent<EnemyComponent>())
 			{
 				OhDeerEngine::SceneManager::GetInstance().GetActiveScene()->Subject->NotifyAllObservers('n');
 				ob2->IsActive = false;
 			}
 		};
-
+		pFireBall->SetOnTriggerCallBack(lambdaTrigger);
+		pFireBall->AddComponent(pCol);
+		pFireBall->AddComponent(pFireBallComp);
+		pFireBall->AddComponent(pTex);
 
 		return pFireBall;
 	}

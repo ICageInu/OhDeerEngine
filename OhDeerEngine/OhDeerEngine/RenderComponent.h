@@ -28,7 +28,7 @@ namespace OhDeerEngine
 		void FixedUpdate(const float deltaT) override;
 
 		//pivot is standard left top
-		void SetTexture(Texture2D* texture, const int drawWidth = 0, const int drawHeight = 0, const glm::fvec2& pivot = {0, 0}, bool isAnimated = false, bool reverse = false, const int rows = 0, const int columns = 0, const float frameTime = 0.0f, bool mirror = false, float angle = 0.0f, const glm::fvec2 srcPos = { 0.0f, 0.0f }, const glm::fvec2 srcDim = { 1.0f, 1.0f }, const glm::fvec2 offSet = { 0.0f, 0.0f });
+		void SetTexture(Texture2D* texture, const int drawWidth = 0, const int drawHeight = 0, const glm::fvec2 offSet = { 0.0f, 0.0f }, const glm::fvec2& pivot = {0, 0}, bool isAnimated = false, bool reverse = false, const int rows = 0, const int columns = 0, const float frameTime = 0.0f, bool mirror = false, float angle = 0.0f, const glm::fvec2 srcPos = { 0.0f, 0.0f }, const glm::fvec2 srcDim = { 1.0f, 1.0f });
 
 		TextureAnimation GetTextureAnimation()const;
 	private:

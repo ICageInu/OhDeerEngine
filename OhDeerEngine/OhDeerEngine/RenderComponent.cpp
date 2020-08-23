@@ -11,7 +11,7 @@ void OhDeerEngine::RenderComponent::Update(const float) {}
 
 void OhDeerEngine::RenderComponent::Render() const
 {
-	const glm::fvec2& pos = m_pParent->GetComponent<TransformComponent>()->GetPosition();
+	const glm::fvec2& pos = m_pParent->GetTransform()->GetPosition();
 
 
 	SDL_Rect dstRect{ static_cast<int>(pos.x), static_cast<int>(pos.y) };
@@ -67,7 +67,7 @@ void OhDeerEngine::RenderComponent::FixedUpdate(const float deltaT)
 	}
 }
 
-void OhDeerEngine::RenderComponent::SetTexture(Texture2D* texture, const int drawWidth, const int drawHeight, const glm::fvec2& pivot, bool isAnimated, bool reverse, const int rows, const int columns, const float frameTime, bool mirror, float angle, const glm::fvec2 srcPos, const glm::fvec2 srcDim, const glm::fvec2 offSet)
+void OhDeerEngine::RenderComponent::SetTexture(Texture2D* texture, const int drawWidth, const int drawHeight, const glm::fvec2 offSet, const glm::fvec2& pivot, bool isAnimated, bool reverse, const int rows, const int columns, const float frameTime, bool mirror, float angle, const glm::fvec2 srcPos, const glm::fvec2 srcDim)
 {
 	//TODO please fix naming conventions
 	m_Animation = TextureAnimation{ texture,pivot,srcPos,srcDim,offSet,frameTime,0,angle,rows,columns,0,drawWidth,drawHeight,isAnimated,reverse,mirror };

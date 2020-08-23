@@ -27,5 +27,6 @@ public:
 
 private:
 	glm::vec2 m_StartPos;
+	glm::vec2 m_LookDir;
 	int m_PlayerId;
 };

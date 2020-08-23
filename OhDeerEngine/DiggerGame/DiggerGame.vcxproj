@@ -225,6 +225,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf\lib\x64\*.dll" "$(OutDir)" /y /D
     <ClInclude Include="EnemyComponent.h" />
     <ClInclude Include="EnemyStartComponent.h" />
     <ClInclude Include="Factory.h" />
+    <ClInclude Include="FireBallComponent.h" />
     <ClInclude Include="HealthObserver.h" />
     <ClInclude Include="HighscoreParser.h" />
     <ClInclude Include="InputComponent.h" />
