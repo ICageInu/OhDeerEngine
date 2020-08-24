@@ -30,7 +30,6 @@ void OhDeerEngine::GameObject::AddComponent(BaseComponent* pComponent)
 {
 	for (BaseComponent* pComp : m_Components)
 	{
-
 		if (typeid(*pComp) == typeid(*pComponent))
 		{
 			throw std::exception("AddComponent: This component already exists");

@@ -8,7 +8,10 @@
 #include "Factory.h"
 
 PlayerComponent::PlayerComponent(OhDeerEngine::GameObject* pParent, OhDeerEngine::RenderComponent* pTexture, OhDeerEngine::CollisionComponent* pCollider, bool isController) :
-	BaseCharComponent(pParent, pTexture, pCollider, OhDeerEngine::BaseCharComponent::CharType::Player, isController)
+	BaseCharComponent(pParent, pTexture, pCollider, OhDeerEngine::BaseCharComponent::CharType::Player, isController),
+	m_ShootTimerMax{ 10.0f },
+	m_ShootTimer{ 0.0f },
+	m_PlayerId{ 0 }
 {
 	m_PosNextFrame = m_pParent->GetTransform()->GetPosition();
 	m_StartPos = m_PosNextFrame;
@@ -25,6 +28,7 @@ PlayerComponent::~PlayerComponent()
 
 void PlayerComponent::SpecificUpdate([[maybe_unused]] const float deltaT)
 {
+	
 	if (m_IsController)
 	{
 		m_Direction = OhDeerEngine::InputManager::GetInstance().GetLeftStick(true);
@@ -57,7 +61,7 @@ void PlayerComponent::SpecificUpdate([[maybe_unused]] const float deltaT)
 		if (OhDeerEngine::InputManager::GetInstance().IsPressed(m_KeyActionOne))
 		{
 			m_ButtonA->Execute(this);
-			std::cout << "pressed button a " << std::endl;
+			//std::cout << "pressed button a " << std::endl;
 		}
 
 		else if (OhDeerEngine::InputManager::GetInstance().IsPressed(m_KeyActionTwo))m_ButtonB->Execute(this);
@@ -73,6 +77,12 @@ void PlayerComponent::SpecificUpdate([[maybe_unused]] const float deltaT)
 	{
 		m_PosNextFrame -= m_Direction * deltaT * m_MovementSpeed;
 	}
+	m_ShootTimer -= deltaT;
+	if (m_EmeraldTimer > 1) {
+		m_EmeraldTimer = 0;
+		OhDeerEngine::SceneManager::GetInstance().GetActiveScene()->Subject->NotifyAllObservers('t');
+	}
+	else m_EmeraldTimer += deltaT;
 }
 
 
@@ -97,9 +107,12 @@ void PlayerComponent::SetController(bool useController)
 
 void PlayerComponent::ActionOne()
 {
-	std::cout << "there is really only one thing the digger can do: namely spawn the fireballs" << std::endl;
-	Factory factory;
-	OhDeerEngine::SceneManager::GetInstance().GetActiveScene()->Add(factory.MakeFireBall(m_pParent->GetTransform()->GetPosition(), m_LookDir, m_pCollision->GetWidth(), m_pCollision->GetHeight()));
+	if (m_ShootTimer <= 0)
+	{
+		Factory factory;
+		OhDeerEngine::SceneManager::GetInstance().GetActiveScene()->Add(factory.MakeFireBall(m_pParent->GetTransform()->GetPosition(), m_LookDir, m_pCollision->GetWidth(), m_pCollision->GetHeight()));
+		m_ShootTimer = m_ShootTimerMax;
+	}
 }
 
 void PlayerComponent::ActionTwo() {}

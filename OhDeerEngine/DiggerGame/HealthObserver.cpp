@@ -13,9 +13,6 @@ HealthObserver::HealthObserver(const std::array<OhDeerEngine::RenderComponent*, 
 
 }
 
-//OhDeerEngine::HealthObserver::~HealthObserver()
-//{
-//}
 
 //there will be a couple different eventTypes,just to make it so that we can differentiate between what's picked up
 //use first letter of the event
@@ -32,14 +29,12 @@ void HealthObserver::OnNotify(const char eventType)
 		}
 		break;
 	case '-':
-		if (m_AmountHealth > 0)
+		if (m_AmountHealth > 1)
 		{
 			m_Lives[m_AmountHealth-1]->GetParent()->IsActive = false;
 			m_AmountHealth--;
 		}
 		else OhDeerEngine::SceneManager::GetInstance().GetActiveScene()->Subject->NotifyAllObservers('L');
-		break;
-	case 'L':
 		break;
 	}
 

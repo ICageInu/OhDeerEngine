@@ -7,7 +7,7 @@ EnemyStartComponent::EnemyStartComponent(int amountEnemies, float enemyWidth, fl
 	m_SpawnTimer{ m_SpawnTimerMax },
 	m_EnemyWidth{ enemyWidth },
 	m_EnemyHeight{ enemyHeight },
-	m_AmountEnemies{ 1 }
+	m_AmountEnemies{ amountEnemies }
 {
 
 }
@@ -22,6 +22,11 @@ void EnemyStartComponent::Update(const float deltaT)
 		SpawnEnemy();
 	}
 	else m_SpawnTimer -= deltaT;
+}
+
+int EnemyStartComponent::GetAmountEnemies() const
+{
+	return m_AmountEnemies;
 }
 
 void EnemyStartComponent::SpawnEnemy()

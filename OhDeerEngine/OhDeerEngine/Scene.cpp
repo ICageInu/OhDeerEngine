@@ -31,6 +31,11 @@ std::vector<OhDeerEngine::CollisionComponent*> OhDeerEngine::Scene::GetStaticCol
 	return m_StaticCollisions;
 }
 
+std::string OhDeerEngine::Scene::GetSceneName() const
+{
+	return m_Name;
+}
+
 void OhDeerEngine::Scene::Add(GameObject* object)
 {
 	const auto& colComp = object->GetComponent<CollisionComponent>();
@@ -51,8 +56,11 @@ void OhDeerEngine::Scene::BaseUpdate(float deltaT)
 	}
 	for (size_t i = 0; i < m_KinematicCollisions.size(); i++)
 	{
-		if (i != 0)
-			m_KinematicCollisions[i]->CheckForCollision(m_KinematicCollisions[i - 1]);
+		for (size_t j = 0; j < m_KinematicCollisions.size(); j++)
+		{
+			if (i != j)
+				m_KinematicCollisions[j]->CheckForCollision(m_KinematicCollisions[i]);
+		}
 		for (size_t j = 0; j < m_StaticCollisions.size(); j++)
 		{
 			m_KinematicCollisions[i]->CheckForCollision(m_StaticCollisions[j]);

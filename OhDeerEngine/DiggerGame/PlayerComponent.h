@@ -28,5 +28,8 @@ public:
 private:
 	glm::vec2 m_StartPos;
 	glm::vec2 m_LookDir;
+	const float m_ShootTimerMax;
+	float m_ShootTimer;
+	float m_EmeraldTimer;
 	int m_PlayerId;
 };

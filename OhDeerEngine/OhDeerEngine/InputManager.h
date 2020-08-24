@@ -48,7 +48,10 @@ namespace OhDeerEngine
 		bool IsReleased(const SDL_Keycode& button) const;
 		bool IsDown(const SDL_Keycode& button) const;
 
+		void SetCloseWindow(bool doClose);
+
 		std::string GetInputString()const;
+		void CleanInputString();
 	private:
 		friend class Singleton<InputManager>;
 		InputManager() = default;
@@ -60,7 +63,7 @@ namespace OhDeerEngine
 		std::string m_InputString;
 		int m_GamepadIndex{0};
 		bool m_GamepadIsConnected{false};
-
+		bool m_CloseGame{};
 	};
 
 }

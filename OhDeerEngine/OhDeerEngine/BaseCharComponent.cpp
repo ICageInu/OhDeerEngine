@@ -26,7 +26,7 @@ OhDeerEngine::BaseCharComponent::BaseCharComponent(GameObject* pParent, RenderCo
 	m_ButtonX{ nullptr },
 	m_IsController{ isController }
 {
-	m_MovementSpeed = 50;
+	m_MovementSpeed = 75;
 	pParent->AddComponent(this);
 	pParent->AddComponent(pTexture);
 	pParent->AddComponent(pCollider);

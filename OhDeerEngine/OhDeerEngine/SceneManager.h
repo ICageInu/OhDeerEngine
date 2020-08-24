@@ -24,6 +24,9 @@ namespace OhDeerEngine
 		std::vector<Scene*> GetScenes()const;
 		Scene* GetActiveScene()const;
 
+		//void SwitchScene(Scene* pScene);
+		void SwitchScene(const std::string& sceneName);
+
 		//switching scene functions
 		void NextScene();
 		void NextScene(Subject* pSubject);

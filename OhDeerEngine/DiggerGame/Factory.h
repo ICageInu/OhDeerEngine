@@ -25,12 +25,14 @@ class Factory
 public:
 	inline OhDeerEngine::GameObject* MakePlayer(const glm::vec2& pos, float width, float height)
 	{
-		OhDeerEngine::GameObject* pPlayer = new OhDeerEngine::GameObject(pos);
+		const float objWidth{ width - width / 4.f };
+		const float objHeight{ height - height / 4.f };
+		OhDeerEngine::GameObject* pPlayer = new OhDeerEngine::GameObject({ pos.x + objWidth / 4.0f,pos.y + objHeight / 4.0f });
 		pPlayer->SetTag("player");
 		auto pPlayerTexture = new OhDeerEngine::RenderComponent();
-		pPlayerTexture->SetTexture(OhDeerEngine::ResourceManager::GetInstance().LoadTexture("digger.png"), (int)width, (int)height);
+		pPlayerTexture->SetTexture(OhDeerEngine::ResourceManager::GetInstance().LoadTexture("digger.png"), (int)objWidth, (int)objWidth);
 		//pPlayerTexture->AddRectangleToDraw(150, 150);
-		auto pPlayerCol = new OhDeerEngine::CollisionComponent(pos, width, height, {}, true);
+		auto pPlayerCol = new OhDeerEngine::CollisionComponent({ pos.x + objWidth / 4.0f,pos.y + objHeight / 4.0f }, objWidth, objWidth, {}, true);
 		auto pPlayerComp = new PlayerComponent(pPlayer, pPlayerTexture, pPlayerCol);
 		auto lambdaTrigger = [](OhDeerEngine::GameObject* ob1, OhDeerEngine::GameObject* ob2, OhDeerEngine::GameObject::TriggerAction)
 		{
@@ -49,9 +51,19 @@ public:
 
 			if (ob2->GetComponent<PickupComponent>())
 			{
+				if (ob2->GetComponent<PickupComponent>()->IsPickup)
+				{
+					ob2->IsActive = false;
+					OhDeerEngine::SceneManager::GetInstance().GetActiveScene()->Subject->NotifyAllObservers('g');
+					return;
+				}
+
 				auto colComp = ob2->GetComponent<OhDeerEngine::CollisionComponent>();
-				if (colComp->GetIsStatic())
+
+				if (colComp->GetIsStatic()) 
+				{
 					colComp->EnableStatic(false);
+				}
 
 			}
 
@@ -78,13 +90,21 @@ public:
 
 		auto pEnemyCol = new OhDeerEngine::CollisionComponent(pos, objWidth, objHeight, {}, true);
 		auto pEnemyComp = new EnemyComponent(pPlayer, pNobbin, pEnemyTexture, pEnemyCol);
-		auto lambdaTrigger = [&pEnemyComp](OhDeerEngine::GameObject* ob1, OhDeerEngine::GameObject* ob2, OhDeerEngine::GameObject::TriggerAction)
+		auto lambdaTrigger = [pEnemyComp](OhDeerEngine::GameObject* ob1, OhDeerEngine::GameObject* ob2, OhDeerEngine::GameObject::TriggerAction)
 		{
+			if (!ob1->IsActive)return;
 			if (!ob2->IsActive)return;
 
 
+			if (pEnemyComp->IsAngry && ob2->GetTag() == "Level")
+				ob2->IsActive = false;
 
 
+			if (ob2->GetComponent<FireBallComponent>())
+			{
+				OhDeerEngine::SceneManager::GetInstance().GetActiveScene()->Subject->NotifyAllObservers('n');
+				ob1->IsActive = false;
+			}
 			if (ob2->GetComponent<PlayerComponent>())
 			{
 				OhDeerEngine::SceneManager::GetInstance().GetActiveScene()->Subject->NotifyAllObservers('-');
@@ -92,6 +112,8 @@ public:
 			}
 
 		};
+		pEnemyComp->SetKeyboardKeys(SDLK_UP, SDLK_DOWN, SDLK_LEFT, SDLK_RIGHT);
+		pEnemyComp->SetKeyboardActions(SDLK_RSHIFT, NULL, NULL, NULL);
 		pNobbin->SetOnTriggerCallBack(lambdaTrigger);
 
 
@@ -121,7 +143,7 @@ public:
 				pTex->SetTexture(OhDeerEngine::ResourceManager::GetInstance().LoadTexture("wall" + std::to_string(i + 1) + std::to_string(j + 1) + png), (int)widthObj, (int)heightObj);
 
 				//collisions
-				auto pCol = new OhDeerEngine::CollisionComponent(posObj, widthObj, heightObj,{}, true);
+				auto pCol = new OhDeerEngine::CollisionComponent(posObj, widthObj, heightObj, {}, true);
 				pCol->EnableStatic(true);
 
 				pLevel->AddComponent(pCol);
@@ -137,7 +159,7 @@ public:
 	{
 		OhDeerEngine::GameObject* pEmerald = new OhDeerEngine::GameObject(pos);
 		pEmerald->SetTag("Emerald");
-		auto pCol = new OhDeerEngine::CollisionComponent(pos, width, height,{}, true);
+		auto pCol = new OhDeerEngine::CollisionComponent(pos, width, height, {}, true);
 		pCol->EnableStatic(true);
 		auto pTex = new OhDeerEngine::RenderComponent();
 		pTex->SetTexture(OhDeerEngine::ResourceManager::GetInstance().LoadTexture("emerald.png"), (int)width, (int)height);
@@ -148,12 +170,12 @@ public:
 		return pEmerald;
 	}
 
-	inline void AddMoneyBag(OhDeerEngine::Scene* pScene, const glm::vec2& pos, float width, float height)
+	inline void AddMoneyBag(OhDeerEngine::Scene* pScene,PlayerComponent* pPlayer, const glm::vec2& pos, float width, float height)
 	{
 		OhDeerEngine::GameObject* pMoneyBag = new OhDeerEngine::GameObject(pos);
 		pMoneyBag->SetTag("MoneyBag");
 
-		auto pPickupComp = new PickupComponent();
+		auto pPickupComp = new PickupComponent(pPlayer,pos);
 
 		auto pCol = new OhDeerEngine::CollisionComponent(pos, width, height, {}, true);
 		auto pTex = new OhDeerEngine::RenderComponent();
@@ -161,57 +183,25 @@ public:
 
 		auto lambdaTrigger = [pCol, pPickupComp](OhDeerEngine::GameObject* ob1, OhDeerEngine::GameObject* ob2, OhDeerEngine::GameObject::TriggerAction)
 		{
-			//TODO MAKE THIS ACTUALLY DO SOMETHING GOOD
-			//when not static anymore, check below, if nothing below start falling
-			//the static thing we check in the function checking for collision
-			//we check if the point is in any rectangle, if not we just let it fall
-			//pass point underneath obj
-			auto rect = pCol->GetCollision();
-			const glm::vec2 point{ rect->x + rect->w / 2.0f, rect->y - rect->h / 2.0f };
-			if (!pPickupComp->IsFalling)
+			if (!ob1->IsActive) return;
+			if (!ob2->IsActive) return;
+			auto pPickupComp = ob1->GetComponent<PickupComponent>();
+			if (auto pPlayerComp = ob2->GetComponent<PlayerComponent>())
 			{
-				if (point.y > 0 || !pCol->IsPointInRect(point, ob2->GetComponent<OhDeerEngine::CollisionComponent>()->GetCollision()))
-				{
-					pPickupComp->IsFalling = true;
-				}
+				if (!pPickupComp->IsBeingTouched && !pPickupComp->IsFalling && !pPickupComp->IsPickup)pPickupComp->IsBeingTouched = true;
 			}
-			else if (pPickupComp->IsFalling)
+			if (ob2->GetComponent<EnemyComponent>())
 			{
-				//if falling and hit player kill player
-				//if falling and hit enemy kill enemy
-				//if falling and hit anything turn into pickupable
-				if (ob2->GetComponent<PlayerComponent>())
-				{
-					OhDeerEngine::SceneManager::GetInstance().GetActiveScene()->Subject->NotifyAllObservers('-');
-					//ob2->GetComponent<OhDeerEngine::CollisionComponent>()->EnableStatic(false);
-				}
-				if (ob2->GetComponent<EnemyComponent>())
-				{
-					OhDeerEngine::SceneManager::GetInstance().GetActiveScene()->Subject->NotifyAllObservers('n');
-					ob2->IsActive = false;
-				}
-
-				if (point.y - 4.0f < 0 || pCol->IsOverlapping(ob2->GetComponent<OhDeerEngine::CollisionComponent>()))
-				{
-					pPickupComp->IsFalling = false;
-					pPickupComp->IsPickup = true;
-				}
-
+				ob2->IsActive = false;
+				OhDeerEngine::SceneManager::GetInstance().GetActiveScene()->Subject->NotifyAllObservers('n');
+				return;
 			}
-			else
+			if (pPickupComp->IsFalling && ob2->GetTag()=="Level")
 			{
-				if (ob2->GetComponent<PlayerComponent>())
-				{
-					OhDeerEngine::SceneManager::GetInstance().GetActiveScene()->Subject->NotifyAllObservers('-');
-					ob1->IsActive = false;
-				}
-				if (ob2->GetComponent<EnemyComponent>())
-				{
-					ob1->IsActive = false;
-				}
+				pPickupComp->IsFalling = false;
+				pPickupComp->IsPickup = true;
+				return;
 			}
-
-
 		};
 		pMoneyBag->SetOnTriggerCallBack(lambdaTrigger);
 		pMoneyBag->AddComponent(pCol);
@@ -242,7 +232,6 @@ public:
 		return pFps;
 	}
 
-
 	inline void MakeStartScreen(OhDeerEngine::Scene* pScene)
 	{
 		//so we got top 10 highscores
@@ -254,7 +243,7 @@ public:
 		OhDeerEngine::Font* pFont = OhDeerEngine::ResourceManager::GetInstance().LoadFont("Lingua.otf", 48);
 
 		//read in highscores
-		std::array<std::string, 10>scores{ {} };
+		std::array<int, 10>scores{ {} };
 		std::array<std::string, 10>names{ {} };
 		Highscore highscore;
 
@@ -269,9 +258,9 @@ public:
 
 			auto pScoreObj = new OhDeerEngine::TextComponent();
 			auto pNameObj = new OhDeerEngine::TextComponent();
-			if (scores[i] != "")
+			if (scores[i] != 0 && names[i].size() != 0)
 			{
-				pScoreObj->SetText(scores[i]);
+				pScoreObj->SetText(std::to_string(scores[i]));
 				pNameObj->SetText(names[i]);
 			}
 			else
@@ -301,30 +290,35 @@ public:
 		pScene->Add(pTempObj);
 	}
 
-
-	inline OhDeerEngine::GameObject* MakeFireBall(const glm::vec2& pos,const glm::vec2& dir, float width, float height)
+	inline OhDeerEngine::GameObject* MakeFireBall(const glm::vec2& pos, const glm::vec2& dir, float width, float height)
 	{
 		const glm::vec2 colOffset{ width / 4.f, height / 4.f };
-		OhDeerEngine::GameObject* pFireBall = new OhDeerEngine::GameObject(pos+ colOffset);
-		pFireBall->SetTag("FireBallShot");
 		const float colWidth{ width - width / 2.f };
 		const float colHeight{ height - height / 2.f };
-		auto pCol = new OhDeerEngine::CollisionComponent(pos, colWidth, colHeight, {}, true);
+		OhDeerEngine::GameObject* pFireBall = new OhDeerEngine::GameObject({ pos.x + colOffset.x + colWidth,pos.y + colOffset.y });
+		pFireBall->SetTag("FireBallShot");
+		auto pCol = new OhDeerEngine::CollisionComponent({ pos.x + colWidth,pos.y }, colWidth, colHeight, {}, true);
 		auto pTex = new OhDeerEngine::RenderComponent();
-		auto pFireBallComp = new FireBallComponent(dir);
-		pTex->SetTexture(OhDeerEngine::ResourceManager::GetInstance().LoadTexture("fireball.png"), 
+		glm::vec2 passDir{};
+		if (dir == glm::vec2{ 0, 0 })passDir = glm::vec2{ 1,0 };
+		else passDir = dir;
+		auto pFireBallComp = new FireBallComponent(passDir);
+		pTex->SetTexture(OhDeerEngine::ResourceManager::GetInstance().LoadTexture("fireball.png"),
 			(int)colWidth, (int)colHeight/*,colOffset*/);
 		auto lambdaTrigger = [](OhDeerEngine::GameObject* ob1, OhDeerEngine::GameObject* ob2, OhDeerEngine::GameObject::TriggerAction)
 		{
+			if (!ob1->IsActive) return;
 			if (!ob2->IsActive) return;
+
 			if (ob2->GetTag() == "Level")
 			{
 				ob1->SetEnabledDisabled(false);
 			}
-			if (ob2->GetComponent<EnemyComponent>())
+			if (ob2->GetComponent<EnemyComponent>() || ob2->GetTag() == "enemy")
 			{
 				OhDeerEngine::SceneManager::GetInstance().GetActiveScene()->Subject->NotifyAllObservers('n');
 				ob2->IsActive = false;
+				ob1->IsActive = false;
 			}
 		};
 		pFireBall->SetOnTriggerCallBack(lambdaTrigger);

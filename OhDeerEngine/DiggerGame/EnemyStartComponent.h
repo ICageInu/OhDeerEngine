@@ -14,6 +14,9 @@ public:
 	virtual void Update(const float deltaT) override;
 	virtual void Render() const override {};
 	virtual void FixedUpdate(const float deltaT) override {};
+
+	int GetAmountEnemies()const;
+
 private:
 	const float m_SpawnTimerMax;
 	float m_SpawnTimer;

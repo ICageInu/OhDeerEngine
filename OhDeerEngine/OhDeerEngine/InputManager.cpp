@@ -45,7 +45,7 @@ bool OhDeerEngine::InputManager::ProcessInput()
 	//this is for closing 
 	while (SDL_PollEvent(&e))
 	{
-		if (e.type == SDL_QUIT)
+		if (e.type == SDL_QUIT || m_CloseGame)
 		{
 			return false;
 		}
@@ -110,9 +110,18 @@ bool  OhDeerEngine::InputManager::IsDown([[maybe_unused]] const SDL_Keycode& but
 	return m_KeyboardOld.at(button) && m_KeyboardCurrent.at(button);
 }
 
+void OhDeerEngine::InputManager::SetCloseWindow(bool doClose)
+{
+	m_CloseGame = doClose;
+}
+
 std::string OhDeerEngine::InputManager::GetInputString() const
 {
 	return m_InputString;
+}
+void OhDeerEngine::InputManager::CleanInputString()
+{
+	m_InputString = "";
 }
 
 

@@ -12,7 +12,7 @@ class LevelParser
 {
 public:
 	//you need to pass the full path to the file, as this is not done through the resourcemanager
-	inline void ParseFile(const std::string& fileName, glm::vec2& playerPos, float& playerWidth, float& playerHeight)
+	inline void ParseFile(const std::string& fileName, std::vector < std::pair<glm::fvec2, std::string>>& moneyPositions, glm::vec2& playerPos, float& playerWidth, float& playerHeight)
 	{
 		Factory factory;
 		int objWidth, screenWidth;
@@ -74,8 +74,8 @@ public:
 						case 'B':
 							factory.AddLevel(pScene, { objWidth * horzCounter,objHeight * vertCounter
 								}, (float)objWidth, (float)objHeight);
-							factory.AddMoneyBag(pScene,{ objWidth * horzCounter,objHeight * vertCounter
-								}, (float)objWidth, (float)objHeight);
+							moneyPositions.push_back(std::pair<glm::fvec2, std::string>{glm::fvec2{ objWidth * horzCounter,objHeight * vertCounter }, pScene->GetSceneName()});
+
 							horzCounter++;
 							break;
 						case 'H':
@@ -89,7 +89,7 @@ public:
 							horzCounter++;
 							break;
 						case 'C':
-							factory.AddLevel(pScene,{ objWidth * horzCounter,objHeight * vertCounter
+							factory.AddLevel(pScene, { objWidth * horzCounter,objHeight * vertCounter
 								}, (float)objWidth, (float)objHeight);
 							pScene->Add(factory.MakeEmerald({ objWidth * horzCounter,objHeight * vertCounter
 								}, (float)objWidth, (float)objHeight));

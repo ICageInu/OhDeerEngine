@@ -14,7 +14,8 @@
 #include "Factory.h"
 #include "Subject.h"
 #include <array>
-
+#include "GameOverObserver.h"
+#include "LevelSwitchObserver.h"
 void MainGame::LoadGame() const
 {
 	//so basically
@@ -45,14 +46,26 @@ void MainGame::LoadGame() const
 	//}
 
 
-
+	std::vector < std::pair<glm::fvec2, std::string>> moneyBagPos;
 	LevelParser parser;
-	parser.ParseFile("./Resources/levels.txt", playerPos, width, height);
+	parser.ParseFile("./Resources/levels.txt",moneyBagPos, playerPos, width, height);
 	
-	for (size_t i = 1; i < SceneManager::GetInstance().GetScenes().size(); i++)
+	auto scenes = SceneManager::GetInstance().GetScenes();
+
+	for (size_t i = 1; i < scenes.size(); i++)
 	{
+
 		auto pPlayer = factory.MakePlayer(playerPos, width, height);
-		SceneManager::GetInstance().GetScene(i)->Add(pPlayer);
+		scenes[i]->Add(pPlayer);
+		//for (size_t j = 0; j < moneyBagPos.size(); j++)
+		//{
+		//	
+		//}
+		for (auto moneyPos : moneyBagPos) 
+		{
+			if (moneyPos.second != scenes[i]->GetSceneName()) continue;
+			factory.AddMoneyBag(scenes[i], pPlayer->GetComponent<PlayerComponent>(), moneyPos.first, width, height);
+		}
 	}
 	//do UI stuff
 	//right now this is crashing (memory leaks) cause it gets added to the observer
@@ -77,11 +90,12 @@ void MainGame::LoadGame() const
 	}
 	
 	SceneManager::GetInstance().GetScene(1)->Subject->RegisterObserver(new HealthObserver(temparray));
+	SceneManager::GetInstance().GetScene(1)->Subject->RegisterObserver(new GameOverObserver());
+	SceneManager::GetInstance().GetScene(1)->Subject->RegisterObserver(new LevelSwitchObserver());
 
 
 
 	//setting up the main menu
 	//will be at pos 0
-	SceneManager::GetInstance().GetScene("0");
 	factory.MakeStartScreen(SceneManager::GetInstance().GetScene("0"));
 }

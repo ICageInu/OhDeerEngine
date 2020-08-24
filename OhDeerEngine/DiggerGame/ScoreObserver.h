@@ -13,10 +13,16 @@ public:
 	ScoreObserver(ScoreObserver&& other) = delete;
 	ScoreObserver& operator=(const ScoreObserver& other) = delete;
 	ScoreObserver& operator=(ScoreObserver&& other) = delete;
+
+
+	int GetScore()const;
 private:
 	//needs a reference to the score gameobject with a textcomponent telling the player how much score they have
 	OhDeerEngine::TextComponent* m_pScore;
+	const float m_EmeraldTimingMax;
+	float m_EmeraldTiming;
 	int m_ScoreValue;
+	int m_EmeraldsInSuccession;
 	bool m_Update;
 };
 

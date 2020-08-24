@@ -9,7 +9,9 @@
 ScoreObserver::ScoreObserver(OhDeerEngine::TextComponent* pScore) :
 	Observer(),
 	m_pScore{ pScore },
+	m_EmeraldTimingMax{10.0f},
 	m_ScoreValue{0},
+	m_EmeraldsInSuccession{0},
 	m_Update{false}
 {
 }
@@ -27,20 +29,35 @@ void ScoreObserver::OnNotify(const char eventType)
 		m_Update = true;
 		m_ScoreValue += 250;
 		break;
+	case 'E':
+		m_Update = true;
+		m_ScoreValue += 250;
+		break;
 	case 'e':
+		m_EmeraldsInSuccession++;
 		m_Update = true;
 		m_ScoreValue += 25;
+		//std::cout << "picked up emerald" << std::endl;
 		break;
 	case 'g':
 		m_Update = true;
 		m_ScoreValue += 500;
 		break;
-
-	case 'l':
-		OhDeerEngine::SceneManager::GetInstance().NextSceneWithSubject();
+	case 't':
+		m_EmeraldTiming++;
 		break;
 
 	}
+
+
+	if (m_EmeraldsInSuccession == 8 && m_EmeraldTiming < m_EmeraldTimingMax)
+	{
+		//std::cout << "+250" << std::endl;
+		m_EmeraldsInSuccession = 0;
+		OhDeerEngine::SceneManager::GetInstance().GetActiveScene()->Subject->NotifyAllObservers('E');
+		m_Update = true;
+	}
+	if (m_EmeraldTiming > m_EmeraldTimingMax) m_EmeraldTiming = 0;
 
 	if (m_Update) 
 	{
@@ -52,4 +69,10 @@ void ScoreObserver::OnNotify(const char eventType)
 		}
 		m_pScore->SetText(std::to_string(m_ScoreValue));
 	}
+}
+
+
+int ScoreObserver::GetScore() const
+{
+	return m_ScoreValue;
 }

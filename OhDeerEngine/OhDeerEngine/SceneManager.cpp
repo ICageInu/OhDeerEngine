@@ -14,10 +14,6 @@ void OhDeerEngine::SceneManager::Update(float deltaT)
 	//DEBUG BUTTONS
 	//if (InputManager::GetInstance().IsPressed(SDLK_p)) PreviousScene();
 
-	if (InputManager::GetInstance().IsPressed(SDLK_n))
-	{
-		NextSceneWithSubject();
-	}
 }
 
 void OhDeerEngine::SceneManager::FixedUpdate(float deltaT)
@@ -48,6 +44,20 @@ std::vector<OhDeerEngine::Scene*> OhDeerEngine::SceneManager::GetScenes() const
 OhDeerEngine::Scene* OhDeerEngine::SceneManager::GetActiveScene() const
 {
 	return m_Scenes[m_ActiveScene];
+}
+
+void OhDeerEngine::SceneManager::SwitchScene(const std::string& sceneName)
+{
+	const auto it = std::find_if(m_Scenes.cbegin(), m_Scenes.cend(), [sceneName](Scene* pScene)
+		{
+			return sceneName == pScene->GetSceneName();
+		});
+
+	if (it != m_Scenes.cend())
+	{
+
+		m_ActiveScene = int(std::distance(m_Scenes.cbegin(), it));
+	}
 }
 
 void OhDeerEngine::SceneManager::NextScene()

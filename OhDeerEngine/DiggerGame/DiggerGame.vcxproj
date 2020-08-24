@@ -216,6 +216,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf\lib\x64\*.dll" "$(OutDir)" /y /D
     <ClCompile Include="HealthObserver.cpp" />
     <ClCompile Include="InputComponent.cpp" />
     <ClCompile Include="MainGame.cpp" />
+    <ClCompile Include="MultiplayerComponent.cpp" />
     <ClCompile Include="PickupComponent.cpp" />
     <ClCompile Include="PlayerComponent.cpp" />
     <ClCompile Include="ScoreObserver.cpp" />
@@ -226,14 +227,18 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf\lib\x64\*.dll" "$(OutDir)" /y /D
     <ClInclude Include="EnemyStartComponent.h" />
     <ClInclude Include="Factory.h" />
     <ClInclude Include="FireBallComponent.h" />
+    <ClInclude Include="GameOverObserver.h" />
     <ClInclude Include="HealthObserver.h" />
     <ClInclude Include="HighscoreParser.h" />
     <ClInclude Include="InputComponent.h" />
     <ClInclude Include="LevelParser.h" />
+    <ClInclude Include="LevelSwitchObserver.h" />
     <ClInclude Include="MainGame.h" />
+    <ClInclude Include="MultiplayerComponent.h" />
     <ClInclude Include="PickupComponent.h" />
     <ClInclude Include="PlayerComponent.h" />
     <ClInclude Include="ScoreObserver.h" />
+    <ClInclude Include="TrackingComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
