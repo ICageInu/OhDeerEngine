@@ -91,6 +91,14 @@ the nobbins move only through predefined hallways
 the hobbins make their own hallways
 
 
+
+
+//so for the moneybags
+I need to make it so once the player overlaps with the money bags that they set themselves to true, and then once they see they're not
+overlapping anymore we can make them fall]
+that's an easy one no?
+
+
 needed for game:
 Digger automatically records the top 10 high scores and the players' initials in a file. 
 	NOTE! the online emulator linked in this assignment does not allow the entry of initials, 

@@ -45,9 +45,9 @@ public:
 		std::ofstream writeFile;
 		std::string line;
 		readFile.open(filePath, std::ios::in);
-		size_t i{ 0 }, j{ 0 };
-		std::vector<std::string> names;
-		std::vector<int> highscores;
+		size_t i{ 0}, j{ 0 };
+		std::array<std::string,10> names;
+		std::array<int,10> highscores;
 		//read in values
 		if (readFile.is_open())
 		{
@@ -59,15 +59,17 @@ public:
 				{
 					names[j] = line;
 					j++;
+
 				}
+
 				else
 				{
-
 					if (line.size() != 0)
 						highscores[j] = std::stoi(line);
 					else  highscores[j] = 0;
 				}
 				i++;
+				if (j > 9) break;
 			}
 			readFile.close();
 		}
@@ -96,8 +98,8 @@ public:
 			{
 				if (score > highscores[idx])
 				{
-					highscores[savePlace] = score;
-					names[savePlace] = initials;
+					highscores[idx] = score;
+					names[idx] = initials;
 					break;
 				}
 			}

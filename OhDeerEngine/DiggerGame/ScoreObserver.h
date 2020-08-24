@@ -22,6 +22,7 @@ private:
 	const float m_EmeraldTimingMax;
 	float m_EmeraldTiming;
 	int m_ScoreValue;
+	int m_ScoreValueForLife;
 	int m_EmeraldsInSuccession;
 	bool m_Update;
 };

@@ -23,25 +23,25 @@ void ScoreObserver::OnNotify(const char eventType)
 	{
 	case 'n':
 		m_Update = true;
-		m_ScoreValue += 250;
+		m_ScoreValueForLife =m_ScoreValue += 250;
 		break;
 	case 'h':
 		m_Update = true;
-		m_ScoreValue += 250;
+		m_ScoreValueForLife = m_ScoreValue += 250;
 		break;
 	case 'E':
 		m_Update = true;
-		m_ScoreValue += 250;
+		m_ScoreValueForLife = m_ScoreValue += 250;
 		break;
 	case 'e':
 		m_EmeraldsInSuccession++;
 		m_Update = true;
-		m_ScoreValue += 25;
+		m_ScoreValueForLife = m_ScoreValue += 25;
 		//std::cout << "picked up emerald" << std::endl;
 		break;
 	case 'g':
 		m_Update = true;
-		m_ScoreValue += 500;
+		m_ScoreValueForLife = m_ScoreValue += 500;
 		break;
 	case 't':
 		m_EmeraldTiming++;
@@ -63,8 +63,9 @@ void ScoreObserver::OnNotify(const char eventType)
 	{
 		m_Update = false;
 
-		if (m_ScoreValue % 20000 == 0)
+		if (m_ScoreValueForLife - 20000 > 0)
 		{
+			m_ScoreValueForLife -= 20000;
 			OhDeerEngine::SceneManager::GetInstance().GetActiveScene()->Subject->NotifyAllObservers('+');
 		}
 		m_pScore->SetText(std::to_string(m_ScoreValue));

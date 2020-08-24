@@ -28,15 +28,15 @@ PlayerComponent::~PlayerComponent()
 
 void PlayerComponent::SpecificUpdate([[maybe_unused]] const float deltaT)
 {
-	
+
 	if (m_IsController)
 	{
-		m_Direction = OhDeerEngine::InputManager::GetInstance().GetLeftStick(true);
+		m_LookDir = m_Direction = OhDeerEngine::InputManager::GetInstance().GetLeftStick(true);
 
-		if (OhDeerEngine::InputManager::GetInstance().IsPressed(OhDeerEngine::ControllerButton::ButtonA))m_ButtonA->Execute(this);
-		else if (OhDeerEngine::InputManager::GetInstance().IsPressed(OhDeerEngine::ControllerButton::ButtonB))m_ButtonB->Execute(this);
-		else if (OhDeerEngine::InputManager::GetInstance().IsPressed(OhDeerEngine::ControllerButton::ButtonY))m_ButtonY->Execute(this);
-		else if (OhDeerEngine::InputManager::GetInstance().IsPressed(OhDeerEngine::ControllerButton::ButtonX))m_ButtonX->Execute(this);
+		if (OhDeerEngine::InputManager::GetInstance().IsPressed(OhDeerEngine::ControllerButton::ButtonA) && m_ButtonA)m_ButtonA->Execute(this);
+		else if (OhDeerEngine::InputManager::GetInstance().IsPressed(OhDeerEngine::ControllerButton::ButtonB) && m_ButtonB)m_ButtonB->Execute(this);
+		else if (OhDeerEngine::InputManager::GetInstance().IsPressed(OhDeerEngine::ControllerButton::ButtonY) && m_ButtonY)m_ButtonY->Execute(this);
+		else if (OhDeerEngine::InputManager::GetInstance().IsPressed(OhDeerEngine::ControllerButton::ButtonX) && m_ButtonX)m_ButtonX->Execute(this);
 	}
 	else
 	{
@@ -102,6 +102,11 @@ void PlayerComponent::SetController(bool useController)
 {
 	if (m_IsController)return;
 	m_IsController = useController;
+}
+
+void PlayerComponent::StopMoving()
+{
+	m_Direction = {0,0};
 }
 
 

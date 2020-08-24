@@ -150,7 +150,7 @@ bool OhDeerEngine::InputManager::Connected()
 	DWORD result = XInputGetState(m_GamepadIndex, &m_CurrentState);
 
 	if (result == ERROR_SUCCESS) {
-		std::cout << "gamepadConnected" << std::endl;
+		//std::cout << "gamepadConnected" << std::endl;
 		return true; //connected
 	}
 	else

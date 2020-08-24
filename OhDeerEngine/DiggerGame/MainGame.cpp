@@ -16,6 +16,7 @@
 #include <array>
 #include "GameOverObserver.h"
 #include "LevelSwitchObserver.h"
+#include "TrackerObserver.h"
 void MainGame::LoadGame() const
 {
 	//so basically
@@ -92,6 +93,11 @@ void MainGame::LoadGame() const
 	SceneManager::GetInstance().GetScene(1)->Subject->RegisterObserver(new HealthObserver(temparray));
 	SceneManager::GetInstance().GetScene(1)->Subject->RegisterObserver(new GameOverObserver());
 	SceneManager::GetInstance().GetScene(1)->Subject->RegisterObserver(new LevelSwitchObserver());
+	auto multiplayer = new GameObject();
+	auto multiplayerComp = new MultiplayerComponent();
+	multiplayer->AddComponent(multiplayerComp);
+	SceneManager::GetInstance().GetScene(1)->Subject->RegisterObserver(new TrackerObserver(multiplayerComp));
+	SceneManager::GetInstance().GetScene(1)->Subject->Objects.push_back(multiplayer);
 
 
 

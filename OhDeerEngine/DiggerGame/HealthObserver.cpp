@@ -31,6 +31,7 @@ void HealthObserver::OnNotify(const char eventType)
 	case '-':
 		if (m_AmountHealth > 1)
 		{
+			OhDeerEngine::SceneManager::GetInstance().ReloadScene();
 			m_Lives[m_AmountHealth-1]->GetParent()->IsActive = false;
 			m_AmountHealth--;
 		}

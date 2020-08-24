@@ -35,8 +35,10 @@ namespace OhDeerEngine
 
 		void SetKeyboardKeys(const SDL_Keycode& up, const SDL_Keycode& down, const SDL_Keycode& left, const SDL_Keycode& right);
 		void SetKeyboardActions(const SDL_Keycode& one, const SDL_Keycode& two, const SDL_Keycode& three, const SDL_Keycode& four);
-
-
+		bool GetIsConnectedWithController()const;
+		void SetIsControlledWithController(bool isControlled);
+		glm::vec2 GetDirection()const;
+		float GetMovementSpeed()const;
 		virtual void ActionOne()=0;
 		virtual void ActionTwo() = 0;
 		virtual void ActionThree() = 0;

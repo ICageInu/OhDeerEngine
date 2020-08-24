@@ -24,7 +24,9 @@
     <ClCompile Include="ScoreObserver.cpp">
       <Filter>observers</Filter>
     </ClCompile>
-    <ClCompile Include="MultiplayerComponent.cpp" />
+    <ClCompile Include="MultiplayerComponent.cpp">
+      <Filter>GameComponents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -64,16 +66,18 @@
     <ClInclude Include="FireBallComponent.h">
       <Filter>GameComponents</Filter>
     </ClInclude>
-    <ClInclude Include="TrackingComponent.h">
-      <Filter>GameComponents</Filter>
-    </ClInclude>
     <ClInclude Include="GameOverObserver.h">
       <Filter>observers</Filter>
     </ClInclude>
     <ClInclude Include="LevelSwitchObserver.h">
       <Filter>observers</Filter>
     </ClInclude>
-    <ClInclude Include="MultiplayerComponent.h" />
+    <ClInclude Include="MultiplayerComponent.h">
+      <Filter>GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="TrackerObserver.h">
+      <Filter>observers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="GameComponents">

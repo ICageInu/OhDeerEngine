@@ -11,6 +11,10 @@ class LevelSwitchObserver : public OhDeerEngine::Observer
 public:
 	LevelSwitchObserver() = default;
 	virtual ~LevelSwitchObserver() {};
+	LevelSwitchObserver(const LevelSwitchObserver& other) = delete;
+	LevelSwitchObserver(LevelSwitchObserver&& other) = delete;
+	LevelSwitchObserver& operator=(const LevelSwitchObserver& other) = delete;
+	LevelSwitchObserver& operator=(LevelSwitchObserver&& other) = delete;
 	virtual void OnNotify(const char eventType = 0) override
 	{
 		if (!m_HasLookedForGems)
@@ -19,7 +23,7 @@ public:
 			auto obj = OhDeerEngine::SceneManager::GetInstance().GetActiveScene()->GetObjects();
 			for (size_t i = 0; i < obj.size(); i++)
 			{
-				if (obj[i]->GetTag()=="Emerald")
+				if (obj[i]->GetTag() == "Emerald")
 				{
 					m_AmountGemsInLevel++;
 				}
@@ -50,17 +54,28 @@ public:
 			m_AmountGemsInLevel--;
 			break;
 		case 'w':
+			m_HasLookedForEnemies = false;
 			m_HasLookedForGems = false;
 			m_AmountGemsInLevel = 0;
 			m_AmountEnemiesInLevel = 0;
-			OhDeerEngine::SceneManager::GetInstance().NextScene();
+			bool temp = OhDeerEngine::SceneManager::GetInstance().NextSceneWithSubject();
+			OhDeerEngine::SceneManager::GetInstance().GetActiveScene()->Subject->NotifyAllObservers('i');
+			if (!temp)
+				OhDeerEngine::SceneManager::GetInstance().GetActiveScene()->Subject->NotifyAllObservers('L');
 			break;
 		}
-		if (m_AmountGemsInLevel == 0)OhDeerEngine::SceneManager::GetInstance().GetActiveScene()->Subject->NotifyAllObservers('w');
-		if (m_AmountEnemiesInLevel == 0)OhDeerEngine::SceneManager::GetInstance().GetActiveScene()->Subject->NotifyAllObservers('w');
+		if (m_AmountGemsInLevel == 0 || m_AmountEnemiesInLevel == 0)
+		{
+			m_HasLookedForEnemies = false;
+			m_HasLookedForGems = false;
+			m_AmountGemsInLevel = 0;
+			m_AmountEnemiesInLevel = 0;
+			//OhDeerEngine::SceneManager::GetInstance().GetActiveScene()->Subject->NotifyAllObservers('i');
+			OhDeerEngine::SceneManager::GetInstance().NextSceneWithSubject();
+		}
 
 	};
 private:
-	int m_AmountGemsInLevel{ 0 },m_AmountEnemiesInLevel{ 0 };
+	int m_AmountGemsInLevel{ 0 }, m_AmountEnemiesInLevel{ 0 };
 	bool m_HasLookedForGems{}, m_HasLookedForEnemies{};
 };

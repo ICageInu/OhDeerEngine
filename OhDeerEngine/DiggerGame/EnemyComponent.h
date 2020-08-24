@@ -22,7 +22,9 @@ public:
     virtual void ActionTwo() override {};
     virtual void ActionThree() override {};
     virtual void ActionFour() override {};
-    bool IsAngry{ false };
+    bool IsAngry{ false },IsColliding{false};
+    void SetIsControlled(bool isControlled);
+    bool GetIsControlled()const;
 private:
     OhDeerEngine::GameObject* m_pPlayer;
     const float m_AngerIssuesMax;

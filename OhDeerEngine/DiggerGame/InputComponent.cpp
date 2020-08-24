@@ -37,7 +37,7 @@ void InputComponent::Update([[maybe_unused]] const float deltaT)
 	}
 
 
-	if (OhDeerEngine::InputManager::GetInstance().IsPressed(SDLK_SPACE))
+	if (OhDeerEngine::InputManager::GetInstance().IsPressed(SDLK_SPACE) || m_SetControllerInput && OhDeerEngine::InputManager::GetInstance().IsPressed(OhDeerEngine::ControllerButton::ButtonA))
 	{
 		//make it so that the saved name is also passed on so it can be linked with the score
 		m_pParent->SetEnabledDisabled(false);

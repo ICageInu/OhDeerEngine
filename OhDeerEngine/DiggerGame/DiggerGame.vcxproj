@@ -238,7 +238,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf\lib\x64\*.dll" "$(OutDir)" /y /D
     <ClInclude Include="PickupComponent.h" />
     <ClInclude Include="PlayerComponent.h" />
     <ClInclude Include="ScoreObserver.h" />
-    <ClInclude Include="TrackingComponent.h" />
+    <ClInclude Include="TrackerObserver.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

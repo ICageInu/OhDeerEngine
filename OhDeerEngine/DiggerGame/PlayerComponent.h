@@ -19,7 +19,7 @@ public:
 	void SetPlayerId(int id);
 	void Respawn();
 	void SetController(bool useController);
-
+	void StopMoving();
 	virtual void ActionOne() override;
 	virtual void ActionTwo() override;
 	virtual void ActionThree() override;

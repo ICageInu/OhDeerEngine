@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 
+
 namespace OhDeerEngine
 {
 	class Subject;
@@ -10,13 +11,15 @@ namespace OhDeerEngine
 	class SceneManager final : public Singleton<SceneManager>
 	{
 	public:
-		Scene* CreateScene(const std::string& name);
+		OhDeerEngine::Scene* CreateScene(const std::string& name);
 		void AddGameScene(Scene* pScene);
 
 		Scene* GetScene(const std::string& name)const;
 		Scene* GetScene(size_t index)const;
 
 		~SceneManager() override;
+
+		void ReloadScene();
 
 		void Update(float deltaT);
 		void FixedUpdate(float deltaT);
@@ -30,7 +33,7 @@ namespace OhDeerEngine
 		//switching scene functions
 		void NextScene();
 		void NextScene(Subject* pSubject);
-		void NextSceneWithSubject();
+		bool NextSceneWithSubject();
 		void PreviousScene();
 	private:
 		//this is for us to be unable to call on the constructor

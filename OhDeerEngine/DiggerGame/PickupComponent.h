@@ -11,12 +11,20 @@ public:
 	virtual void Render() const override {};
 	virtual void FixedUpdate(const float deltaT) override {};
 	bool IsFalling{ false }, IsPickup{ false }, IsBeingTouched{ false }, HasBeenTouched{ false };
-
+	void SetDirection(const glm::vec2& dir);
+	void SetSpeed(const float speed);
+	
 private:
 	PlayerComponent* m_pPlayer;
-	const glm::vec2 m_StartPos;
+	glm::vec2 m_StartPos;
 	const glm::vec2 m_FallingDir;
+	glm::vec2 m_Direction;
 	glm::vec2 m_FallingPos;
+	const float m_FallSpeed;
+	const float m_TouchedTimerMax;
+	float m_TouchedTimer;
 	float m_MovingSpeed;
+	bool m_DidSetStartPos;
+	bool IsColliding()const;
 };
 

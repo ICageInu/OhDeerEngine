@@ -18,7 +18,7 @@ EnemyComponent::EnemyComponent(OhDeerEngine::GameObject* pPlayer, OhDeerEngine::
 	m_SeekerTimerMax{ 3.0f },
 	m_SeekerTimer{ -1.0f }
 {
-	m_MovementSpeed *= 0.8f;
+	m_MovementSpeed *= 0.5f;
 	m_PosNextFrame = m_pParent->GetTransform()->GetPosition();
 }
 
@@ -37,6 +37,16 @@ void EnemyComponent::ActionOne()
 
 	if (m_State == AngerState::Kalm) m_State = AngerState::Panik;
 	else m_State = AngerState::Kalm;
+}
+
+void EnemyComponent::SetIsControlled(bool isControlled)
+{
+	m_IsControlled = isControlled;
+}
+
+bool EnemyComponent::GetIsControlled() const
+{
+	return m_IsControlled;
 }
 
 
@@ -61,7 +71,7 @@ void EnemyComponent::SpecificUpdate(const float deltaT)
 			break;
 		case AngerState::Panik:
 			AILogicAngry(deltaT);
-			if (m_AngerIssuesDurationLeft < 0)
+			if (m_AngerIssuesDurationLeft < 0 && !IsColliding)
 			{
 				IsAngry = false;
 				m_State = AngerState::Kalm;
@@ -170,7 +180,6 @@ void EnemyComponent::AILogicAngry(const float deltaT)
 		else m_AngerIssuesDurationLeft -= deltaT;
 		break;
 	}
-	std::cout << "I AM ANGRY" << std::endl;
 	glm::vec2 playerPos{};
 	if (m_pPlayer)
 		playerPos = m_pPlayer->GetTransform()->GetPosition();
@@ -198,30 +207,45 @@ void EnemyComponent::AILogicAngry(const float deltaT)
 void EnemyComponent::PlayerControled(const float deltaT)
 {
 
-	if (OhDeerEngine::InputManager::GetInstance().IsDown(m_KeyUp))
+	if (m_IsController)
 	{
-		m_Direction = { 0,-1 };
-	}
-	else if (OhDeerEngine::InputManager::GetInstance().IsDown(m_KeyDown))
-	{
-		m_Direction = { 0,1 };
-	}
-	else if (OhDeerEngine::InputManager::GetInstance().IsDown(m_KeyLeft))
-	{
-		m_Direction = { 1,0 };
-	}
-	else if (OhDeerEngine::InputManager::GetInstance().IsDown(m_KeyRight))
-	{
-		m_Direction = { -1,0 };
-	}
-	else m_Direction = { 0,0 };
+		m_Direction = OhDeerEngine::InputManager::GetInstance().GetLeftStick(true);
 
-	if (OhDeerEngine::InputManager::GetInstance().IsPressed(m_KeyActionOne))
-	{
-		m_ButtonA->Execute(this);
-		//std::cout << "pressed button a " << std::endl;
+		if (OhDeerEngine::InputManager::GetInstance().IsPressed(OhDeerEngine::ControllerButton::ButtonA) && m_ButtonA)m_ButtonA->Execute(this);
+		else if (OhDeerEngine::InputManager::GetInstance().IsPressed(OhDeerEngine::ControllerButton::ButtonB) && m_ButtonB)m_ButtonB->Execute(this);
+		else if (OhDeerEngine::InputManager::GetInstance().IsPressed(OhDeerEngine::ControllerButton::ButtonY) && m_ButtonY)m_ButtonY->Execute(this);
+		else if (OhDeerEngine::InputManager::GetInstance().IsPressed(OhDeerEngine::ControllerButton::ButtonX) && m_ButtonX)m_ButtonX->Execute(this);
 	}
+	else
+	{
+		if (OhDeerEngine::InputManager::GetInstance().IsDown(m_KeyUp))
+		{
+			m_Direction = { 0,-1 };
+		}
+		else if (OhDeerEngine::InputManager::GetInstance().IsDown(m_KeyDown))
+		{
+			m_Direction = { 0,1 };
+		}
+		else if (OhDeerEngine::InputManager::GetInstance().IsDown(m_KeyLeft))
+		{
+			m_Direction = { 1,0 };
+		}
+		else if (OhDeerEngine::InputManager::GetInstance().IsDown(m_KeyRight))
+		{
+			m_Direction = { -1,0 };
+		}
+		else m_Direction = { 0,0 };
 
+		if (OhDeerEngine::InputManager::GetInstance().IsPressed(m_KeyActionOne))
+		{
+			m_ButtonA->Execute(this);
+			//std::cout << "pressed button a " << std::endl;
+		}
+
+		else if (OhDeerEngine::InputManager::GetInstance().IsPressed(m_KeyActionTwo))m_ButtonB->Execute(this);
+		else if (OhDeerEngine::InputManager::GetInstance().IsPressed(m_KeyActionThree))m_ButtonY->Execute(this);
+		else if (OhDeerEngine::InputManager::GetInstance().IsPressed(m_KeyActionFour))m_ButtonX->Execute(this);
+	}
 	m_PosNextFrame += m_Direction * deltaT * m_MovementSpeed;
 	if (m_PosNextFrame.x < 0 ||
 		m_PosNextFrame.x + m_pCollision->GetWidth() > OhDeerEngine::ServiceLocator::GetGameHandlers()->windowDimensions.x ||

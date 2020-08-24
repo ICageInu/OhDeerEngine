@@ -15,6 +15,10 @@ class GameOverObserver : public OhDeerEngine::Observer
 public:
 	GameOverObserver() = default;
 	virtual ~GameOverObserver() {};
+	GameOverObserver(const GameOverObserver& other) = delete;
+	GameOverObserver(GameOverObserver&& other) = delete;
+	GameOverObserver& operator=(const GameOverObserver& other) = delete;
+	GameOverObserver& operator=(GameOverObserver&& other) = delete;
 	virtual void OnNotify(const char eventType = 0) override
 	{
 		switch (eventType)

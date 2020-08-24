@@ -3,10 +3,10 @@
 #include "SceneManager.h"
 #include "OhDeerPCH.h"
 #include "SceneManager.h"
-#include "Scene.h"
 #include "InputManager.h"
 #include "Subject.h"
 #include "Observer.h"
+#include "Scene.h"
 
 void OhDeerEngine::SceneManager::Update(float deltaT)
 {
@@ -55,8 +55,8 @@ void OhDeerEngine::SceneManager::SwitchScene(const std::string& sceneName)
 
 	if (it != m_Scenes.cend())
 	{
-
 		m_ActiveScene = int(std::distance(m_Scenes.cbegin(), it));
+		//m_CurrenScene = *m_Scenes[m_ActiveScene];
 	}
 }
 
@@ -65,6 +65,7 @@ void OhDeerEngine::SceneManager::NextScene()
 	if (m_ActiveScene + 1 != m_Scenes.size())
 	{
 		m_ActiveScene++;
+		//m_CurrenScene = *m_Scenes[m_ActiveScene];
 	}
 }
 
@@ -75,21 +76,26 @@ void OhDeerEngine::SceneManager::NextScene(OhDeerEngine::Subject* pSubject)
 	{
 		m_ActiveScene++;
 		m_Scenes[m_ActiveScene]->Subject->operator=(*pSubject);
+		//m_CurrenScene = *m_Scenes[m_ActiveScene];
 	}
 }
 
-void OhDeerEngine::SceneManager::NextSceneWithSubject()
+bool OhDeerEngine::SceneManager::NextSceneWithSubject()
 {
 	if (m_ActiveScene + 1 != m_Scenes.size())
 	{
 		m_ActiveScene++;
 		m_Scenes[m_ActiveScene]->Subject->operator=(*m_Scenes[m_ActiveScene - 1]->Subject);
+		//m_CurrenScene = *m_Scenes[m_ActiveScene];
+		return true;
 	}
+	return false;
 }
 
 void OhDeerEngine::SceneManager::PreviousScene()
 {
 	if (m_ActiveScene - 1 != 0) m_ActiveScene--;
+	//m_CurrenScene = *m_Scenes[m_ActiveScene];
 }
 
 OhDeerEngine::Scene* OhDeerEngine::SceneManager::CreateScene(const std::string& name)
@@ -123,7 +129,10 @@ OhDeerEngine::Scene* OhDeerEngine::SceneManager::GetScene(const std::string& nam
 OhDeerEngine::Scene* OhDeerEngine::SceneManager::GetScene(size_t index) const
 {
 	if (index > 0 || index < m_Scenes.size())
+	{
+		//m_CurrenScene = m_Scenes[index];
 		return m_Scenes[index];
+	}
 
 	return nullptr;
 }
@@ -137,4 +146,9 @@ OhDeerEngine::SceneManager::~SceneManager()
 		SafeDelete(pScene);
 	}
 	m_Scenes.clear();
+}
+
+void OhDeerEngine::SceneManager::ReloadScene()
+{
+	//m_Scenes[m_ActiveScene] = m_CurrenScene;
 }

@@ -27,9 +27,11 @@ namespace OhDeerEngine
 		Scene& operator=(const Scene& other) = delete;
 		Scene& operator=(Scene&& other) = delete;
 
+
 		Subject* Subject = nullptr;
 		std::vector <GameObject*> GetObjects()const;
 		std::vector <CollisionComponent*> GetStaticCollisions()const;
+		std::vector <CollisionComponent*> GetKinematicCollisions()const;
 		std::string GetSceneName()const;
 
 	private:

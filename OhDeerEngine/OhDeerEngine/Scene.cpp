@@ -21,6 +21,8 @@ OhDeerEngine::Scene::~Scene()
 	}
 }
 
+
+
 std::vector<OhDeerEngine::GameObject*> OhDeerEngine::Scene::GetObjects() const
 {
 	return m_Objects;
@@ -29,6 +31,10 @@ std::vector<OhDeerEngine::GameObject*> OhDeerEngine::Scene::GetObjects() const
 std::vector<OhDeerEngine::CollisionComponent*> OhDeerEngine::Scene::GetStaticCollisions() const
 {
 	return m_StaticCollisions;
+}
+std::vector<OhDeerEngine::CollisionComponent*> OhDeerEngine::Scene::GetKinematicCollisions() const
+{
+	return m_KinematicCollisions;
 }
 
 std::string OhDeerEngine::Scene::GetSceneName() const

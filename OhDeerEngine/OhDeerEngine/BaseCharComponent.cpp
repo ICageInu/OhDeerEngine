@@ -39,6 +39,25 @@ void OhDeerEngine::BaseCharComponent::Update(const float deltaT)
 
 void OhDeerEngine::BaseCharComponent::Render() const {}
 
+void OhDeerEngine::BaseCharComponent::SetIsControlledWithController(bool isControlled)
+{
+	m_IsController = isControlled;
+}
+bool  OhDeerEngine::BaseCharComponent::GetIsConnectedWithController()const
+{
+	return m_IsController;
+}
+
+
+glm::vec2 OhDeerEngine::BaseCharComponent::GetDirection() const 
+{
+	return m_Direction;
+}
+float OhDeerEngine::BaseCharComponent::GetMovementSpeed() const
+{
+	return m_MovementSpeed;
+}
+
 void OhDeerEngine::BaseCharComponent::FixedUpdate(const float) {}
 
 int OhDeerEngine::BaseCharComponent::GetScoreToAdd() const
